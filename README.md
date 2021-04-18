@@ -87,12 +87,12 @@ console.log(enumerate(Number)`ZERO ONE TWO`); // { ZERO: 0, ONE: 1, TWO: 2 }
 Or you can implement your custom converter:
 
 ```javascript
-const enumerateTens = enumerate((acc, item) => {
+const enum10s = enumerate((acc, item) => {
   acc[item] = (Object.keys(acc).length + 1) * 10;
   return acc;
 });
 
-console.log(enumerateTens`CODE1 CODE2 CODE3`); // { CODE1: 10, CODE2: 20, CODE3: 30 }
+console.log(enum10s`CODE1 CODE2 CODE3`); // { CODE1: 10, CODE2: 20, CODE3: 30 }
 ```
 
 But remember that only default behavior guarantees global uniqueness of enumerated values.
