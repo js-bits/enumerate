@@ -7,7 +7,10 @@
     "symbol",
     "enum",
     "enumerate",
+    "enumerable",
     "string",
+    "number",
+    "template",
     "literal",
     "primitive"
   ],
