@@ -1,10 +1,10 @@
-export default str => {
-  const obj = {};
-  str[0]
+const convert = (acc, item) => {
+  acc[item] = Symbol(item);
+  return acc;
+};
+
+export default ([str]) =>
+  str
     .trim()
     .split(/[\s\n,]+/)
-    .forEach(item => {
-      obj[item] = Symbol(item);
-    });
-  return obj;
-};
+    .reduce(convert, {});
