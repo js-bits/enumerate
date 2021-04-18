@@ -82,6 +82,11 @@ You can change this behavior by specifying an appropriate converter:
 ```javascript
 console.log(enumerate(String)`FOOT METER`); // { FOOT: 'FOOT', METER: 'METER' }
 console.log(enumerate(Number)`ZERO ONE TWO`); // { ZERO: 0, ONE: 1, TWO: 2 }
+// or
+const enumString = enumerate(String);
+const enumNumber = enumerate(Number);
+console.log(enumString`FOOT METER`); // { FOOT: 'FOOT', METER: 'METER' }
+console.log(enumNumber`ZERO ONE TWO`); // { ZERO: 0, ONE: 1, TWO: 2 }
 ```
 
 Or you can implement your custom converter:
