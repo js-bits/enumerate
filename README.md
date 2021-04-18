@@ -46,18 +46,19 @@ Example 2:
 const STAR_WARS = enumerate`I II III IV V VI`;
 
 const getEpisodeName = episode => {
+  const { I, II, III, IV, V, VI } = STAR_WARS;
   switch (episode) {
-    case STAR_WARS.I:
+    case I:
       return 'The Phantom Menace';
-    case STAR_WARS.II:
+    case II:
       return 'Attack of the Clones';
-    case STAR_WARS.III:
+    case III:
       return 'Revenge of the Sith';
-    case STAR_WARS.IV:
+    case IV:
       return 'A New Hope';
-    case STAR_WARS.V:
+    case V:
       return 'The Empire Strikes Back';
-    case STAR_WARS.VI:
+    case VI:
       return 'Return of the Jedi';
     default:
       return 'Unknown';
