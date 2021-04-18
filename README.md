@@ -69,7 +69,7 @@ console.log(getEpisodeName(STAR_WARS.III)); // Revenge of the Sith
 console.log(getEpisodeName(STAR_WARS.IV)); // A New Hope
 ```
 
-## Primitive types
+## Primitive values
 
 By default `enumerate` converts values to [Symbols](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol):
 
