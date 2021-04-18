@@ -6,6 +6,7 @@ describe('enumerate', () => {
     expect(Episode).toHaveProperty('NEW_HOPE');
     expect(Episode).toHaveProperty('EMPIRE');
     expect(Episode).toHaveProperty('JEDI');
+    expect(Object.keys(Episode).length).toEqual(3);
   });
 
   describe('return object properties', () => {
