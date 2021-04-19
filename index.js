@@ -28,7 +28,7 @@ const convert = (list, type = Symbol) => {
   if (result !== accumulator) {
     throw new Error('Invalid Converter');
   }
-  return result;
+  return Object.freeze(result);
 };
 
 const enumerate = (...args) => {

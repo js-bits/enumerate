@@ -112,4 +112,13 @@ describe('enumerate', () => {
       expect(() => enumerate(String, Number)).toThrow('Invalid');
     });
   });
+
+  describe('when new property is assigned to the return object', () => {
+    test('should throw an error', () => {
+      const result = enumerate`A B C`;
+      expect(() => {
+        result.D = 'D';
+      }).toThrow();
+    });
+  });
 });
