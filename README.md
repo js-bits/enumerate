@@ -1,6 +1,6 @@
 # Easy to use, Symbol-based enum implementation
 
-Just list values you need and `enumerate` tag function will create corresponding variables with unique values for your convenience.
+Just list values you need and `enumerate` tag function will create corresponding constants with unique values for your convenience.
 
 ## Installation
 
@@ -104,4 +104,5 @@ But remember that only default behavior guarantees global uniqueness of enumerat
 
 ## Notes
 
+- Be careful adding new items to an existing numeric enum. Always append them to the end of the list to avoid changing previous item values.
 - Internet Explorer is not supported.
