@@ -52,3 +52,5 @@ const enumerate = (...args) => {
 };
 
 export default enumerate;
+
+// TODO: serialize/deserialize, toJSON, toString
