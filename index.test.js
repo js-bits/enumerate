@@ -1,6 +1,8 @@
 import enumerate from './index.js';
 
-describe('enumerate', () => {
+const env = typeof window === 'undefined' ? 'node' : 'jsdom';
+
+describe(`enumerate: \u001b[1;36m[${env}]`, () => {
   const Episode = enumerate`
     NEW_HOPE
     EMPIRE
