@@ -45,11 +45,26 @@ describe(`enumerate: ${env}`, () => {
         const Enum = enumerate(Symbol)`OPTION1 OPTION2 OPTION3`;
         expect(Object.keys(Enum).length).toEqual(3);
         expect(typeof Enum.OPTION1).toEqual('symbol');
-        expect(typeof Enum.OPTION1).not.toBe(Symbol.for('OPTION1'));
+        expect(Enum.OPTION1).not.toBe(Symbol.for('OPTION1'));
         expect(typeof Enum.OPTION2).toEqual('symbol');
-        expect(typeof Enum.OPTION2).not.toBe(Symbol.for('OPTION2'));
+        expect(Enum.OPTION2).not.toBe(Symbol.for('OPTION2'));
         expect(typeof Enum.OPTION3).toEqual('symbol');
-        expect(typeof Enum.OPTION3).not.toBe(Symbol.for('OPTION3'));
+        expect(Enum.OPTION3).not.toBe(Symbol.for('OPTION3'));
+      });
+    });
+  });
+
+  describe('symbol.for converter', () => {
+    describe('return object properties', () => {
+      test('should have corresponding symbol values', () => {
+        const Enum = enumerate(Symbol.for)`OPTION1 OPTION2 OPTION3`;
+        expect(Object.keys(Enum).length).toEqual(3);
+        expect(typeof Enum.OPTION1).toEqual('symbol');
+        expect(Enum.OPTION1).toBe(Symbol.for('OPTION1'));
+        expect(typeof Enum.OPTION2).toEqual('symbol');
+        expect(Enum.OPTION2).toBe(Symbol.for('OPTION2'));
+        expect(typeof Enum.OPTION3).toEqual('symbol');
+        expect(Enum.OPTION3).toBe(Symbol.for('OPTION3'));
       });
     });
   });
