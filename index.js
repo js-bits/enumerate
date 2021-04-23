@@ -1,26 +1,24 @@
 const converters = new Map();
 
-converters.set(String, (acc, item) => {
-  acc[item] = item;
-  return acc;
-});
-
-converters.set(Symbol, (acc, item) => {
-  acc[item] = Symbol(item);
-  return acc;
-});
-
-converters.set(Number, (acc, item) => {
-  acc[item] = Object.keys(acc).length;
-  return acc;
-});
+converters.set(String, (acc, item) => item);
+converters.set(Symbol, (acc, item) => Symbol(item));
+converters.set(Number, (acc, item) => Object.keys(acc).length);
 
 const convert = (list, type = Symbol) => {
   if (typeof type !== 'function') {
     throw new Error('Invalid Converter');
   }
 
-  const converter = converters.get(type) || type;
+  let converter;
+  const valueConverter = converters.get(type);
+  if (valueConverter) {
+    converter = (acc, item) => {
+      acc[item] = valueConverter(acc, item);
+      return acc;
+    };
+  } else {
+    converter = type;
+  }
   const values = list.trim().split(/[\s\n,]+/);
   const accumulator = {};
   const result = values.reduce(converter, accumulator);
