@@ -1,6 +1,6 @@
 # Easy to use, Symbol-based enum implementation
 
-Just list values you need and `enumerate` tag function will create corresponding constants with unique values for your convenience.
+Just list values you need and `enumerate` tag function will create an object with corresponding keys and unique values for your convenience.
 
 ## Installation
 
@@ -67,6 +67,7 @@ const getEpisodeName = episode => {
 
 console.log(getEpisodeName(STAR_WARS.III)); // Revenge of the Sith
 console.log(getEpisodeName(STAR_WARS.IV)); // A New Hope
+console.log(getEpisodeName(STAR_WARS.X)); // Error: Invalid enum key: X
 ```
 
 ## Primitive values
