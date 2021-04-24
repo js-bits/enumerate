@@ -7,7 +7,7 @@ converters.set(Number, (acc, item) => Object.keys(acc).length);
 
 const convert = (list, type = Symbol) => {
   if (typeof type !== 'function') {
-    throw new Error('Invalid Converter');
+    throw new Error('Invalid converter');
   }
 
   let converter;
@@ -25,19 +25,19 @@ const convert = (list, type = Symbol) => {
   const result = values.reduce(converter, accumulator);
 
   if (result !== accumulator) {
-    throw new Error('Invalid Converter');
+    throw new Error('Invalid converter');
   }
   return Object.freeze(result);
 };
 
 const enumerate = (...args) => {
   if (args.length > 2) {
-    throw new Error('Invalid Arguments');
+    throw new Error('Invalid arguments');
   }
 
   if (!Array.isArray(args[0])) {
     if (args.length !== 1) {
-      throw new Error('Invalid Arguments');
+      throw new Error('Invalid arguments');
     }
 
     const [type] = args;

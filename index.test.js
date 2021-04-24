@@ -9,14 +9,14 @@ describe(`enumerate: ${env}`, () => {
     EMPIRE
     JEDI
     `;
-  test('should return an object with specified properties', () => {
+  test('should return an object with specified keys', () => {
     expect(Episode).toHaveProperty('NEW_HOPE');
     expect(Episode).toHaveProperty('EMPIRE');
     expect(Episode).toHaveProperty('JEDI');
     expect(Object.keys(Episode).length).toEqual(3);
   });
 
-  describe('return object properties', () => {
+  describe('return object keys', () => {
     test('should have unique values', () => {
       const { NEW_HOPE, EMPIRE, JEDI } = Episode;
       expect(NEW_HOPE).not.toBe(EMPIRE);
@@ -40,7 +40,7 @@ describe(`enumerate: ${env}`, () => {
   });
 
   describe('symbol converter', () => {
-    describe('return object properties', () => {
+    describe('return object keys', () => {
       test('should have corresponding symbol values', () => {
         const Enum = enumerate(Symbol)`OPTION1 OPTION2 OPTION3`;
         expect(Object.keys(Enum).length).toEqual(3);
@@ -55,7 +55,7 @@ describe(`enumerate: ${env}`, () => {
   });
 
   describe('symbol.for converter', () => {
-    describe('return object properties', () => {
+    describe('return object keys', () => {
       test('should have corresponding symbol values', () => {
         const Enum = enumerate(Symbol.for)`OPTION1 OPTION2 OPTION3`;
         expect(Object.keys(Enum).length).toEqual(3);
@@ -70,10 +70,10 @@ describe(`enumerate: ${env}`, () => {
   });
 
   describe('number converter', () => {
-    describe('return object properties', () => {
+    describe('return object keys', () => {
       test('should have incrementing number values', () => {
         const Enum = enumerate(Number)`ZERO ONE TWO THREE`;
-        expect(Enum).toEqual({
+        expect({ ...Enum }).toEqual({
           ZERO: 0,
           ONE: 1,
           TWO: 2,
@@ -84,10 +84,10 @@ describe(`enumerate: ${env}`, () => {
   });
 
   describe('string converter', () => {
-    describe('return object properties', () => {
+    describe('return object keys', () => {
       test('should have corresponding string values', () => {
         const Enum = enumerate(String)`A B C D`;
-        expect(Enum).toEqual({
+        expect({ ...Enum }).toEqual({
           A: 'A',
           B: 'B',
           C: 'C',
@@ -98,14 +98,14 @@ describe(`enumerate: ${env}`, () => {
   });
 
   describe('custom converter', () => {
-    describe('return object properties', () => {
+    describe('return object keys', () => {
       test('should have generated values', () => {
         const enumerateTens = enumerate((acc, item) => {
           acc[item] = Object.keys(acc).length * 10;
           return acc;
         });
         const Enum = enumerateTens`CODE1 CODE2 CODE3`;
-        expect(Enum).toEqual({
+        expect({ ...Enum }).toEqual({
           CODE1: 0,
           CODE2: 10,
           CODE3: 20,
@@ -119,7 +119,7 @@ describe(`enumerate: ${env}`, () => {
         return acc;
       });
       const Enum = enumerateUpperCase`red green blue`;
-      expect(Enum).toEqual({
+      expect({ ...Enum }).toEqual({
         RED: 'red',
         GREEN: 'green',
         BLUE: 'blue',
@@ -146,7 +146,7 @@ describe(`enumerate: ${env}`, () => {
     });
   });
 
-  describe('when new property is assigned to the return object', () => {
+  describe('when a new key is assigned to the return object', () => {
     test('should throw an error', () => {
       const result = enumerate`A B C`;
       expect(() => {
