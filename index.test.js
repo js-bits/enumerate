@@ -154,4 +154,13 @@ describe(`enumerate: ${env}`, () => {
       }).toThrow();
     });
   });
+
+  describe('when an unknown key is accessed from the return object', () => {
+    test('should throw an error', () => {
+      const result = enumerate`A B C`;
+      expect(() => {
+        const { D } = result;
+      }).toThrow('Invalid enum key: D');
+    });
+  });
 });

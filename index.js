@@ -27,7 +27,18 @@ const convert = (list, type = Symbol) => {
   if (result !== accumulator) {
     throw new Error('Invalid converter');
   }
-  return Object.freeze(result);
+
+  const proxy = new Proxy(Object.freeze(result), {
+    get(...args) {
+      const [target, prop] = args;
+      if (!(prop in target)) {
+        throw new Error(`Invalid enum key: ${prop}`);
+      }
+      return Reflect.get(...args);
+    },
+  });
+
+  return proxy;
 };
 
 const enumerate = (...args) => {
