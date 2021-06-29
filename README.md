@@ -106,4 +106,5 @@ But remember that only default behavior guarantees global uniqueness of enumerat
 ## Notes
 
 - Be careful adding new items to an existing numeric enum. Always append them to the end of the list to avoid changing previous item values.
-- Internet Explorer is not supported.
+- Requires [ECMAScript modules](https://nodejs.org/api/esm.html) to be enabled in Node.js environment. Otherwise, compile into a CommonJS module.
+- Does not include any polyfills, which means that Internet Explorer is not supported.
