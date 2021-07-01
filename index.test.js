@@ -1,9 +1,6 @@
-import { cyan } from '@js-bits/log-in-color';
 import enumerate from './index.js';
 
-const env = cyan(`[${typeof window === 'undefined' ? 'node' : 'jsdom'}]`);
-
-describe(`enumerate: ${env}`, () => {
+describe(`enumerate`, () => {
   const Episode = enumerate`
     NEW_HOPE
     EMPIRE
