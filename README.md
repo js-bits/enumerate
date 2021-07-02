@@ -98,7 +98,11 @@ const enum10s = enumerate((acc, item) => {
   return acc;
 });
 
-console.log(enum10s`CODE1 CODE2 CODE3`); // { CODE1: 10, CODE2: 20, CODE3: 30 }
+console.log(enum10s`
+  CODE1
+  CODE2
+  CODE3
+`); // { CODE1: 10, CODE2: 20, CODE3: 30 }
 ```
 
 But remember that only default behavior guarantees global uniqueness of enumerated values.
