@@ -14,22 +14,22 @@
     "literal",
     "primitive"
   ],
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./index.js",
   "exports": {
     ".": {
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js"
+      "require": "./dist/index.cjs",
+      "default": "./index.js"
     }
   },
   "scripts": {
+    "test-cjs": "jest --verbose",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose",
     "test-coverage": "yarn test --coverage",
     "test-watch": "yarn test --watch",
     "lint": "eslint '**/*.{js,jsx}'",
-    "build-cjs": "rollup ./index.js --format cjs --file dist/cjs/index.js --exports default",
-    "build-esm": "rollup ./index.js --format esm --file dist/esm/index.js",
-    "build": "yarn build-cjs && yarn build-esm"
+    "build": "rollup ./index.js --format cjs --file dist/index.cjs --exports default"
   },
   "repository": {
     "type": "git",
