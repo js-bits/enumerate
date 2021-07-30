@@ -63,11 +63,5 @@
         "testEnvironment": "jsdom"
       }
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn lint && yarn build && git add dist/**.*",
-      "pre-push": "yarn test"
-    }
   }
 }
