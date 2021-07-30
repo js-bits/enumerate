@@ -1,6 +1,6 @@
 {
   "name": "@js-bits/enumerate",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Easy to use, Symbol-based enum implementation",
   "keywords": [
     "javascript",
