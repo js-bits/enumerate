@@ -61,8 +61,6 @@ const enumerate = (...args) => {
   return convert(list, type);
 };
 
-export default enumerate;
-
 // TODO: serialize/deserialize, toJSON, toString
 
 // How to Create a Hybrid NPM Module for ESM and CommonJS
@@ -70,3 +68,5 @@ export default enumerate;
 
 // Hybrid npm packages (ESM and CommonJS)
 // https://2ality.com/2019/10/hybrid-npm-packages.html
+
+export { enumerate as default };
