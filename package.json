@@ -41,6 +41,7 @@
     "@js-bits/formalinter": "^0.1.2",
     "@js-bits/log-in-color": "^0.0.2",
     "@types/jest": "^26.0.22",
+    "husky": "^7.0.1",
     "jest": "^26.6.3",
     "rollup": "^2.55.1"
   },
@@ -62,5 +63,11 @@
         "testEnvironment": "jsdom"
       }
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint && yarn build && git add dist/**.*",
+      "pre-push": "yarn test"
+    }
   }
 }
