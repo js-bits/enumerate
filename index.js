@@ -28,13 +28,16 @@ const convert = (list, type = Symbol) => {
     throw new Error('Invalid converter');
   }
 
-  const proxy = new Proxy(Object.freeze(result), {
+  const proxy = new Proxy(result, {
     get(...args) {
       const [target, prop] = args;
-      if (!(prop in target)) {
+      if (!Object.prototype.hasOwnProperty.call(target, prop)) {
         throw new Error(`Invalid enum key: ${prop}`);
       }
       return Reflect.get(...args);
+    },
+    set(target, prop) {
+      throw new Error(`Cannot assign a value to enum key: ${prop}`);
     },
   });
 

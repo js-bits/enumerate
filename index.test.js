@@ -1,4 +1,6 @@
 import enumerate from './index.js';
+// import enumerate from './dist/index.cjs';
+// const enumerate = require('./dist/index.cjs');
 
 describe(`enumerate`, () => {
   const Episode = enumerate`
@@ -148,7 +150,7 @@ describe(`enumerate`, () => {
       const result = enumerate`A B C`;
       expect(() => {
         result.D = 'D';
-      }).toThrow();
+      }).toThrow('Cannot assign a value to enum key: D');
     });
   });
 
