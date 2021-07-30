@@ -22,7 +22,7 @@ Import where you need it:
 import enumerate from '@js-bits/enumerate';
 ```
 
-or require for CommonJS
+or require for CommonJS:
 
 ```javascript
 const enumerate = require('@js-bits/enumerate');
