@@ -5,8 +5,6 @@ converters.set(Symbol, (acc, item) => Symbol(item));
 converters.set(Symbol.for, (acc, item) => Symbol.for(item));
 converters.set(Number, (acc, item) => Object.keys(acc).length);
 
-console.log(`import mode: ${typeof require === 'undefined' ? 'esm' : 'cjs'}`);
-
 const convert = (list, type = Symbol) => {
   if (typeof type !== 'function') {
     throw new Error('Invalid converter');
