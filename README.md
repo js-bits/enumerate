@@ -76,7 +76,7 @@ console.log(getEpisodeName(STAR_WARS.IV)); // A New Hope
 console.log(getEpisodeName(STAR_WARS.X)); // Error: Invalid enum key: X
 ```
 
-## Primitive values
+## Primitive enum converters
 
 By default `enumerate` converts values to [Symbols](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol):
 
@@ -96,19 +96,54 @@ console.log(enumString`FOOT METER`); // { FOOT: 'FOOT', METER: 'METER' }
 console.log(enumNumber`ZERO ONE TWO`); // { ZERO: 0, ONE: 1, TWO: 2 }
 ```
 
+## Advanced enum converters
+
+There are several advanced converters also available.
+
+```javascript
+const { LowerCase, UpperCase, Increment } = enumerate;
+
+console.log(enumerate(LowerCase)`
+VALUE1
+VALUE2
+VALUE3
+`); // { VALUE1: 'value1', VALUE2: 'value2', VALUE3: 'value3' }
+
+console.log(enumerate(UpperCase)`
+value1
+value2
+value3
+`); // { value1: 'VALUE1', value2: 'VALUE2', value3: 'VALUE3' }
+
+console.log(enumerate(Increment(10))`
+VALUE1
+VALUE2
+VALUE3
+`); // { VALUE1: 10, VALUE2: 20, VALUE3: 30 }
+
+// the second argument here is a start value (equals to he first arguments if not specified)
+console.log(enumerate(Increment(10, 19))`
+VALUE1
+VALUE2
+VALUE3
+`); // { VALUE1: 19, VALUE2: 29, VALUE3: 39 }
+```
+
+## Customization
+
 Or you can implement your custom converter:
 
 ```javascript
-const enum10s = enumerate((acc, item) => {
-  acc[item] = (Object.keys(acc).length + 1) * 10;
+const customEnum = enumerate((acc, item) => {
+  acc[`-${item}-`] = `-${(Object.keys(acc).length + 1) * 10}-`;
   return acc;
 });
 
-console.log(enum10s`
+console.log(customEnum`
   CODE1
   CODE2
   CODE3
-`); // { CODE1: 10, CODE2: 20, CODE3: 30 }
+`); // { '-CODE1-': '-10-', '-CODE2-': '-20-', '-CODE3-': '-30-' }
 ```
 
 But remember that only default behavior guarantees global uniqueness of enumerated values.
