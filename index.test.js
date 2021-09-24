@@ -1,6 +1,6 @@
 import enumerate from './index.js';
-// import enumerate from './dist/index.cjs';
-// const enumerate = require('./dist/index.cjs');
+
+const { LowerCase, UpperCase, Increment } = enumerate;
 
 describe(`enumerate`, () => {
   const Episode = enumerate`
@@ -13,6 +13,19 @@ describe(`enumerate`, () => {
     expect(Episode).toHaveProperty('EMPIRE');
     expect(Episode).toHaveProperty('JEDI');
     expect(Object.keys(Episode).length).toEqual(3);
+  });
+
+  test('type names', () => {
+    expect(LowerCase.name).toEqual('LowerCase');
+    expect(UpperCase.name).toEqual('UpperCase');
+    expect(Increment.name).toEqual('Increment');
+  });
+
+  test('enum type', () => {
+    const enumType = Increment(10);
+    expect(enumType).toHaveProperty('args', [10]);
+    expect(enumType).toHaveProperty('type', Increment);
+    expect(String(enumType)).toEqual('[object Increment]');
   });
 
   describe('return object keys', () => {
@@ -38,7 +51,7 @@ describe(`enumerate`, () => {
     });
   });
 
-  describe('symbol converter', () => {
+  describe('Symbol converter', () => {
     describe('return object keys', () => {
       test('should have corresponding symbol values', () => {
         const Enum = enumerate(Symbol)`OPTION1 OPTION2 OPTION3`;
@@ -53,7 +66,7 @@ describe(`enumerate`, () => {
     });
   });
 
-  describe('symbol.for converter', () => {
+  describe('Symbol.for converter', () => {
     describe('return object keys', () => {
       test('should have corresponding symbol values', () => {
         const Enum = enumerate(Symbol.for)`OPTION1 OPTION2 OPTION3`;
@@ -68,7 +81,7 @@ describe(`enumerate`, () => {
     });
   });
 
-  describe('number converter', () => {
+  describe('Number converter', () => {
     describe('return object keys', () => {
       test('should have incrementing number values', () => {
         const Enum = enumerate(Number)`ZERO ONE TWO THREE`;
@@ -82,7 +95,7 @@ describe(`enumerate`, () => {
     });
   });
 
-  describe('string converter', () => {
+  describe('String converter', () => {
     describe('return object keys', () => {
       test('should have corresponding string values', () => {
         const Enum = enumerate(String)`A B C D`;
@@ -91,6 +104,74 @@ describe(`enumerate`, () => {
           B: 'B',
           C: 'C',
           D: 'D',
+        });
+      });
+    });
+  });
+
+  describe('LowerCase converter', () => {
+    describe('return object keys', () => {
+      test('should have lower-cased string values', () => {
+        const Enum = enumerate(LowerCase)`CODE_A CODE_B CODE_C CODE_D`;
+        expect({ ...Enum }).toEqual({
+          CODE_A: 'code_a',
+          CODE_B: 'code_b',
+          CODE_C: 'code_c',
+          CODE_D: 'code_d',
+        });
+      });
+    });
+  });
+
+  describe('UpperCase converter', () => {
+    describe('return object keys', () => {
+      test('should have upper-cased string values', () => {
+        const Enum = enumerate(UpperCase)`code_a code_b code_c code_d`;
+        expect({ ...Enum }).toEqual({
+          code_a: 'CODE_A',
+          code_b: 'CODE_B',
+          code_c: 'CODE_C',
+          code_d: 'CODE_D',
+        });
+      });
+    });
+  });
+
+  describe('Increment converter', () => {
+    describe('return object keys', () => {
+      describe('when no arguments provided', () => {
+        test('should have incremented by 1 values', () => {
+          const Enum = enumerate(Increment())`A B C D`;
+          expect({ ...Enum }).toEqual({
+            A: 1,
+            B: 2,
+            C: 3,
+            D: 4,
+          });
+        });
+      });
+
+      describe('when one argument is provided', () => {
+        test('should have incremented by specified number values', () => {
+          const Enum = enumerate(Increment(10))`A B C D`;
+          expect({ ...Enum }).toEqual({
+            A: 10,
+            B: 20,
+            C: 30,
+            D: 40,
+          });
+        });
+      });
+
+      describe('when two argument is provided', () => {
+        test('should have incremented by a specified number values, starting from a specified number', () => {
+          const Enum = enumerate(Increment(100, 199))`A B C D`;
+          expect({ ...Enum }).toEqual({
+            A: 199,
+            B: 299,
+            C: 399,
+            D: 499,
+          });
         });
       });
     });
