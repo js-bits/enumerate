@@ -1,24 +1,47 @@
 const converters = new Map();
 
+class EnumType {
+  // eslint-disable-next-line class-methods-use-this
+  get [Symbol.toStringTag]() {
+    return this.type.name;
+  }
+
+  constructor(type, args) {
+    this.type = type;
+    this.args = args;
+  }
+}
+
+converters.set(Function, (acc, item) => {
+  const fn = (...args) => new EnumType(fn, args);
+  Object.defineProperty(fn, 'name', { value: item });
+  return fn;
+});
+
 converters.set(String, (acc, item) => item);
 converters.set(Symbol, (acc, item) => Symbol(item));
 converters.set(Symbol.for, (acc, item) => Symbol.for(item));
 converters.set(Number, (acc, item) => Object.keys(acc).length);
 
 const convert = (list, type = Symbol) => {
-  if (typeof type !== 'function') {
+  let enumType = type;
+  let enumArgs = [];
+  if (typeof enumType === 'object' && enumType instanceof EnumType) {
+    enumType = type.type;
+    enumArgs = type.args;
+  } else if (typeof enumType !== 'function') {
     throw new Error('Invalid converter');
   }
 
   let converter;
-  const valueConverter = converters.get(type);
+  const valueConverter = converters.get(enumType);
   if (valueConverter) {
     converter = (acc, item) => {
-      acc[item] = valueConverter(acc, item);
+      acc[item] = valueConverter(acc, item, ...enumArgs);
       return acc;
     };
   } else {
-    converter = type;
+    converter = enumType;
   }
   const values = list.trim().split(/[\s\n,]+/);
   const accumulator = {};
@@ -63,6 +86,22 @@ const enumerate = (...args) => {
 
   return convert(list, type);
 };
+
+// dynamically created types
+const TYPES = enumerate(Function)`
+LowerCase
+UpperCase
+Increment
+`;
+
+converters.set(TYPES.LowerCase, (acc, item) => item.toLowerCase());
+converters.set(TYPES.UpperCase, (acc, item) => item.toUpperCase());
+converters.set(
+  TYPES.Increment,
+  (acc, item, increment = 1, start = increment) => start + Object.keys(acc).length * increment
+);
+
+Object.assign(enumerate, TYPES);
 
 export default enumerate;
 
