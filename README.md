@@ -121,7 +121,7 @@ VALUE2
 VALUE3
 `); // { VALUE1: 10, VALUE2: 20, VALUE3: 30 }
 
-// the second argument here is a start value (equals to he first arguments if not specified)
+// the second argument here is a start value (equals to the first argument if not specified)
 console.log(enumerate(Increment(10, 19))`
 VALUE1
 VALUE2
