@@ -148,6 +148,15 @@ console.log(customEnum`
 
 But remember that only default behavior guarantees global uniqueness of enumerated values.
 
+## .isEnum()
+
+You can also check if a certain object is a enum or not.
+
+```javascript
+console.log(enumerate.isEnum({ a: 1, b: 2, c: 3 })); // false
+console.log(enumerate.isEnum(enumerate`a b c`)); // true
+```
+
 ## Notes
 
 - Be careful adding new items to an existing numeric enum. Always append them to the end of the list to avoid changing previous item values.
