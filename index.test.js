@@ -236,6 +236,7 @@ describe(`enumerate`, () => {
   describe('when invalid type or converter passed', () => {
     test('should throw an error', () => {
       expect(() => enumerate(Boolean)`A B C`).toThrow('Invalid');
+      expect(() => enumerate({})`a b c`).toThrow('Invalid');
     });
   });
 
@@ -260,6 +261,24 @@ describe(`enumerate`, () => {
       expect(() => {
         const { D } = result;
       }).toThrow('Invalid enum key: D');
+    });
+  });
+
+  describe('.isEnum', () => {
+    test('should return true for an enum object', () => {
+      expect(enumerate.isEnum(enumerate`A B C`)).toBeTruthy();
+      expect(enumerate.isEnum(enumerate(String)`A B C`)).toBeTruthy();
+      expect(enumerate.isEnum(enumerate(Number)`A B C`)).toBeTruthy();
+    });
+
+    test('should return false otherwise', () => {
+      expect(enumerate.isEnum()).toBeFalsy();
+      expect(enumerate.isEnum(null)).toBeFalsy();
+      expect(enumerate.isEnum(123)).toBeFalsy();
+      expect(enumerate.isEnum('str')).toBeFalsy();
+      expect(enumerate.isEnum(true)).toBeFalsy();
+      expect(enumerate.isEnum(Date)).toBeFalsy();
+      expect(enumerate.isEnum({})).toBeFalsy();
     });
   });
 });

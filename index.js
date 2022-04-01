@@ -1,4 +1,7 @@
+/* eslint-disable max-classes-per-file */
 const converters = new Map();
+
+class Enum {}
 
 class EnumType {
   // eslint-disable-next-line class-methods-use-this
@@ -44,7 +47,7 @@ const convert = (list, type = Symbol) => {
     converter = enumType;
   }
   const values = list.trim().split(/[\s\n,]+/);
-  const accumulator = {};
+  const accumulator = new Enum();
   const result = values.reduce(converter, accumulator);
 
   if (result !== accumulator) {
@@ -106,6 +109,7 @@ converters.set(
 );
 
 Object.assign(enumerate, TYPES);
+enumerate.isEnum = value => value instanceof Enum;
 
 export default enumerate;
 

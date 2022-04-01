@@ -1,6 +1,9 @@
 'use strict';
 
+/* eslint-disable max-classes-per-file */
 const converters = new Map();
+
+class Enum {}
 
 class EnumType {
   // eslint-disable-next-line class-methods-use-this
@@ -12,10 +15,6 @@ class EnumType {
     this.type = type;
     this.args = args;
   }
-
-  // static [Symbol.hasInstance](instance) {
-  //   return Array.isArray(instance);
-  // }
 }
 
 converters.set(Function, (acc, item) => {
@@ -50,7 +49,7 @@ const convert = (list, type = Symbol) => {
     converter = enumType;
   }
   const values = list.trim().split(/[\s\n,]+/);
-  const accumulator = {};
+  const accumulator = new Enum();
   const result = values.reduce(converter, accumulator);
 
   if (result !== accumulator) {
@@ -112,10 +111,7 @@ converters.set(
 );
 
 Object.assign(enumerate, TYPES);
-enumerate.EnumType = EnumType;
-
-const x = enumerate(Number)`ZERO ONE TWO THREE`;
-console.log(`${x}`);
+enumerate.isEnum = value => value instanceof Enum;
 
 // TODO: serialize/deserialize, toJSON, toString
 
