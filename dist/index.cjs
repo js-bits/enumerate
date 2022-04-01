@@ -12,6 +12,10 @@ class EnumType {
     this.type = type;
     this.args = args;
   }
+
+  // static [Symbol.hasInstance](instance) {
+  //   return Array.isArray(instance);
+  // }
 }
 
 converters.set(Function, (acc, item) => {
@@ -56,13 +60,17 @@ const convert = (list, type = Symbol) => {
   const proxy = new Proxy(result, {
     get(...args) {
       const [target, prop] = args;
-      if (!Object.prototype.hasOwnProperty.call(target, prop)) {
-        throw new Error(`Invalid enum key: ${prop}`);
+      if (prop === Symbol.toStringTag) {
+        return `Enum:${Object.keys(target).join(',')}`;
+      }
+      const allowedProps = [Symbol.toPrimitive, 'toString'];
+      if (!Object.prototype.hasOwnProperty.call(target, prop) && !allowedProps.includes(prop)) {
+        throw new Error(`Invalid enum key: ${String(prop)}`);
       }
       return Reflect.get(...args);
     },
     set(target, prop) {
-      throw new Error(`Cannot assign a value to enum key: ${prop}`);
+      throw new Error(`Cannot assign a value to enum key: ${String(prop)}`);
     },
   });
 
@@ -104,6 +112,10 @@ converters.set(
 );
 
 Object.assign(enumerate, TYPES);
+enumerate.EnumType = EnumType;
+
+const x = enumerate(Number)`ZERO ONE TWO THREE`;
+console.log(`${x}`);
 
 // TODO: serialize/deserialize, toJSON, toString
 

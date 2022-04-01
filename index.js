@@ -54,13 +54,17 @@ const convert = (list, type = Symbol) => {
   const proxy = new Proxy(result, {
     get(...args) {
       const [target, prop] = args;
-      if (!Object.prototype.hasOwnProperty.call(target, prop)) {
-        throw new Error(`Invalid enum key: ${prop}`);
+      if (prop === Symbol.toStringTag) {
+        return `Enum:${Object.keys(target).join(',')}`;
+      }
+      const allowedProps = [Symbol.toPrimitive, 'toString'];
+      if (!Object.prototype.hasOwnProperty.call(target, prop) && !allowedProps.includes(prop)) {
+        throw new Error(`Invalid enum key: ${String(prop)}`);
       }
       return Reflect.get(...args);
     },
     set(target, prop) {
-      throw new Error(`Cannot assign a value to enum key: ${prop}`);
+      throw new Error(`Cannot assign a value to enum key: ${String(prop)}`);
     },
   });
 

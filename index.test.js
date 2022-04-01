@@ -15,6 +15,10 @@ describe(`enumerate`, () => {
     expect(Object.keys(Episode).length).toEqual(3);
   });
 
+  test('toString', () => {
+    expect(`${Episode}`).toEqual('[object Enum:NEW_HOPE,EMPIRE,JEDI]');
+  });
+
   test('type names', () => {
     expect(LowerCase.name).toEqual('LowerCase');
     expect(UpperCase.name).toEqual('UpperCase');
@@ -48,6 +52,8 @@ describe(`enumerate`, () => {
 
       expect(Unit1.FOOT).not.toEqual(Unit2.FOOT);
       expect(Unit1.METER).not.toEqual(Unit2.METER);
+
+      expect(`${Unit1}`).toEqual('[object Enum:FOOT,METER]');
     });
   });
 
@@ -62,6 +68,8 @@ describe(`enumerate`, () => {
         expect(Enum.OPTION2).not.toBe(Symbol.for('OPTION2'));
         expect(typeof Enum.OPTION3).toEqual('symbol');
         expect(Enum.OPTION3).not.toBe(Symbol.for('OPTION3'));
+
+        expect(`${Enum}`).toEqual('[object Enum:OPTION1,OPTION2,OPTION3]');
       });
     });
   });
@@ -77,6 +85,8 @@ describe(`enumerate`, () => {
         expect(Enum.OPTION2).toBe(Symbol.for('OPTION2'));
         expect(typeof Enum.OPTION3).toEqual('symbol');
         expect(Enum.OPTION3).toBe(Symbol.for('OPTION3'));
+
+        expect(`${Enum}`).toEqual('[object Enum:OPTION1,OPTION2,OPTION3]');
       });
     });
   });
@@ -91,6 +101,7 @@ describe(`enumerate`, () => {
           TWO: 2,
           THREE: 3,
         });
+        expect(`${Enum}`).toEqual('[object Enum:ZERO,ONE,TWO,THREE]');
       });
     });
   });
@@ -105,6 +116,7 @@ describe(`enumerate`, () => {
           C: 'C',
           D: 'D',
         });
+        expect(`${Enum}`).toEqual('[object Enum:A,B,C,D]');
       });
     });
   });
@@ -119,6 +131,7 @@ describe(`enumerate`, () => {
           CODE_C: 'code_c',
           CODE_D: 'code_d',
         });
+        expect(`${Enum}`).toEqual('[object Enum:CODE_A,CODE_B,CODE_C,CODE_D]');
       });
     });
   });
@@ -133,6 +146,7 @@ describe(`enumerate`, () => {
           code_c: 'CODE_C',
           code_d: 'CODE_D',
         });
+        expect(`${Enum}`).toEqual('[object Enum:code_a,code_b,code_c,code_d]');
       });
     });
   });
@@ -148,6 +162,7 @@ describe(`enumerate`, () => {
             C: 3,
             D: 4,
           });
+          expect(`${Enum}`).toEqual('[object Enum:A,B,C,D]');
         });
       });
 
@@ -160,6 +175,7 @@ describe(`enumerate`, () => {
             C: 30,
             D: 40,
           });
+          expect(`${Enum}`).toEqual('[object Enum:A,B,C,D]');
         });
       });
 
@@ -172,6 +188,7 @@ describe(`enumerate`, () => {
             C: 399,
             D: 499,
           });
+          expect(`${Enum}`).toEqual('[object Enum:A,B,C,D]');
         });
       });
     });
@@ -190,6 +207,7 @@ describe(`enumerate`, () => {
           CODE2: 10,
           CODE3: 20,
         });
+        expect(`${Enum}`).toEqual('[object Enum:CODE1,CODE2,CODE3]');
       });
     });
 
@@ -204,6 +222,7 @@ describe(`enumerate`, () => {
         GREEN: 'green',
         BLUE: 'blue',
       });
+      expect(`${Enum}`).toEqual('[object Enum:RED,GREEN,BLUE]');
     });
   });
 
