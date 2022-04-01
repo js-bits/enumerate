@@ -26,7 +26,7 @@ converters.set(Function, (acc, item) => {
 converters.set(String, (acc, item) => item);
 converters.set(Symbol, (acc, item) => Symbol(item));
 converters.set(Symbol.for, (acc, item) => Symbol.for(item));
-converters.set(Number, (acc, item) => Object.keys(acc).length);
+converters.set(Number, acc => Object.keys(acc).length);
 
 const convert = (list, type = Symbol) => {
   let enumType = type;
