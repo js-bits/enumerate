@@ -1,6 +1,6 @@
 import enumerate from './index.js';
 
-const { LowerCase, UpperCase, Increment } = enumerate;
+const { LowerCase, UpperCase, Prefix, Increment } = enumerate;
 
 describe(`enumerate`, () => {
   const Episode = enumerate`
@@ -147,6 +147,36 @@ describe(`enumerate`, () => {
           code_d: 'CODE_D',
         });
         expect(`${Enum}`).toEqual('[object Enum:code_a,code_b,code_c,code_d]');
+      });
+    });
+  });
+
+  describe('Prefix converter', () => {
+    describe('return object keys', () => {
+      describe('when no arguments provided', () => {
+        test('should have corresponding string values', () => {
+          const Enum = enumerate(Prefix)`A B C D`;
+          expect({ ...Enum }).toEqual({
+            A: 'A',
+            B: 'B',
+            C: 'C',
+            D: 'D',
+          });
+          expect(`${Enum}`).toEqual('[object Enum:A,B,C,D]');
+        });
+      });
+
+      describe('when arguments provided', () => {
+        test('should have prefixed string values', () => {
+          const Enum = enumerate(Prefix('value|'))`a b c d`;
+          expect({ ...Enum }).toEqual({
+            a: 'value|a',
+            b: 'value|b',
+            c: 'value|c',
+            d: 'value|d',
+          });
+          expect(`${Enum}`).toEqual('[object Enum:a,b,c,d]');
+        });
       });
     });
   });

@@ -100,11 +100,13 @@ const enumerate = (...args) => {
 const TYPES = enumerate(Function)`
 LowerCase
 UpperCase
+Prefix
 Increment
 `;
 
 converters.set(TYPES.LowerCase, (acc, item) => item.toLowerCase());
 converters.set(TYPES.UpperCase, (acc, item) => item.toUpperCase());
+converters.set(TYPES.Prefix, (acc, item, prefix = '') => `${prefix}${item}`);
 converters.set(
   TYPES.Increment,
   (acc, item, increment = 1, start = increment) => start + Object.keys(acc).length * increment

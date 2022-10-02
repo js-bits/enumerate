@@ -81,19 +81,19 @@ console.log(getEpisodeName(STAR_WARS.X)); // Error: Invalid enum key: X
 By default `enumerate` converts values to [Symbols](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol):
 
 ```javascript
-console.log(enumerate`FOOT METER`); // { FOOT: Symbol(FOOT), METER: Symbol(METER) }
+console.log(enumerate`FOOT METER`); // Enum { FOOT: Symbol(FOOT), METER: Symbol(METER) }
 ```
 
 You can change this behavior by specifying an appropriate converter:
 
 ```javascript
-console.log(enumerate(String)`FOOT METER`); // { FOOT: 'FOOT', METER: 'METER' }
-console.log(enumerate(Number)`ZERO ONE TWO`); // { ZERO: 0, ONE: 1, TWO: 2 }
+console.log(enumerate(String)`FOOT METER`); // Enum { FOOT: 'FOOT', METER: 'METER' }
+console.log(enumerate(Number)`ZERO ONE TWO`); // Enum { ZERO: 0, ONE: 1, TWO: 2 }
 // or
 const enumString = enumerate(String);
 const enumNumber = enumerate(Number);
-console.log(enumString`FOOT METER`); // { FOOT: 'FOOT', METER: 'METER' }
-console.log(enumNumber`ZERO ONE TWO`); // { ZERO: 0, ONE: 1, TWO: 2 }
+console.log(enumString`FOOT METER`); // Enum { FOOT: 'FOOT', METER: 'METER' }
+console.log(enumNumber`ZERO ONE TWO`); // Enum { ZERO: 0, ONE: 1, TWO: 2 }
 ```
 
 ## Advanced enum converters
@@ -101,32 +101,34 @@ console.log(enumNumber`ZERO ONE TWO`); // { ZERO: 0, ONE: 1, TWO: 2 }
 There are several advanced converters also available.
 
 ```javascript
-const { LowerCase, UpperCase, Increment } = enumerate;
+const { LowerCase, UpperCase, Prefix, Increment } = enumerate;
 
 console.log(enumerate(LowerCase)`
 VALUE1
 VALUE2
 VALUE3
-`); // { VALUE1: 'value1', VALUE2: 'value2', VALUE3: 'value3' }
+`); // Enum { VALUE1: 'value1', VALUE2: 'value2', VALUE3: 'value3' }
 
 console.log(enumerate(UpperCase)`
 value1
 value2
 value3
-`); // { value1: 'VALUE1', value2: 'VALUE2', value3: 'VALUE3' }
+`); // Enum { value1: 'VALUE1', value2: 'VALUE2', value3: 'VALUE3' }
+
+console.log(enumerate(Prefix('value|'))`x y z`); // Enum { x: 'value|x', y: 'value|y', z: 'value|z' }
 
 console.log(enumerate(Increment(10))`
 VALUE1
 VALUE2
 VALUE3
-`); // { VALUE1: 10, VALUE2: 20, VALUE3: 30 }
+`); // Enum { VALUE1: 10, VALUE2: 20, VALUE3: 30 }
 
 // the second argument here is a start value (equals to the first argument if not specified)
 console.log(enumerate(Increment(10, 19))`
 VALUE1
 VALUE2
 VALUE3
-`); // { VALUE1: 19, VALUE2: 29, VALUE3: 39 }
+`); // Enum { VALUE1: 19, VALUE2: 29, VALUE3: 39 }
 ```
 
 ## Customization
@@ -143,7 +145,7 @@ console.log(customEnum`
   CODE1
   CODE2
   CODE3
-`); // { '-CODE1-': '-10-', '-CODE2-': '-20-', '-CODE3-': '-30-' }
+`); // Enum { '-CODE1-': '-10-', '-CODE2-': '-20-', '-CODE3-': '-30-' }
 ```
 
 But remember that only default behavior guarantees global uniqueness of enumerated values.
