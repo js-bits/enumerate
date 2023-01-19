@@ -3,8 +3,6 @@
 /* eslint-disable max-classes-per-file */
 const converters = new Map();
 
-class Enum {}
-
 class EnumType {
   // eslint-disable-next-line class-methods-use-this
   get [Symbol.toStringTag]() {
@@ -28,53 +26,65 @@ converters.set(Symbol, (acc, item) => Symbol(item));
 converters.set(Symbol.for, (acc, item) => Symbol.for(item));
 converters.set(Number, acc => Object.keys(acc).length);
 
-const convert = (list, type = Symbol) => {
-  let enumType = type;
-  let enumArgs = [];
-  if (typeof enumType === 'object' && enumType instanceof EnumType) {
-    enumType = type.type;
-    enumArgs = type.args;
-  } else if (typeof enumType !== 'function') {
-    throw new Error('Invalid converter');
+class Enum {
+  constructor(list, type = Symbol) {
+    let enumType = type;
+    let enumArgs = [];
+    if (typeof enumType === 'object' && enumType instanceof EnumType) {
+      enumType = type.type;
+      enumArgs = type.args;
+    } else if (typeof enumType !== 'function') {
+      throw new Error('Invalid converter');
+    }
+
+    let converter;
+    const valueConverter = converters.get(enumType);
+    if (valueConverter) {
+      converter = (acc, item) => {
+        acc[item] = valueConverter(acc, item, ...enumArgs);
+        return acc;
+      };
+    } else {
+      converter = enumType;
+    }
+    const values = list.trim().split(/[\s\n,]+/);
+    const result = values.reduce(converter, this);
+
+    if (result !== this) {
+      throw new Error('Invalid converter');
+    }
+
+    const proxy = new Proxy(result, {
+      get(...args) {
+        const [target, prop] = args;
+        if (prop === Symbol.toStringTag) {
+          return `Enum:${Object.keys(target).join(',')}`;
+        }
+        const allowedProps = [Symbol.toPrimitive, 'toString', 'toJSON'];
+        if (!Object.prototype.hasOwnProperty.call(target, prop) && !allowedProps.includes(prop)) {
+          throw new Error(`Invalid enum key: ${String(prop)}`);
+        }
+        return Reflect.get(...args);
+      },
+      set(target, prop) {
+        throw new Error(`Cannot assign a value to enum key: ${String(prop)}`);
+      },
+    });
+
+    return proxy;
   }
 
-  let converter;
-  const valueConverter = converters.get(enumType);
-  if (valueConverter) {
-    converter = (acc, item) => {
-      acc[item] = valueConverter(acc, item, ...enumArgs);
+  toJSON() {
+    return Object.keys(this).reduce((acc, key) => {
+      const value = this[key];
+      if (JSON.stringify(value) === undefined) {
+        throw new Error(`Cannot convert enum to JSON`);
+      }
+      acc[key] = value;
       return acc;
-    };
-  } else {
-    converter = enumType;
+    }, {});
   }
-  const values = list.trim().split(/[\s\n,]+/);
-  const accumulator = new Enum();
-  const result = values.reduce(converter, accumulator);
-
-  if (result !== accumulator) {
-    throw new Error('Invalid converter');
-  }
-
-  const proxy = new Proxy(result, {
-    get(...args) {
-      const [target, prop] = args;
-      if (prop === Symbol.toStringTag) {
-        return `Enum:${Object.keys(target).join(',')}`;
-      }
-      const allowedProps = [Symbol.toPrimitive, 'toString'];
-      if (!Object.prototype.hasOwnProperty.call(target, prop) && !allowedProps.includes(prop)) {
-        throw new Error(`Invalid enum key: ${String(prop)}`);
-      }
-      return Reflect.get(...args);
-    },
-    set(target, prop) {
-      throw new Error(`Cannot assign a value to enum key: ${String(prop)}`);
-    },
-  });
-
-  return proxy;
-};
+}
 
 const enumerate = (...args) => {
   if (args.length > 2) {
@@ -93,7 +103,7 @@ const enumerate = (...args) => {
   const [list] = args[0];
   const type = args[1];
 
-  return convert(list, type);
+  return new Enum(list, type);
 };
 
 // dynamically created types

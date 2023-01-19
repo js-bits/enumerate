@@ -58,9 +58,10 @@ describe(`enumerate`, () => {
   });
 
   describe('Symbol converter', () => {
+    const Enum = enumerate(Symbol)`OPTION1 OPTION2 OPTION3`;
+
     describe('return object keys', () => {
       test('should have corresponding symbol values', () => {
-        const Enum = enumerate(Symbol)`OPTION1 OPTION2 OPTION3`;
         expect(Object.keys(Enum).length).toEqual(3);
         expect(typeof Enum.OPTION1).toEqual('symbol');
         expect(Enum.OPTION1).not.toBe(Symbol.for('OPTION1'));
@@ -72,12 +73,17 @@ describe(`enumerate`, () => {
         expect(`${Enum}`).toEqual('[object Enum:OPTION1,OPTION2,OPTION3]');
       });
     });
+
+    test('toJSON', () => {
+      expect(() => JSON.stringify(Enum)).toThrow('Cannot convert enum to JSON');
+    });
   });
 
   describe('Symbol.for converter', () => {
+    const Enum = enumerate(Symbol.for)`OPTION1 OPTION2 OPTION3`;
+
     describe('return object keys', () => {
       test('should have corresponding symbol values', () => {
-        const Enum = enumerate(Symbol.for)`OPTION1 OPTION2 OPTION3`;
         expect(Object.keys(Enum).length).toEqual(3);
         expect(typeof Enum.OPTION1).toEqual('symbol');
         expect(Enum.OPTION1).toBe(Symbol.for('OPTION1'));
@@ -89,12 +95,17 @@ describe(`enumerate`, () => {
         expect(`${Enum}`).toEqual('[object Enum:OPTION1,OPTION2,OPTION3]');
       });
     });
+
+    test('toJSON', () => {
+      expect(() => JSON.stringify(Enum)).toThrow('Cannot convert enum to JSON');
+    });
   });
 
   describe('Number converter', () => {
+    const Enum = enumerate(Number)`ZERO ONE TWO THREE`;
+
     describe('return object keys', () => {
       test('should have incrementing number values', () => {
-        const Enum = enumerate(Number)`ZERO ONE TWO THREE`;
         expect({ ...Enum }).toEqual({
           ZERO: 0,
           ONE: 1,
@@ -104,12 +115,17 @@ describe(`enumerate`, () => {
         expect(`${Enum}`).toEqual('[object Enum:ZERO,ONE,TWO,THREE]');
       });
     });
+
+    test('toJSON', () => {
+      expect(JSON.stringify(Enum)).toEqual('{"ZERO":0,"ONE":1,"TWO":2,"THREE":3}');
+    });
   });
 
   describe('String converter', () => {
+    const Enum = enumerate(String)`A B C D`;
+
     describe('return object keys', () => {
       test('should have corresponding string values', () => {
-        const Enum = enumerate(String)`A B C D`;
         expect({ ...Enum }).toEqual({
           A: 'A',
           B: 'B',
@@ -118,6 +134,10 @@ describe(`enumerate`, () => {
         });
         expect(`${Enum}`).toEqual('[object Enum:A,B,C,D]');
       });
+    });
+
+    test('toJSON', () => {
+      expect(JSON.stringify(Enum)).toEqual('{"A":"A","B":"B","C":"C","D":"D"}');
     });
   });
 
