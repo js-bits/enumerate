@@ -131,10 +131,4 @@ enumerate.isEnum = value => typeof value === 'object' && value !== null && value
 
 // TODO: serialize/deserialize, toJSON, toString
 
-// How to Create a Hybrid NPM Module for ESM and CommonJS
-// https://www.sensedeep.com/blog/posts/2021/how-to-create-single-source-npm-module.html
-
-// Hybrid npm packages (ESM and CommonJS)
-// https://2ality.com/2019/10/hybrid-npm-packages.html
-
 module.exports = enumerate;
