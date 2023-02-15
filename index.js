@@ -1,6 +1,9 @@
 /* eslint-disable max-classes-per-file */
 const converters = new Map();
 
+// global symbol shared across all versions of the package
+const IS_ENUM_FLAG = Symbol.for('@js-bits/enumerate');
+
 class EnumType {
   // eslint-disable-next-line class-methods-use-this
   get [Symbol.toStringTag]() {
@@ -55,9 +58,10 @@ class Enum {
     const proxy = new Proxy(result, {
       get(...args) {
         const [target, prop] = args;
-        if (prop === Symbol.toStringTag) {
-          return `Enum:${Object.keys(target).join(',')}`;
-        }
+        if (prop === Symbol.toStringTag) return `Enum:${Object.keys(target).join(',')}`;
+        // using this flag to properly identify enums regardless of the package version being used
+        if (prop === IS_ENUM_FLAG) return true;
+
         const allowedProps = [Symbol.toPrimitive, 'toString', 'toJSON'];
         if (!Object.prototype.hasOwnProperty.call(target, prop) && !allowedProps.includes(prop)) {
           throw new Error(`Invalid enum key: ${String(prop)}`);
@@ -121,7 +125,7 @@ converters.set(
 );
 
 Object.assign(enumerate, TYPES);
-enumerate.isEnum = value => value instanceof Enum;
+enumerate.isEnum = value => typeof value === 'object' && value !== null && value[IS_ENUM_FLAG] === true;
 
 export default enumerate;
 

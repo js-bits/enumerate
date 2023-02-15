@@ -15,6 +15,10 @@ describe(`enumerate`, () => {
     expect(Object.keys(Episode).length).toEqual(3);
   });
 
+  test('typeof', () => {
+    expect(typeof Episode).toEqual('object');
+  });
+
   test('toString', () => {
     expect(`${Episode}`).toEqual('[object Enum:NEW_HOPE,EMPIRE,JEDI]');
   });
@@ -315,6 +319,13 @@ describe(`enumerate`, () => {
   });
 
   describe('.isEnum', () => {
+    test('should not expose global symbol flag', () => {
+      expect(Episode[Symbol.for('@js-bits/enumerate')]).toEqual(true);
+      const symbols = Object.getOwnPropertySymbols(Episode);
+      expect(symbols).toEqual(expect.any(Array));
+      expect(symbols.length).toEqual(0);
+    });
+
     test('should return true for an enum object', () => {
       expect(enumerate.isEnum(enumerate`A B C`)).toBeTruthy();
       expect(enumerate.isEnum(enumerate(String)`A B C`)).toBeTruthy();

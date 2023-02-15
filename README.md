@@ -150,7 +150,7 @@ console.log(customEnum`
 
 But remember that only default behavior guarantees global uniqueness of enumerated values.
 
-## .isEnum()
+## enumerate.isEnum()
 
 You can also check if a certain object is a enum or not.
 
