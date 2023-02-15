@@ -13,6 +13,9 @@ describe(`enumerate`, () => {
     expect(Episode).toHaveProperty('EMPIRE');
     expect(Episode).toHaveProperty('JEDI');
     expect(Object.keys(Episode).length).toEqual(3);
+    expect(Object.keys(Episode)).toContain('NEW_HOPE');
+    expect(Object.keys(Episode)).toContain('EMPIRE');
+    expect(Object.keys(Episode)).toContain('JEDI');
   });
 
   test('typeof', () => {
