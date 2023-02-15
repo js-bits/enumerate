@@ -26,50 +26,50 @@ converters.set(Number, acc => Object.keys(acc).length);
 
 class Enum {
   constructor(list, type = Symbol) {
-  let enumType = type;
-  let enumArgs = [];
-  if (typeof enumType === 'object' && enumType instanceof EnumType) {
-    enumType = type.type;
-    enumArgs = type.args;
-  } else if (typeof enumType !== 'function') {
-    throw new Error('Invalid converter');
-  }
+    let enumType = type;
+    let enumArgs = [];
+    if (typeof enumType === 'object' && enumType instanceof EnumType) {
+      enumType = type.type;
+      enumArgs = type.args;
+    } else if (typeof enumType !== 'function') {
+      throw new Error('Invalid converter');
+    }
 
-  let converter;
-  const valueConverter = converters.get(enumType);
-  if (valueConverter) {
-    converter = (acc, item) => {
-      acc[item] = valueConverter(acc, item, ...enumArgs);
-      return acc;
-    };
-  } else {
-    converter = enumType;
-  }
-  const values = list.trim().split(/[\s\n,]+/);
+    let converter;
+    const valueConverter = converters.get(enumType);
+    if (valueConverter) {
+      converter = (acc, item) => {
+        acc[item] = valueConverter(acc, item, ...enumArgs);
+        return acc;
+      };
+    } else {
+      converter = enumType;
+    }
+    const values = list.trim().split(/[\s\n,]+/);
     const result = values.reduce(converter, this);
 
     if (result !== this) {
-    throw new Error('Invalid converter');
-  }
+      throw new Error('Invalid converter');
+    }
 
-  const proxy = new Proxy(result, {
-    get(...args) {
-      const [target, prop] = args;
-      if (prop === Symbol.toStringTag) {
-        return `Enum:${Object.keys(target).join(',')}`;
-      }
+    const proxy = new Proxy(result, {
+      get(...args) {
+        const [target, prop] = args;
+        if (prop === Symbol.toStringTag) {
+          return `Enum:${Object.keys(target).join(',')}`;
+        }
         const allowedProps = [Symbol.toPrimitive, 'toString', 'toJSON'];
-      if (!Object.prototype.hasOwnProperty.call(target, prop) && !allowedProps.includes(prop)) {
-        throw new Error(`Invalid enum key: ${String(prop)}`);
-      }
-      return Reflect.get(...args);
-    },
-    set(target, prop) {
-      throw new Error(`Cannot assign a value to enum key: ${String(prop)}`);
-    },
-  });
+        if (!Object.prototype.hasOwnProperty.call(target, prop) && !allowedProps.includes(prop)) {
+          throw new Error(`Invalid enum key: ${String(prop)}`);
+        }
+        return Reflect.get(...args);
+      },
+      set(target, prop) {
+        throw new Error(`Cannot assign a value to enum key: ${String(prop)}`);
+      },
+    });
 
-  return proxy;
+    return proxy;
   }
 
   toJSON() {
