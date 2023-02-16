@@ -125,7 +125,13 @@ converters.set(
 );
 
 Object.assign(enumerate, TYPES);
-enumerate.isEnum = value => typeof value === 'object' && value !== null && value[IS_ENUM_FLAG] === true;
+enumerate.isEnum = value => {
+  try {
+    return typeof value === 'object' && value !== null && value[IS_ENUM_FLAG] === true;
+  } catch {
+    return false;
+  }
+};
 
 export default enumerate;
 

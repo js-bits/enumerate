@@ -344,5 +344,16 @@ describe(`enumerate`, () => {
       expect(enumerate.isEnum(Date)).toBe(false);
       expect(enumerate.isEnum({})).toBe(false);
     });
+
+    test('should return false when accessing properties of the value throws an error', () => {
+      const object = Object.defineProperty({}, Symbol.for('@js-bits/enumerate'), {
+        enumerable: false,
+        configurable: false,
+        get() {
+          throw new Error('Not accessible');
+        },
+      });
+      expect(enumerate.isEnum(object)).toBe(false);
+    });
   });
 });
