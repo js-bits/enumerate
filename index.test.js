@@ -330,19 +330,19 @@ describe(`enumerate`, () => {
     });
 
     test('should return true for an enum object', () => {
-      expect(enumerate.isEnum(enumerate`A B C`)).toBeTruthy();
-      expect(enumerate.isEnum(enumerate(String)`A B C`)).toBeTruthy();
-      expect(enumerate.isEnum(enumerate(Number)`A B C`)).toBeTruthy();
+      expect(enumerate.isEnum(enumerate`A B C`)).toBe(true);
+      expect(enumerate.isEnum(enumerate(String)`A B C`)).toBe(true);
+      expect(enumerate.isEnum(enumerate(Number)`A B C`)).toBe(true);
     });
 
     test('should return false otherwise', () => {
-      expect(enumerate.isEnum()).toBeFalsy();
-      expect(enumerate.isEnum(null)).toBeFalsy();
-      expect(enumerate.isEnum(123)).toBeFalsy();
-      expect(enumerate.isEnum('str')).toBeFalsy();
-      expect(enumerate.isEnum(true)).toBeFalsy();
-      expect(enumerate.isEnum(Date)).toBeFalsy();
-      expect(enumerate.isEnum({})).toBeFalsy();
+      expect(enumerate.isEnum()).toBe(false);
+      expect(enumerate.isEnum(null)).toBe(false);
+      expect(enumerate.isEnum(123)).toBe(false);
+      expect(enumerate.isEnum('str')).toBe(false);
+      expect(enumerate.isEnum(true)).toBe(false);
+      expect(enumerate.isEnum(Date)).toBe(false);
+      expect(enumerate.isEnum({})).toBe(false);
     });
   });
 });
