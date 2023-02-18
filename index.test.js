@@ -180,7 +180,7 @@ describe(`enumerate`, () => {
 
   describe('Prefix converter', () => {
     describe('return object keys', () => {
-      describe('when no arguments provided', () => {
+      describe('when no arguments passed', () => {
         test('should have corresponding string values', () => {
           const Enum = enumerate(Prefix)`A B C D`;
           expect({ ...Enum }).toEqual({
@@ -193,9 +193,22 @@ describe(`enumerate`, () => {
         });
       });
 
-      describe('when arguments provided', () => {
+      describe('when arguments passed', () => {
         test('should have prefixed string values', () => {
           const Enum = enumerate(Prefix('value|'))`a b c d`;
+          expect({ ...Enum }).toEqual({
+            a: 'value|a',
+            b: 'value|b',
+            c: 'value|c',
+            d: 'value|d',
+          });
+          expect(`${Enum}`).toEqual('[object Enum:a,b,c,d]');
+        });
+      });
+
+      describe('when shortcut used', () => {
+        test('should have prefixed string values', () => {
+          const Enum = enumerate('value|')`a b c d`;
           expect({ ...Enum }).toEqual({
             a: 'value|a',
             b: 'value|b',
@@ -210,7 +223,7 @@ describe(`enumerate`, () => {
 
   describe('Increment converter', () => {
     describe('return object keys', () => {
-      describe('when no arguments provided', () => {
+      describe('when no arguments passed', () => {
         test('should have incremented by 1 values', () => {
           const Enum = enumerate(Increment())`A B C D`;
           expect({ ...Enum }).toEqual({
@@ -223,7 +236,7 @@ describe(`enumerate`, () => {
         });
       });
 
-      describe('when one argument is provided', () => {
+      describe('when one argument is passed', () => {
         test('should have incremented by specified number values', () => {
           const Enum = enumerate(Increment(10))`A B C D`;
           expect({ ...Enum }).toEqual({
@@ -236,7 +249,20 @@ describe(`enumerate`, () => {
         });
       });
 
-      describe('when two argument is provided', () => {
+      describe('when shortcut is used', () => {
+        test('should have incremented by specified number values', () => {
+          const Enum = enumerate(10)`A B C D`;
+          expect({ ...Enum }).toEqual({
+            A: 10,
+            B: 20,
+            C: 30,
+            D: 40,
+          });
+          expect(`${Enum}`).toEqual('[object Enum:A,B,C,D]');
+        });
+      });
+
+      describe('when two argument is passed', () => {
         test('should have incremented by a specified number values, starting from a specified number', () => {
           const Enum = enumerate(Increment(100, 199))`A B C D`;
           expect({ ...Enum }).toEqual({
@@ -292,6 +318,7 @@ describe(`enumerate`, () => {
 
   describe('when invalid type or converter passed', () => {
     test('should throw an error', () => {
+      expect(() => enumerate(Date)`A B C`).toThrow('Invalid');
       expect(() => enumerate(Boolean)`A B C`).toThrow('Invalid');
       expect(() => enumerate({})`a b c`).toThrow('Invalid');
     });

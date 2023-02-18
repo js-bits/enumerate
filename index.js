@@ -1,5 +1,6 @@
 /* eslint-disable max-classes-per-file */
-const converters = new Map();
+const CONVERTERS = new Map();
+const SHORTCUTS = new Map();
 
 // global symbol shared across all versions of the package
 const IS_ENUM_FLAG = Symbol.for('@js-bits/enumerate');
@@ -16,30 +17,34 @@ class EnumType {
   }
 }
 
-converters.set(Function, (acc, item) => {
+CONVERTERS.set(Function, (acc, item) => {
   const fn = (...args) => new EnumType(fn, args);
   Object.defineProperty(fn, 'name', { value: item });
   return fn;
 });
 
-converters.set(String, (acc, item) => item);
-converters.set(Symbol, (acc, item) => Symbol(item));
-converters.set(Symbol.for, (acc, item) => Symbol.for(item));
-converters.set(Number, acc => Object.keys(acc).length);
+CONVERTERS.set(String, (acc, item) => item);
+CONVERTERS.set(Symbol, (acc, item) => Symbol(item));
+CONVERTERS.set(Symbol.for, (acc, item) => Symbol.for(item));
+CONVERTERS.set(Number, acc => Object.keys(acc).length);
 
 class Enum {
   constructor(list, type = Symbol) {
+    let inputType = type;
     let enumType = type;
     let enumArgs = [];
-    if (typeof enumType === 'object' && enumType instanceof EnumType) {
-      enumType = type.type;
-      enumArgs = type.args;
-    } else if (typeof enumType !== 'function') {
+    if (SHORTCUTS.has(typeof enumType)) {
+      inputType = SHORTCUTS.get(typeof enumType)(enumType);
+    }
+    if (typeof inputType === 'object' && inputType instanceof EnumType) {
+      enumType = inputType.type;
+      enumArgs = inputType.args;
+    } else if (typeof inputType !== 'function') {
       throw new Error('Invalid converter');
     }
 
     let converter;
-    const valueConverter = converters.get(enumType);
+    const valueConverter = CONVERTERS.get(enumType);
     if (valueConverter) {
       converter = (acc, item) => {
         acc[item] = valueConverter(acc, item, ...enumArgs);
@@ -93,7 +98,7 @@ const enumerate = (...args) => {
     throw new Error('Invalid arguments');
   }
 
-  if (!Array.isArray(args[0])) {
+  if (!Array.isArray(args[0]) || args[0].length > 1) {
     if (args.length !== 1) {
       throw new Error('Invalid arguments');
     }
@@ -104,6 +109,8 @@ const enumerate = (...args) => {
 
   const [list] = args[0];
   const type = args[1];
+
+  console.log('args', args);
 
   return new Enum(list, type);
 };
@@ -116,13 +123,15 @@ Prefix
 Increment
 `;
 
-converters.set(TYPES.LowerCase, (acc, item) => item.toLowerCase());
-converters.set(TYPES.UpperCase, (acc, item) => item.toUpperCase());
-converters.set(TYPES.Prefix, (acc, item, prefix = '') => `${prefix}${item}`);
-converters.set(
+CONVERTERS.set(TYPES.LowerCase, (acc, item) => item.toLowerCase());
+CONVERTERS.set(TYPES.UpperCase, (acc, item) => item.toUpperCase());
+CONVERTERS.set(TYPES.Prefix, (acc, item, prefix = '') => `${prefix}${item}`);
+SHORTCUTS.set('string', TYPES.Prefix);
+CONVERTERS.set(
   TYPES.Increment,
   (acc, item, increment = 1, start = increment) => start + Object.keys(acc).length * increment
 );
+SHORTCUTS.set('number', TYPES.Increment);
 
 Object.assign(enumerate, TYPES);
 enumerate.isEnum = value => {
