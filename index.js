@@ -110,8 +110,6 @@ const enumerate = (...args) => {
   const [list] = args[0];
   const type = args[1];
 
-  console.log('args', args);
-
   return new Enum(list, type);
 };
 
