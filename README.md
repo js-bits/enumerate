@@ -116,12 +116,16 @@ value3
 `); // Enum { value1: 'VALUE1', value2: 'VALUE2', value3: 'VALUE3' }
 
 console.log(enumerate(Prefix('value|'))`x y z`); // Enum { x: 'value|x', y: 'value|y', z: 'value|z' }
+// or as a shortcut
+console.log(enumerate('value|')`x y z`); // Enum { x: 'value|x', y: 'value|y', z: 'value|z' }
 
 console.log(enumerate(Increment(10))`
 VALUE1
 VALUE2
 VALUE3
 `); // Enum { VALUE1: 10, VALUE2: 20, VALUE3: 30 }
+// or as a shortcut
+console.log(enumerate(10)`VALUE1 VALUE2 VALUE3`); // Enum { VALUE1: 10, VALUE2: 20, VALUE3: 30 }
 
 // the second argument here is a start value (equals to the first argument if not specified)
 console.log(enumerate(Increment(10, 19))`
