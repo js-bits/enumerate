@@ -383,4 +383,57 @@ describe(`enumerate`, () => {
       expect(enumerate.isEnum(object)).toBe(false);
     });
   });
+
+  describe('Custom separator', () => {
+    describe('Symbol converter', () => {
+      const Enum = enumerate(/\s*\n\s*/)`
+        value one
+        value two
+        value three
+      `;
+
+      describe('return object keys', () => {
+        test('should have corresponding symbol values', () => {
+          expect(Object.keys(Enum).length).toEqual(3);
+          expect(typeof Enum['value one']).toEqual('symbol');
+          expect(Enum['value one']).not.toBe(Symbol.for('value one'));
+          expect(typeof Enum['value two']).toEqual('symbol');
+          expect(Enum['value two']).not.toBe(Symbol.for('value two'));
+          expect(typeof Enum['value three']).toEqual('symbol');
+          expect(Enum['value three']).not.toBe(Symbol.for('OPTION3'));
+
+          expect(`${Enum}`).toEqual('[object Enum:value one,value two,value three]');
+        });
+      });
+
+      test('toJSON', () => {
+        expect(() => JSON.stringify(Enum)).toThrow('Cannot convert enum to JSON');
+      });
+    });
+
+    describe('String converter', () => {
+      const Enum = enumerate(String, /\s*\n\s*/)`
+      value one
+      value two
+      value three
+    `;
+
+      describe('return object keys', () => {
+        test('should have corresponding string values', () => {
+          expect({ ...Enum }).toEqual({
+            'value one': 'value one',
+            'value two': 'value two',
+            'value three': 'value three',
+          });
+          expect(`${Enum}`).toEqual('[object Enum:value one,value two,value three]');
+        });
+      });
+
+      test('toJSON', () => {
+        expect(JSON.stringify(Enum)).toEqual(
+          '{"value one":"value one","value two":"value two","value three":"value three"}'
+        );
+      });
+    });
+  });
 });

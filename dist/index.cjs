@@ -30,8 +30,10 @@ CONVERTERS.set(Symbol, (acc, item) => Symbol(item));
 CONVERTERS.set(Symbol.for, (acc, item) => Symbol.for(item));
 CONVERTERS.set(Number, acc => Object.keys(acc).length);
 
+const DEFAULT_SEPARATOR = /[\s\n,]+/;
+
 class Enum {
-  constructor(list, type = Symbol) {
+  constructor(list, type = Symbol, separator = DEFAULT_SEPARATOR) {
     let inputType = type;
     let enumType = type;
     let enumArgs = [];
@@ -55,7 +57,7 @@ class Enum {
     } else {
       converter = enumType;
     }
-    const values = list.trim().split(/[\s\n,]+/);
+    const values = list.trim().split(separator);
     const result = values.reduce(converter, this);
 
     if (result !== this) {
@@ -95,24 +97,29 @@ class Enum {
   }
 }
 
+const isRegExp = value => value instanceof RegExp;
+
 const enumerate = (...args) => {
-  if (args.length > 2) {
+  if (args.length > 3 || (Array.isArray(args[0]) && args[0].length > 1)) {
     throw new Error('Invalid arguments');
   }
 
-  if (!Array.isArray(args[0]) || args[0].length > 1) {
-    if (args.length !== 1) {
+  if (!Array.isArray(args[0])) {
+    let [type, separator] = args;
+    if (args.length >= 2 && !isRegExp(separator)) {
       throw new Error('Invalid arguments');
     }
 
-    const [type] = args;
-    return (...rest) => enumerate(...rest, type);
+    if (separator === undefined && isRegExp(type)) {
+      separator = type;
+      type = undefined;
+    }
+    return (...rest) => enumerate(...rest, type, separator);
   }
 
-  const [list] = args[0];
-  const type = args[1];
+  const [[list], type, separator] = args;
 
-  return new Enum(list, type);
+  return new Enum(list, type, separator);
 };
 
 // dynamically created types
