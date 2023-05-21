@@ -12,15 +12,19 @@ export type TrimRight<Str, Spacer extends string = ' '> = Str extends `${infer P
 
 export type Trim<Str> = TrimLeft<TrimRight<Str>>;
 
+export type AppendToArray<
+  A extends string[],
+  Item extends string,
+  NoEmpty extends boolean = false
+> = NoEmpty extends true ? (Item extends '' ? A : [...A, Item]) : [...A, Item];
+
 export type Split<
-  Str,
+  Str extends string,
   Spacer extends string = '\n',
+  NoEmpty extends boolean = false,
   A extends string[] = []
 > = Str extends `${infer PartA}${Spacer}${infer PartB}`
-  ? Split<Trim<PartB>, Spacer, [...A, Trim<PartA>]>
-  : [...A, Trim<Str>];
+  ? Split<Trim<PartB>, Spacer, NoEmpty, AppendToArray<A, Trim<PartA>, NoEmpty>>
+  : AppendToArray<A, Trim<Str>, NoEmpty>;
 
 export type Unique<T extends string[]> = NotEmptyString<T[number]>;
-
-// type notEmpty<A extends unknown[]> = A['length'] extends 0 ? false : true;
-// type arr = notEmpty<[]>;

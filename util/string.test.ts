@@ -36,7 +36,10 @@ const test_splitNewLine3: Split<`
 `> = ['', 'a', 'b', 'c', ''];
 
 const test_splitSpace1: Split<'a b c', ' '> = ['a', 'b', 'c'];
-const test_splitSpace2: Split<' a b c ', ' '> = ['', 'a', 'b', 'c'];
+const test_splitSpace2: Split<'   a b c  ', ' '> = ['', 'a', 'b', 'c'];
+
+const test_splitNoEmpty1: Split<'\na\nb\nc\n', '\n', true> = ['a', 'b', 'c'];
+const test_splitNoEmpty2: Split<'   a b c   ', ' ', true> = ['a', 'b', 'c'];
 
 const test_SplitSingleLineLimits21: Split<SINGLE_LINE_LIST, ' '>[10] = 'OPTION011';
 // @ts-expect-error
@@ -49,11 +52,11 @@ const test_SplitMultiLineLimits21: Split<MULTI_LINE_LIST>[10] = 'OPTION010';
 // @ts-expect-error
 const test_SplitMultiLineLimits22: Split<MULTI_LINE_LIST>[10] = 'OPTION011'; // ERROR: Type '"OPTION011"' is not assignable to type '"OPTION010"'.ts(2322)
 const test_SplitMultiLineLimits3: Split<MULTI_LINE_LIST>[100] = 'OPTION100';
-const test_SplitMultiLineLimits4: Split<MULTI_LINE_LIST>[998] = 'OPTION998';
-const test_SplitMultiLineLimits5: Split<MULTI_LINE_LIST>[999] = '';
+const test_SplitMultiLineLimits4: Split<MULTI_LINE_LIST>[997] = 'OPTION997';
+const test_SplitMultiLineLimits5: Split<MULTI_LINE_LIST>[998] = '';
 
 const test_SplitUnionLimits1: Unique<Split<MULTI_LINE_LIST>> = 'OPTION010';
-const test_SplitUnionLimits2: Unique<Split<MULTI_LINE_LIST>> = 'OPTION998';
+const test_SplitUnionLimits2: Unique<Split<MULTI_LINE_LIST>> = 'OPTION997';
 // @ts-expect-error
 const test_SplitUnionLimits3: Unique<Split<MULTI_LINE_LIST>> = 'OPTION999';
 // @ts-expect-error
