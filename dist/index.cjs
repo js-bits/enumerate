@@ -1,5 +1,7 @@
 'use strict';
 
+// @ts-check
+
 /* eslint-disable max-classes-per-file */
 const CONVERTERS = new Map();
 const SHORTCUTS = new Map();
@@ -33,6 +35,9 @@ CONVERTERS.set(Number, acc => Object.keys(acc).length);
 const DEFAULT_SEPARATOR = /[\s\n,]+/;
 
 class Enum {
+  /**
+   * @type {EnumConstructor}
+   */
   constructor(list, type = Symbol, separator = DEFAULT_SEPARATOR) {
     let inputType = type;
     let enumType = type;
@@ -99,6 +104,9 @@ class Enum {
 
 const isRegExp = value => value instanceof RegExp;
 
+/**
+ * @type { EnumerateFunction }
+ */
 const enumerate = (...args) => {
   if (args.length > 3 || (Array.isArray(args[0]) && args[0].length > 1)) {
     throw new Error('Invalid arguments');
@@ -123,13 +131,16 @@ const enumerate = (...args) => {
 };
 
 // dynamically created types
-const TYPES = enumerate(Function)`
-LowerCase
-UpperCase
-Prefix
-Increment
-`;
+const TYPES = enumerate(Function)([
+  `
+  LowerCase
+  UpperCase
+  Prefix
+  Increment
+  `,
+]);
 
+new Enum('a b c');
 CONVERTERS.set(TYPES.LowerCase, (acc, item) => item.toLowerCase());
 CONVERTERS.set(TYPES.UpperCase, (acc, item) => item.toUpperCase());
 CONVERTERS.set(TYPES.Prefix, (acc, item, prefix = '') => `${prefix}${item}`);
@@ -141,6 +152,7 @@ CONVERTERS.set(
 SHORTCUTS.set('number', TYPES.Increment);
 
 Object.assign(enumerate, TYPES);
+
 enumerate.isEnum = value => {
   try {
     return typeof value === 'object' && value !== null && value[IS_ENUM_FLAG] === true;
@@ -148,6 +160,10 @@ enumerate.isEnum = value => {
     return false;
   }
 };
+
+enumerate.ts = (...args) => new Enum(...args);
+
+enumerate.isEnum(124);
 
 // TODO: serialize/deserialize, toJSON, toString
 
