@@ -122,6 +122,7 @@ const enumerate = (...args) => {
       separator = type;
       type = undefined;
     }
+
     return (...rest) => enumerate(...rest, type, separator);
   }
 
@@ -130,17 +131,19 @@ const enumerate = (...args) => {
   return new Enum(list, type, separator);
 };
 
+enumerate.ts = (...args) => new Enum(...args);
+
 // dynamically created types
-const TYPES = enumerate(Function)([
+const TYPES = enumerate.ts(
   `
   LowerCase
   UpperCase
   Prefix
   Increment
-  `,
-]);
+`,
+  Function
+);
 
-new Enum('a b c');
 CONVERTERS.set(TYPES.LowerCase, (acc, item) => item.toLowerCase());
 CONVERTERS.set(TYPES.UpperCase, (acc, item) => item.toUpperCase());
 CONVERTERS.set(TYPES.Prefix, (acc, item, prefix = '') => `${prefix}${item}`);
@@ -151,7 +154,7 @@ CONVERTERS.set(
 );
 SHORTCUTS.set('number', TYPES.Increment);
 
-Object.assign(enumerate, TYPES);
+const enumerate2 = Object.assign(enumerate, TYPES);
 
 enumerate.isEnum = value => {
   try {
@@ -161,10 +164,6 @@ enumerate.isEnum = value => {
   }
 };
 
-enumerate.ts = (...args) => new Enum(...args);
-
-enumerate.isEnum(124);
-
 // TODO: serialize/deserialize, toJSON, toString
 
-module.exports = enumerate;
+module.exports = enumerate2;

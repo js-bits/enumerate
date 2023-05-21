@@ -56,11 +56,13 @@
     "projects": [
       {
         "displayName": "node",
-        "testEnvironment": "node"
+        "testEnvironment": "node",
+        "testRegex": "(\\.|/)(test|spec)\\.[j]sx?$"
       },
       {
         "displayName": "jsdom",
-        "testEnvironment": "jsdom"
+        "testEnvironment": "jsdom",
+        "testRegex": "(\\.|/)(test|spec)\\.[j]sx?$"
       }
     ]
   }
