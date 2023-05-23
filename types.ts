@@ -1,5 +1,5 @@
-import { Add, Multiply, ParseInt } from './util/number';
-import { Split, Unique } from './util/string';
+import { Add, Multiply, ParseInt } from './util/number.ts';
+import { Split, Unique } from './util/string.ts';
 
 export type EnumValues<Str extends string, NoEmpty extends boolean = true> = Str extends `${infer Left}\n${infer Right}`
   ? Split<Str, '\n', NoEmpty>
@@ -24,7 +24,7 @@ type Modifier =
   | LowerCase
   | UpperCase
   | Prefix;
-type SymbolValue<Type extends Modifier> = Type extends SymbolConstructor ? Symbol : never;
+type SymbolValue<Type extends Modifier> = Type extends SymbolConstructor ? symbol : never;
 type NumberValue<
   Type extends Modifier,
   Key extends string,
@@ -80,7 +80,7 @@ export type EnumType<
   Type extends Modifier = SymbolConstructor,
   Values extends string[] = EnumValues<Options>
 > = {
-  [Key in EnumKeys<Values>]: EnumValues2<Type, Key, Values>;
+  readonly [Key in EnumKeys<Values>]: EnumValues2<Type, Key, Values>;
 };
 
 export type EnumConstructor = <Options extends string, Type extends Modifier = SymbolConstructor>(
@@ -90,16 +90,17 @@ export type EnumConstructor = <Options extends string, Type extends Modifier = S
 ) => EnumType<Options, Type>;
 
 export interface Enumable {
-  new (list: String, type: unknown, separator: RegExp | String): boolean;
-  toJSON: () => {};
+  new (list: string, type: unknown, separator: RegExp | string): boolean;
+  toJSON: () => object;
 }
 
-class Enum implements Enumable {
-  constructor(list: string, type = Symbol, separator: RegExp = /123/): boolean {
-    //sdfs
-  }
-  toJSON: () => {};
-}
+// class Enum implements Enumable {
+//   constructor(list: string, type = Symbol, separator = /123/): boolean {
+//     // sdfs
+//   }
+
+//   toJSON: () => {};
+// }
 
 export type EnumerateFunction = {
   /**
