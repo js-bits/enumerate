@@ -643,20 +643,20 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@js-bits/eslint-config@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@js-bits/eslint-config/-/eslint-config-1.0.1.tgz#d97f0c5279a9aea71a89844c3a0063d5f8d5d012"
-  integrity sha512-FDwlllWNcg+Uy7fVw6BjcRBp7hXjJV9NrhZbb/UMTWu9dKL23wsSlPwsqUPAS0VYsjXEOOCTfa1WqsC1c9C7FA==
+"@js-bits/eslint-config@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@js-bits/eslint-config/-/eslint-config-1.0.2.tgz#7ac4c6bf5efabaf25a4bc9a0179771d9f6b6dc2b"
+  integrity sha512-ueFQO1S5Yxm6a8cfEB5L2RJumYBH8XK2KENPBECu8KGyU3he54RItRGSmCEIIPPlhyUn+zSSlmH17XPcILWgJQ==
 
-"@js-bits/formalinter@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@js-bits/formalinter/-/formalinter-1.0.0.tgz#2f5745efea4e8636e9a606042a42fb7b86955ca3"
-  integrity sha512-zQMga9Q8gYXYR5rhkBXgyfDNjVZ3nI/ZTIjGhXndKwY9S/1ne2+NZ66t4YnNioxr4URrDEAj+/fXdE+DNRi2Tw==
+"@js-bits/formalinter@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@js-bits/formalinter/-/formalinter-1.0.1.tgz#aa981fc068d035193ab1556efc88a6a3e790c25b"
+  integrity sha512-tr10lBtXJnnnLXgtltqoSfbQQhn8MEoWcBSBsF26uZFoeRwFFl6JS10qG5TgwF+yDUyL2xLOYukB/l201t1ssQ==
   dependencies:
     "@babel/core" "^7.21.8"
     "@babel/eslint-parser" "^7.21.8"
     "@babel/preset-react" "^7.18.6"
-    "@js-bits/eslint-config" "^1.0.1"
+    "@js-bits/eslint-config" "^1.0.2"
     "@typescript-eslint/eslint-plugin" "^5.59.7"
     "@typescript-eslint/parser" "^5.59.7"
     eslint "^8.41.0"
