@@ -27,7 +27,7 @@
     "test-cjs": "jest --verbose",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose",
     "test-watch": "yarn test --watch",
-    "lint": "eslint '**/*.{js,jsx}'",
+    "lint": "eslint '**/*.{js,jsx,ts,tsx}'",
     "build": "rollup ./index.js --format cjs --file dist/index.cjs --exports default",
     "prepare": "husky install"
   },
