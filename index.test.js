@@ -2,7 +2,7 @@ import enumerate from './index.js';
 
 const { LowerCase, UpperCase, Prefix, Increment } = enumerate;
 
-describe(`enumerate`, () => {
+describe('enumerate', () => {
   const Episode = enumerate`
     NEW_HOPE
     EMPIRE
