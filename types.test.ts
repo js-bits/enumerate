@@ -1,5 +1,10 @@
-import { EnumKeys, EnumType } from './types';
+import { EnumEntries, EnumKeys, EnumMap, EnumType, EnumValues } from './types';
 import enumerate from './index';
+
+type xx = EnumValues<'   a b c   '>;
+type zzz = EnumEntries<EnumValues<' a b b c '>>;
+
+type zzzz = EnumMap<['a', 0] | ['b', 1]>;
 
 type SingleLineOptions = EnumKeys<'  OPTION1   OPTION2   OPTION3  '>;
 let sl_op: SingleLineOptions;
@@ -21,7 +26,7 @@ ml_op = 'Option3';
 // @ts-expect-error
 ml_op = 'Option4'; // ERROR: Type '"OPTION4"' is not assignable to type '"OPTION1" | "OPTION2" | "OPTION3"'. Did you mean '"OPTION1"'?
 
-type x = EnumKeys<`   OPTION1  OPTION2  OPTION3   `>;
+type x = EnumKeys<'   OPTION1  OPTION2  OPTION3   '>;
 // type st = TrimLeft
 type zz = EnumType<
   `
@@ -76,10 +81,6 @@ d
 `,
   NumberConstructor
 >;
-
-(z: x) => {
-  // z.OPTION1.to;
-};
 
 type GetString<Str> = Str extends string ? `${Str}` : never;
 type F<T> = T extends string[] ? T[number] : never;
@@ -144,3 +145,13 @@ funcEnumUpper.a === 'A';
 
 const funcEnumPrefix = enumerate.ts('a b c', enumerate.Prefix('prefix:'));
 funcEnumPrefix.a === 'prefix:a';
+
+const numberEnum1 = enumerate.ts('a b c', Number);
+numberEnum1.a === 0;
+numberEnum1.b === 1;
+numberEnum1.c === 2;
+
+const numberEnum2 = enumerate.ts('a b c', 9999);
+numberEnum2.a === 9999;
+numberEnum2.b === 19998;
+numberEnum2.c === 29997;

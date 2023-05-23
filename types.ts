@@ -1,11 +1,11 @@
-import { Increment, ParseInt } from './util/number';
-import { NotEmptyString, Split, Unique } from './util/string';
+import { Add, Multiply, ParseInt } from './util/number';
+import { Split, Unique } from './util/string';
 
-export type EnumValues<Str extends string> = Str extends `${infer Left}\n${infer Right}`
-  ? Split<Str, '\n', true>
-  : Split<Str, ' ', true>;
+export type EnumValues<Str extends string, NoEmpty extends boolean = true> = Str extends `${infer Left}\n${infer Right}`
+  ? Split<Str, '\n', NoEmpty>
+  : Split<Str, ' ', NoEmpty>;
 
-export type EnumKeys<Str extends string> = Unique<EnumValues<Str>>;
+export type EnumKeys<Values extends string[]> = Unique<Values>;
 
 type FunctionType<Key extends string> = {
   readonly name: Key;
@@ -20,13 +20,17 @@ type Modifier =
   | NumberConstructor
   | FunctionConstructor
   | string
+  | number
   | LowerCase
   | UpperCase
   | Prefix;
 type SymbolValue<Type extends Modifier> = Type extends SymbolConstructor ? Symbol : never;
-type NumberValue<Type extends Modifier, Index extends number> = Type extends NumberConstructor
-  ? Increment<Index>
-  : never;
+type NumberValue<
+  Type extends Modifier,
+  Key extends string,
+  Values extends string[],
+  Map extends EnumMapable = EnumMap<ArrayToUnion<EnumEntries<Values>>>
+> = Type extends NumberConstructor ? Map[Key] : Type extends number ? Add<Type, Multiply<Map[Key], Type>> : never;
 type StringValue<Type extends Modifier, Key extends string> = Type extends StringConstructor
   ? Key
   : Type extends string
@@ -41,35 +45,42 @@ type FunctionValue<Type extends Modifier, Key extends string> = Type extends Fun
   ? Uppercase<Key>
   : never;
 
-export type EnumValues2<Type extends Modifier, Key extends string, Index extends number = 0> =
+export type EnumValues2<Type extends Modifier, Key extends string, Values extends string[]> =
   | SymbolValue<Type>
   | StringValue<Type, Key>
-  | NumberValue<Type, Index>
+  | NumberValue<Type, Key, Values>
   | FunctionValue<Type, Key>;
 
-type x = EnumValues<'   a b c   '>;
-export type EnumEntries<Options extends string, Values = EnumValues<Options>> = {
+export type EnumEntries<Values> = {
   [Index in keyof Values]: [Values[Index], ParseInt<Index>];
 };
-type zzz = EnumEntries<' a b c '>;
+
 export type EnumMap<Entries extends [string, number]> = {
   [Entry in Entries as Entry[0]]: Entry[1];
 };
-type zz = EnumMap<['a', 0] | ['b', 1]>;
-export type Unique2<T extends [string, number][]> = T[number]; // NotEmptyString<T[number]>
 
-export type Unique22<Entries extends [number, string]> = {
-  [Entry in Entries as Entry[1]]: Entry[0];
-};
+export type ArrayToUnion<T extends any[]> = T[number];
 
-type n = Unique2<[['a', 0], ['b', 1]]>;
-type z = EnumMap<Unique2<EnumEntries<' a b c '>>>;
+type n = ArrayToUnion<[['a', 0], ['b', 1]]>;
+type z = EnumMap<ArrayToUnion<EnumEntries<EnumValues<' a b b c '>>>>;
 type IndexOf<I extends keyof z> = z[I];
 type yyy = IndexOf<'c'>;
 
-export type EnumType<Options extends string, Type extends Modifier = SymbolConstructor> = {
-  [Key in EnumKeys<Options>]: EnumValues2<Type, Key>;
-  // [Index: number]: Index;
+type rrr = ['a', 'b'];
+type R<N extends number> = rrr[N];
+
+type rr = R<1 | 0>;
+
+interface EnumMapable {
+  [key: string]: number;
+}
+
+export type EnumType<
+  Options extends string,
+  Type extends Modifier = SymbolConstructor,
+  Values extends string[] = EnumValues<Options>
+> = {
+  [Key in EnumKeys<Values>]: EnumValues2<Type, Key, Values>;
 };
 
 export type EnumConstructor = <Options extends string, Type extends Modifier = SymbolConstructor>(
