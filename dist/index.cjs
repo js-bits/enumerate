@@ -1,7 +1,5 @@
 'use strict';
 
-// @ts-check
-
 /* eslint-disable max-classes-per-file */
 const CONVERTERS = new Map();
 const SHORTCUTS = new Map();

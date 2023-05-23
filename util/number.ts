@@ -7,6 +7,10 @@ export type Increment<Start extends number = 0, Inc extends number = 1> = Length
   [...BuildTuple<Inc>, ...BuildTuple<Start>]
 >;
 
+// https://github.com/microsoft/TypeScript/pull/48094
+// requires TypeScript 4.8+
+export type ParseInt<T> = T extends `${infer N extends number}` ? N : never
+
 type x = Increment<5>;
 
 type s = '123';

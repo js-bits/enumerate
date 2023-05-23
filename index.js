@@ -31,6 +31,9 @@ CONVERTERS.set(Number, acc => Object.keys(acc).length);
 const DEFAULT_SEPARATOR = /[\s\n,]+/;
 
 class Enum {
+  /**
+   * @type {EnumConstructor}
+   */
   constructor(list, type = Symbol, separator = DEFAULT_SEPARATOR) {
     let inputType = type;
     let enumType = type;
@@ -97,6 +100,9 @@ class Enum {
 
 const isRegExp = value => value instanceof RegExp;
 
+/**
+ * @type { EnumerateFunction }
+ */
 const enumerate = (...args) => {
   if (args.length > 3 || (Array.isArray(args[0]) && args[0].length > 1)) {
     throw new Error('Invalid arguments');
@@ -112,6 +118,7 @@ const enumerate = (...args) => {
       separator = type;
       type = undefined;
     }
+
     return (...rest) => enumerate(...rest, type, separator);
   }
 
@@ -120,13 +127,18 @@ const enumerate = (...args) => {
   return new Enum(list, type, separator);
 };
 
+enumerate.ts = (...args) => new Enum(...args);
+
 // dynamically created types
-const TYPES = enumerate(Function)`
-LowerCase
-UpperCase
-Prefix
-Increment
-`;
+const TYPES = enumerate.ts(
+  `
+  LowerCase
+  UpperCase
+  Prefix
+  Increment
+`,
+  Function
+);
 
 CONVERTERS.set(TYPES.LowerCase, (acc, item) => item.toLowerCase());
 CONVERTERS.set(TYPES.UpperCase, (acc, item) => item.toUpperCase());
@@ -138,7 +150,8 @@ CONVERTERS.set(
 );
 SHORTCUTS.set('number', TYPES.Increment);
 
-Object.assign(enumerate, TYPES);
+const enumerate2 = Object.assign(enumerate, TYPES);
+
 enumerate.isEnum = value => {
   try {
     return typeof value === 'object' && value !== null && value[IS_ENUM_FLAG] === true;
@@ -147,6 +160,6 @@ enumerate.isEnum = value => {
   }
 };
 
-export default enumerate;
+export default enumerate2;
 
 // TODO: serialize/deserialize, toJSON, toString

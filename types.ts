@@ -1,9 +1,11 @@
-import { Increment } from './util/number';
-import { Split, Unique } from './util/string';
+import { Increment, ParseInt } from './util/number';
+import { NotEmptyString, Split, Unique } from './util/string';
 
-export type EnumKeys<Str extends string> = Unique<
-  Str extends `${infer Left}\n${infer Right}` ? Split<Str, '\n'> : Split<Str, ' '>
->;
+export type EnumValues<Str extends string> = Str extends `${infer Left}\n${infer Right}`
+  ? Split<Str, '\n', true>
+  : Split<Str, ' ', true>;
+
+export type EnumKeys<Str extends string> = Unique<EnumValues<Str>>;
 
 type FunctionType<Key extends string> = {
   readonly name: Key;
@@ -39,14 +41,35 @@ type FunctionValue<Type extends Modifier, Key extends string> = Type extends Fun
   ? Uppercase<Key>
   : never;
 
-export type EnumValues<Type extends Modifier, Key extends string, Index extends number = 0> =
+export type EnumValues2<Type extends Modifier, Key extends string, Index extends number = 0> =
   | SymbolValue<Type>
   | StringValue<Type, Key>
   | NumberValue<Type, Index>
   | FunctionValue<Type, Key>;
 
+type x = EnumValues<'   a b c   '>;
+export type EnumEntries<Options extends string, Values = EnumValues<Options>> = {
+  [Index in keyof Values]: [Values[Index], ParseInt<Index>];
+};
+type zzz = EnumEntries<' a b c '>;
+export type EnumMap<Entries extends [string, number]> = {
+  [Entry in Entries as Entry[0]]: Entry[1];
+};
+type zz = EnumMap<['a', 0] | ['b', 1]>;
+export type Unique2<T extends [string, number][]> = T[number]; // NotEmptyString<T[number]>
+
+export type Unique22<Entries extends [number, string]> = {
+  [Entry in Entries as Entry[1]]: Entry[0];
+};
+
+type n = Unique2<[['a', 0], ['b', 1]]>;
+type z = EnumMap<Unique2<EnumEntries<' a b c '>>>;
+type IndexOf<I extends keyof z> = z[I];
+type yyy = IndexOf<'c'>;
+
 export type EnumType<Options extends string, Type extends Modifier = SymbolConstructor> = {
-  [Key in EnumKeys<Options>]: EnumValues<Type, Key>;
+  [Key in EnumKeys<Options>]: EnumValues2<Type, Key>;
+  // [Index: number]: Index;
 };
 
 export type EnumConstructor = <Options extends string, Type extends Modifier = SymbolConstructor>(

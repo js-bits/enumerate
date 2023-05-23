@@ -81,8 +81,6 @@ d
   // z.OPTION1.to;
 };
 
-
-
 type GetString<Str> = Str extends string ? `${Str}` : never;
 type F<T> = T extends string[] ? T[number] : never;
 type Flatten<Type> = Type extends Array<infer Item> ? Item : Type;
@@ -112,7 +110,6 @@ let func3: Func3;
 // z2.
 
 const defaultEnum = enumerate.ts('a b c');
-defaultEnum.
 typeof defaultEnum.a.description === 'string';
 // @ts-expect-error
 typeof defaultEnum.a.replace === 'function';
@@ -140,10 +137,10 @@ prefixEnum.b === 'prefix|b';
 prefixEnum.c === 'prefix|x';
 
 const funcEnumLower = enumerate.ts('A B C', enumerate.LowerCase);
-funcEnumLower.A === 'a'
+funcEnumLower.A === 'a';
 
 const funcEnumUpper = enumerate.ts('a b c', enumerate.UpperCase);
-funcEnumUpper.a === 'A'
+funcEnumUpper.a === 'A';
 
 const funcEnumPrefix = enumerate.ts('a b c', enumerate.Prefix('prefix:'));
-funcEnumPrefix.a === 'prefix:a'
+funcEnumPrefix.a === 'prefix:a';
