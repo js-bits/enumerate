@@ -92,7 +92,7 @@ class Enum {
     return Object.keys(this).reduce((acc, key) => {
       const value = this[key];
       if (JSON.stringify(value) === undefined) {
-        throw new Error(`Cannot convert enum to JSON`);
+        throw new Error('Cannot convert enum to JSON');
       }
       acc[key] = value;
       return acc;
