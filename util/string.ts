@@ -1,5 +1,9 @@
 // INSPIRATION: https://lihautan.com/extract-parameters-type-from-string-literal-types-with-typescript/
 
+/**
+ * Required Typescript 4.5+
+ */
+
 export type NotEmptyString<Str> = Str extends '' ? never : Str;
 
 export type TrimLeft<Str, Spacer extends string = ' '> = Str extends `${Spacer}${infer Part}`

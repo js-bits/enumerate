@@ -1,6 +1,6 @@
 // 999 spaces per one side untill "Type instantiation is excessively deep and possibly infinite." error
 // https://github.com/microsoft/TypeScript/pull/45711
-// Tested on TypeScript 5.0.4
+// Tested on TypeScript 4.5.5 - 5.0.4
 export type SINGLE_LINE_LONG_STRING =
   '                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       string                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ';
 
@@ -9,7 +9,7 @@ export type SINGLE_LINE_LIST =
 
 // 997 lines (999 minus the trailing new line characters)
 // untill "Type instantiation is excessively deep and possibly infinite." error
-// Tested on TypeScript 5.0.4
+// Tested on TypeScript 4.5.5 - 5.0.4
 export type MULTI_LINE_LIST = `
   OPTION001
   OPTION002
