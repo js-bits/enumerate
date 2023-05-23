@@ -1,5 +1,6 @@
-import { Add, Multiply, ParseInt } from './util/number.ts';
-import { Split, Unique } from './util/string.ts';
+/* eslint-disable import/extensions */
+import { Add, Multiply, ParseInt } from './util/number';
+import { Split, Unique } from './util/string';
 
 export type EnumValues<Str extends string, NoEmpty extends boolean = true> = Str extends `${infer Left}\n${infer Right}`
   ? Split<Str, '\n', NoEmpty>

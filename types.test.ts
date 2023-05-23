@@ -1,6 +1,5 @@
-/* eslint-disable no-unused-expressions */
-/* eslint-disable camelcase */
-import { EnumEntries, EnumKeys, EnumMap, EnumType, EnumValues } from './types.ts';
+/* eslint-disable import/extensions, no-unused-expressions, camelcase */
+import { EnumEntries, EnumKeys, EnumMap, EnumType, EnumValues } from './types';
 import enumerate from './index.js';
 
 type xx = EnumValues<'   a b c   '>;
