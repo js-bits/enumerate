@@ -1,20 +1,27 @@
 /* eslint-disable import/extensions */
-import { Add, Multiply, ParseInt } from './util/number';
-import { Split, Unique } from './util/string';
+import Split = StringUtils.Split;
+import Unique = StringUtils.Unique;
+import Add = MathUtils.Add;
+import Multiply = MathUtils.Multiply;
+import ParseInt = MathUtils.Parse;
 
-export type EnumValues<Str extends string, NoEmpty extends boolean = true> = Str extends `${infer Left}\n${infer Right}`
+type EnumValues<Str extends string, NoEmpty extends boolean = true> = Str extends `${infer Left}\n${infer Right}`
   ? Split<Str, '\n', NoEmpty>
   : Split<Str, ' ', NoEmpty>;
 
-export type EnumKeys<Values extends string[]> = Unique<Values>;
+type EnumKeys<Values extends string[]> = Unique<Values>;
 
-type FunctionType<Key extends string> = {
+type ModifierType<Key extends string> = {
   readonly name: Key;
-  <Str>(value: Str): Key extends 'Prefix' ? (Str extends string ? Str : void) : void;
+  <Prefix extends string>(value: Prefix): Key extends 'Prefix' ? Prefix : void;
+  <Increment extends number>(inc: Increment): Key extends 'Increment' ? Increment : void;
+  <Increment extends number, Start extends number>(inc: Increment, start: Start): Key extends 'Increment'
+    ? Increment
+    : void;
 };
-type LowerCase = FunctionType<'LowerCase'>;
-type UpperCase = FunctionType<'UpperCase'>;
-type Prefix = FunctionType<'Prefix'>;
+type LowerCase = ModifierType<'LowerCase'>;
+type UpperCase = ModifierType<'UpperCase'>;
+type Prefix = ModifierType<'Prefix'>;
 type Modifier =
   | SymbolConstructor
   | StringConstructor
@@ -39,28 +46,28 @@ type StringValue<Type extends Modifier, Key extends string> = Type extends Strin
   : never;
 
 type FunctionValue<Type extends Modifier, Key extends string> = Type extends FunctionConstructor
-  ? FunctionType<Key>
+  ? ModifierType<Key>
   : Type extends LowerCase
   ? Lowercase<Key>
   : Type extends UpperCase
   ? Uppercase<Key>
   : never;
 
-export type EnumValues2<Type extends Modifier, Key extends string, Values extends string[]> =
+type EnumValues2<Type extends Modifier, Key extends string, Values extends string[]> =
   | SymbolValue<Type>
   | StringValue<Type, Key>
   | NumberValue<Type, Key, Values>
   | FunctionValue<Type, Key>;
 
-export type EnumEntries<Values> = {
+type EnumEntries<Values extends string[]> = {
   [Index in keyof Values]: [Values[Index], ParseInt<Index>];
 };
 
-export type EnumMap<Entries extends [string, number]> = {
+type EnumMap<Entries extends [string, number]> = {
   [Entry in Entries as Entry[0]]: Entry[1];
 };
 
-export type ArrayToUnion<T extends any[]> = T[number];
+type ArrayToUnion<T extends any[]> = T[number];
 
 type n = ArrayToUnion<[['a', 0], ['b', 1]]>;
 type z = EnumMap<ArrayToUnion<EnumEntries<EnumValues<' a b b c '>>>>;
@@ -76,7 +83,7 @@ interface EnumMapable {
   [key: string]: number;
 }
 
-export type EnumType<
+type EnumType<
   Options extends string,
   Type extends Modifier = SymbolConstructor,
   Values extends string[] = EnumValues<Options>
@@ -84,13 +91,13 @@ export type EnumType<
   readonly [Key in EnumKeys<Values>]: EnumValues2<Type, Key, Values>;
 };
 
-export type EnumConstructor = <Options extends string, Type extends Modifier = SymbolConstructor>(
+type EnumConstructor = <Options extends string, Type extends Modifier = SymbolConstructor>(
   list: Options,
   type?: Type,
   separator?: RegExp | string
 ) => EnumType<Options, Type>;
 
-export interface Enumable {
+interface Enumable {
   new (list: string, type: unknown, separator: RegExp | string): boolean;
   toJSON: () => object;
 }
@@ -103,7 +110,7 @@ export interface Enumable {
 //   toJSON: () => {};
 // }
 
-export type EnumerateFunction = {
+type EnumerateFunction = {
   /**
    * Description
    */

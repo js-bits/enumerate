@@ -1,8 +1,11 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "allowImportingTsExtensions": true,
-    "typeRoots": ["./typings"]
+    "checkJs": true,
+    // "allowImportingTsExtensions": true,
+    // "noEmit": true,
+    "typeRoots": ["./node_modules/@types", "./node_modules/@js-bits/typedef-utils"],
+    "lib": ["ES2023"]
   },
   "exclude": ["node_modules"]
 }

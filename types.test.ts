@@ -1,5 +1,4 @@
 /* eslint-disable import/extensions, no-unused-expressions, camelcase */
-import { EnumEntries, EnumKeys, EnumMap, EnumType, EnumValues } from './types';
 import enumerate from './index';
 
 type xx = EnumValues<'   a b c   '>;
@@ -85,6 +84,10 @@ d
   NumberConstructor
 >;
 
+let zzz: zz;
+
+zzz.c;
+
 type GetString<Str> = Str extends string ? `${Str}` : never;
 type F<T> = T extends string[] ? T[number] : never;
 type Flatten<Type> = Type extends Array<infer Item> ? Item : Type;
@@ -160,3 +163,13 @@ const numberEnum2 = enumerate.ts('a b c', 9999);
 numberEnum2.a === 9999;
 numberEnum2.b === 19998;
 numberEnum2.c === 29997;
+
+const numberEnum3 = enumerate.ts('a b c', enumerate.Increment(10));
+numberEnum3.a === 10;
+numberEnum3.b === 20;
+numberEnum3.c === 30;
+
+const numberEnum4 = enumerate.ts('a b c', enumerate.Increment(10, 50));
+numberEnum4.a === 10;
+numberEnum4.b === 20;
+numberEnum4.c === 30;
