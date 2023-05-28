@@ -1,34 +1,22 @@
 /* eslint-disable import/extensions, no-unused-expressions, camelcase, @typescript-eslint/no-unused-vars */
 import enumerate from '../index';
 
-type xx = EnumValues<'   a b c   '>;
-type zzz = EnumEntries<EnumValues<' a b b c '>>;
+type xx = EnumKeys<'   a b c   '>;
+type zzz = Index<EnumKeys<' a b b c '>>;
 
-type zzzz = EnumMap<['a', 0] | ['b', 1]>;
+type zzzz = IndexMap<['a', 0] | ['b', 1]>;
 
-type SingleLineOptions = EnumKeys<EnumValues<'  OPTION1   OPTION2   OPTION3  '>>;
-let sl_op: SingleLineOptions;
-sl_op = 'OPTION1';
-sl_op = 'OPTION2';
-sl_op = 'OPTION3';
-// @ts-expect-error Type '"OPTION4"' is not assignable to type 'SingleLineOptions'. Did you mean '"OPTION1"'?
-sl_op = 'OPTION4';
+type SingleLineOptions = EnumKeys<'  OPTION1   OPTION2   OPTION3  '>;
+const sl_op: SingleLineOptions = ['OPTION1', 'OPTION2', 'OPTION3'];
 
-type MultiLineOptions = EnumKeys<
-  EnumValues<`
+type MultiLineOptions = EnumKeys<`
   Option1
        Option2
             Option3
-`>
->;
-let ml_op: MultiLineOptions;
-ml_op = 'Option1';
-ml_op = 'Option2';
-ml_op = 'Option3';
-// @ts-expect-error Type '"Option4"' is not assignable to type 'MultiLineOptions'. Did you mean '"Option1"'?
-ml_op = 'Option4';
+`>;
+const ml_op: MultiLineOptions = ['Option1', 'Option2', 'Option3'];
 
-type x = EnumKeys<EnumValues<'   OPTION1  OPTION2  OPTION3   '>>;
+type x = EnumKeys<'   OPTION1  OPTION2  OPTION3   '>;
 // type st = TrimLeft
 type zz = EnumType<
   `
@@ -117,6 +105,7 @@ let func3: Func3;
 // z2.
 
 const defaultEnum = enumerate.ts('a b c');
+
 typeof defaultEnum.a.description === 'string';
 // @ts-expect-error Property 'replace' does not exist on type 'symbol'
 typeof defaultEnum.a.replace === 'function';
@@ -174,8 +163,8 @@ numberEnum4.a === 50;
 numberEnum4.b === 60;
 numberEnum4.c === 70;
 
-type n = ArrayToUnion<[['a', 0], ['b', 1]]>;
-type z = EnumMap<ArrayToUnion<EnumEntries<EnumValues<' a b b c '>>>>;
+type n = ToUnion<[['a', 0], ['b', 1]]>;
+type z = IndexMap<ToUnion<Index<EnumKeys<' a b b c '>>>>;
 
 type rrr = ['a', 'b'];
 type R<N extends number> = rrr[N];

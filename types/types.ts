@@ -3,36 +3,22 @@ import Split = StringUtils.Split;
 import Unique = StringUtils.Unique;
 import ParseInt = MathUtils.Parse;
 
-type EnumValues<Str extends string, NoEmpty extends boolean = true> = Str extends `${infer Left}\n${infer Right}`
+type EnumKeys<Str extends string, NoEmpty extends boolean = true> = Str extends `${infer L}\n${infer R}`
   ? StringUtils.Split<Str, '\n', NoEmpty>
   : Split<Str, ' ', NoEmpty>;
 
-type EnumKeys<Values extends string[]> = Unique<Values>;
-
-type EnumValues2<Type extends Modifier, Key extends string, Values extends string[]> =
+type EnumValues<Type extends Modifier, Key extends string, Values extends string[]> =
   | SymbolValue<Type>
   | StringValue<Type, Key>
   | NumberValue<Type, Key, Values>
   | FunctionValue<Type, Key>;
 
-type EnumEntries<Values extends string[]> = {
-  [Index in keyof Values]: [Values[Index], ParseInt<Index>];
-};
-
-type EnumMap<Entries extends [string, number]> = {
-  [Entry in Entries as Entry[0]]: Entry[1];
-};
-
-interface EnumMapable {
-  [key: string]: number;
-}
-
 type EnumType<
   Options extends string,
   Type extends Modifier = SymbolConstructor,
-  Values extends string[] = EnumValues<Options>
+  Keys extends string[] = EnumKeys<Options>
 > = {
-  readonly [Key in EnumKeys<Values>]: EnumValues2<Type, Key, Values>;
+  readonly [Key in Unique<Keys>]: EnumValues<Type, Key, Keys>;
 };
 
 type EnumConstructor = <Options extends string, Type extends Modifier = SymbolConstructor>(

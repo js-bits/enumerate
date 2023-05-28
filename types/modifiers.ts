@@ -2,7 +2,7 @@
 import Add = MathUtils.Add;
 import Multiply = MathUtils.Multiply;
 
-type ArrayToUnion<T extends unknown[]> = T[number];
+type ToUnion<T extends unknown[]> = T[number];
 
 type ModifierType<Key extends string> = {
   readonly name: Key;
@@ -39,17 +39,32 @@ type Modifier =
 
 type SymbolValue<Type extends Modifier> = Type extends SymbolConstructor ? symbol : never;
 
+type Index<Values extends string[], Multiplier extends number = 1> = {
+  [I in keyof Values]: [Values[I], Multiply<I, Multiplier>];
+};
+
+type IndexMap<Entries extends [string, number]> = {
+  [Entry in Entries as Entry[0]]: Entry[1];
+};
+
 type NumberValue<
   Type extends Modifier,
   Key extends string,
   Values extends string[],
-  Map extends EnumMapable = EnumMap<ArrayToUnion<EnumEntries<Values>>>
+  Inc extends number = Type extends NumberConstructor
+    ? 1
+    : Type extends number
+    ? Type
+    : Type extends Increment
+    ? Type['increment']
+    : never,
+  Map extends { [key: string]: number } = IndexMap<ToUnion<Index<Values, Inc>>>
 > = Type extends NumberConstructor
   ? Map[Key]
   : Type extends number
-  ? Add<Type, Multiply<Map[Key], Type>>
+  ? Add<Type, Map[Key]>
   : Type extends Increment
-  ? Add<Type['start'], Multiply<Map[Key], Type['increment']>>
+  ? Add<Type['start'], Map[Key]>
   : never;
 
 type StringValue<Type extends Modifier, Key extends string> = Type extends StringConstructor
