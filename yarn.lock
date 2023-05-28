@@ -676,10 +676,10 @@
   resolved "https://registry.yarnpkg.com/@js-bits/log-in-color/-/log-in-color-0.0.2.tgz#f5e370d5978d7977dbef375b2f66f18b4e564a32"
   integrity sha512-ojDTAqbgW8m24GXUIIKvRUXfusZqzKF4ANIWJMSmvTJB+V8dgbtE3mytJh6oBGhu8HZ1nCJFeNjKQzNV6rAx4g==
 
-"@js-bits/typedef-utils@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@js-bits/typedef-utils/-/typedef-utils-0.0.8.tgz#9bfa95bdef8401c767931ab163c7eb7088968fd9"
-  integrity sha512-9U8y0fXM/JFdjO8LVlt4M7nmAcr4KfOYMcV3j1ndrqiZPB4+pTWdjA7STlSBPYMhxpZeqERt4V5qkPbeUGFPbA==
+"@js-bits/typedef-utils@^0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@js-bits/typedef-utils/-/typedef-utils-0.0.9.tgz#92a3cc4df208e9c0a6128fdeeb4a833ff7fb1ab7"
+  integrity sha512-7QzkRAC+VM0SRtmLqyqIQJzf1ugHT2XI2yauY+SLATzVXt1x+Ds8H5RKAUmQdNtyBM7sz2iey6gayh41uqrJ8A==
 
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
   version "5.1.1-v1"
