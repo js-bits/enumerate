@@ -1,5 +1,5 @@
 /* eslint-disable import/extensions, no-unused-expressions, camelcase */
-import enumerate from './index';
+import enumerate from '../index';
 
 type xx = EnumValues<'   a b c   '>;
 type zzz = EnumEntries<EnumValues<' a b b c '>>;
