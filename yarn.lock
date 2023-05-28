@@ -648,15 +648,16 @@
   resolved "https://registry.yarnpkg.com/@js-bits/eslint-config/-/eslint-config-1.0.3.tgz#cfd341f6f016528838a987ea7c008e7936e75593"
   integrity sha512-jtFNBpj/2YxjMsB5PV6AgFxNhphfZRp6R9fVs8y9jfeN5y4eS8imHeQ9MWnNWqmK6dvgFEmbOejsw3g0ELhFpQ==
 
-"@js-bits/formalinter@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@js-bits/formalinter/-/formalinter-1.0.2.tgz#65117ce0c9e3bfe97b99dde105aa6bb8350937c7"
-  integrity sha512-R0I5R05VQYwPtUapD+9P0i+cy+2EColJBP1mrqCHk2sawW0i5ts9aZiHTxGmxyUqbcueiesnYpku4QikXBDk/w==
+"@js-bits/formalinter@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@js-bits/formalinter/-/formalinter-1.0.3.tgz#51f53e41008e53ae3ff7c7f3187ed562db8ea6d6"
+  integrity sha512-CrDqkSJm+0gXxeOopOATO8hd+/3oPsk7vCNiDFtF6enjDdhIeZe4Sg+dO1jFpy+9wP4uOkeZaTzXbZeHoZoanw==
   dependencies:
     "@babel/core" "^7.21.8"
     "@babel/eslint-parser" "^7.21.8"
     "@babel/preset-react" "^7.18.6"
     "@js-bits/eslint-config" "^1.0.3"
+    "@types/node" "^20.2.3"
     "@typescript-eslint/eslint-plugin" "^5.59.7"
     "@typescript-eslint/parser" "^5.59.7"
     eslint "^8.41.0"
@@ -675,10 +676,10 @@
   resolved "https://registry.yarnpkg.com/@js-bits/log-in-color/-/log-in-color-0.0.2.tgz#f5e370d5978d7977dbef375b2f66f18b4e564a32"
   integrity sha512-ojDTAqbgW8m24GXUIIKvRUXfusZqzKF4ANIWJMSmvTJB+V8dgbtE3mytJh6oBGhu8HZ1nCJFeNjKQzNV6rAx4g==
 
-"@js-bits/typedef-utils@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@js-bits/typedef-utils/-/typedef-utils-0.0.5.tgz#9df2643e4b161bba9a7f3dbd35851b5b23eb8c79"
-  integrity sha512-+QQbaUqKcvaPFaJn15274vGrs1sJQoPb29aAU6cy+rL+W9A2DJnSm0hLC6OLew9uV+uJp0wOQQppFoVvpEy5vQ==
+"@js-bits/typedef-utils@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@js-bits/typedef-utils/-/typedef-utils-0.0.7.tgz#477db7ff93ed8c53cca3899b014142fd6645d296"
+  integrity sha512-dNXOTcIHNTFfifLfKKw9TaMh6Fqr+vqNcCPkj0WV3/6AScbi5Tl+G7GK6wlWIlSr84h9uQtcRUo49wbJc6atdw==
 
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
   version "5.1.1-v1"
@@ -808,6 +809,11 @@
   version "20.2.3"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-20.2.3.tgz#b31eb300610c3835ac008d690de6f87e28f9b878"
   integrity sha512-pg9d0yC4rVNWQzX8U7xb4olIOFuuVL9za3bzMT2pu2SU0SNEi66i2qrvhE2qt0HvkhuCaWJu7pLNOt/Pj8BIrw==
+
+"@types/node@^20.2.3":
+  version "20.2.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.2.5.tgz#26d295f3570323b2837d322180dfbf1ba156fefb"
+  integrity sha512-JJulVEQXmiY9Px5axXHeYGLSjhkZEnD+MDPDGbCbIAbMslkKwmygtZFy1X6s/075Yo94sf8GuSlFfPzysQrWZQ==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.1"
