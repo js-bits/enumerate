@@ -1,4 +1,4 @@
-/* eslint-disable import/extensions, no-unused-expressions, camelcase */
+/* eslint-disable import/extensions, no-unused-expressions, camelcase, @typescript-eslint/no-unused-vars */
 import enumerate from '../index';
 
 type xx = EnumValues<'   a b c   '>;
@@ -170,6 +170,14 @@ numberEnum3.b === 20;
 numberEnum3.c === 30;
 
 const numberEnum4 = enumerate.ts('a b c', enumerate.Increment(10, 50));
-numberEnum4.a === 10;
-numberEnum4.b === 20;
-numberEnum4.c === 30;
+numberEnum4.a === 50;
+numberEnum4.b === 60;
+numberEnum4.c === 70;
+
+type n = ArrayToUnion<[['a', 0], ['b', 1]]>;
+type z = EnumMap<ArrayToUnion<EnumEntries<EnumValues<' a b b c '>>>>;
+
+type rrr = ['a', 'b'];
+type R<N extends number> = rrr[N];
+
+type rr = R<1 | 0>;
