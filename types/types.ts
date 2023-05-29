@@ -27,19 +27,6 @@ type EnumConstructor = <Options extends string, Type extends Modifier = SymbolCo
   separator?: RegExp | string
 ) => EnumType<Options, Type>;
 
-interface Enumable {
-  new (list: string, type: unknown, separator: RegExp | string): boolean;
-  toJSON: () => object;
-}
-
-// class Enum implements Enumable {
-//   constructor(list: string, type = Symbol, separator = /123/): boolean {
-//     // sdfs
-//   }
-
-//   toJSON: () => {};
-// }
-
 type EnumerateFunction = {
   /**
    * Description

@@ -2,10 +2,11 @@
   "compilerOptions": {
     "allowJs": true,
     "checkJs": true,
-    // "allowImportingTsExtensions": true,
-    // "noEmit": true,
-    "typeRoots": ["./node_modules/@types", "./node_modules/@js-bits/typedef-utils"],
-    "lib": ["ES2023"]
+    "noEmit": true,
+    "types": ["typedef-utils"],
+    "typeRoots": ["./node_modules/@types", "./node_modules/@js-bits"],
+    "target": "es2022",
+    "lib": ["es6", "es2016", "es2017", "es2018", "es2019"]
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "dist", "index.test.js", "typedef-utils"]
 }
