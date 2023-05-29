@@ -4,13 +4,13 @@ import Unique = StringUtils.Unique;
 import ParseInt = MathUtils.Parse;
 
 type EnumKeys<Str extends string, NoEmpty extends boolean = true> = Str extends `${infer L}\n${infer R}`
-  ? StringUtils.Split<Str, '\n', NoEmpty>
+  ? Split<Str, '\n', NoEmpty>
   : Split<Str, ' ', NoEmpty>;
 
-type EnumValues<Type extends Modifier, Key extends string, Values extends string[]> =
+type EnumValues<Type extends Modifier, Key extends string, Keys extends string[]> =
   | SymbolValue<Type>
   | StringValue<Type, Key>
-  | NumberValue<Type, Key, Values>
+  | NumberValue<Type, Key, Keys>
   | FunctionValue<Type, Key>;
 
 type EnumType<

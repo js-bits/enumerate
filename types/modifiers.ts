@@ -39,8 +39,8 @@ type Modifier =
 
 type SymbolValue<Type extends Modifier> = Type extends SymbolConstructor ? symbol : never;
 
-type Index<Values extends string[], Multiplier extends number = 1> = {
-  [I in keyof Values]: [Values[I], Multiply<I, Multiplier>];
+type Index<Keys extends string[], Multiplier extends number = 1> = {
+  [I in keyof Keys]: [Keys[I], Multiply<I, Multiplier>];
 };
 
 type IndexMap<Entries extends [string, number]> = {
@@ -50,7 +50,7 @@ type IndexMap<Entries extends [string, number]> = {
 type NumberValue<
   Type extends Modifier,
   Key extends string,
-  Values extends string[],
+  Keys extends string[],
   Inc extends number = Type extends NumberConstructor
     ? 1
     : Type extends number
@@ -58,7 +58,7 @@ type NumberValue<
     : Type extends Increment
     ? Type['increment']
     : never,
-  Map extends { [key: string]: number } = IndexMap<ToUnion<Index<Values, Inc>>>
+  Map extends { [key: string]: number } = IndexMap<ToUnion<Index<Keys, Inc>>>
 > = Type extends NumberConstructor
   ? Map[Key]
   : Type extends number

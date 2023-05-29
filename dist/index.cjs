@@ -145,7 +145,7 @@ const TYPES = enumerate.ts(
 
 const enumerate2 = Object.assign(enumerate, TYPES);
 
-CONVERTERS.set(enumerate2.LowerCase, (acc, item) => item.toLowerCase());
+CONVERTERS.set(TYPES.LowerCase, (acc, item) => item.toLowerCase());
 CONVERTERS.set(TYPES.UpperCase, (acc, item) => item.toUpperCase());
 CONVERTERS.set(TYPES.Prefix, (acc, item, prefix = '') => `${prefix}${item}`);
 SHORTCUTS.set('string', TYPES.Prefix);
