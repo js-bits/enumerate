@@ -166,4 +166,3 @@ console.log(enumerate.isEnum(enumerate`a b c`)); // true
 ## Notes
 
 - Be careful adding new items to an existing numeric enum. Always append them to the end of the list to avoid changing previous item values.
-- Does not include any polyfills, which means that Internet Explorer is not supported.
