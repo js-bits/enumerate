@@ -85,6 +85,7 @@ class Enum {
       },
     });
 
+    // eslint-disable-next-line no-constructor-return
     return proxy;
   }
 
@@ -142,7 +143,9 @@ const TYPES = enumerate.ts(
   Function
 );
 
-CONVERTERS.set(TYPES.LowerCase, (acc, item) => item.toLowerCase());
+const enumerate2 = Object.assign(enumerate, TYPES);
+
+CONVERTERS.set(enumerate2.LowerCase, (acc, item) => item.toLowerCase());
 CONVERTERS.set(TYPES.UpperCase, (acc, item) => item.toUpperCase());
 CONVERTERS.set(TYPES.Prefix, (acc, item, prefix = '') => `${prefix}${item}`);
 SHORTCUTS.set('string', TYPES.Prefix);
@@ -151,8 +154,6 @@ CONVERTERS.set(
   (acc, item, increment = 1, start = increment) => start + Object.keys(acc).length * increment
 );
 SHORTCUTS.set('number', TYPES.Increment);
-
-const enumerate2 = Object.assign(enumerate, TYPES);
 
 enumerate.isEnum = value => {
   try {
