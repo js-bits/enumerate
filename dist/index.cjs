@@ -1,7 +1,13 @@
 'use strict';
 
 /* eslint-disable max-classes-per-file */
+/**
+ * @type {Map<Function, Function>}
+ */
 const CONVERTERS = new Map();
+/**
+ * @type {Map<string, Function>}
+ */
 const SHORTCUTS = new Map();
 
 // global symbol shared across all versions of the package
@@ -36,6 +42,7 @@ class Enum {
   /**
    * @type {EnumConstructor}
    */
+  // @ts-ignore
   constructor(list, type = Symbol, separator = DEFAULT_SEPARATOR) {
     let inputType = type;
     let enumType = type;
@@ -51,6 +58,7 @@ class Enum {
     }
 
     let converter;
+    // @ts-ignore
     const valueConverter = CONVERTERS.get(enumType);
     if (valueConverter) {
       converter = (acc, item) => {
@@ -61,6 +69,9 @@ class Enum {
       converter = enumType;
     }
     const values = list.trim().split(separator);
+
+    /** @type {object} */
+    // @ts-ignore
     const result = values.reduce(converter, this);
 
     if (result !== this) {
@@ -122,6 +133,7 @@ const enumerate = (...args) => {
       type = undefined;
     }
 
+    // @ts-ignore
     return (...rest) => enumerate(...rest, type, separator);
   }
 
@@ -143,7 +155,7 @@ const TYPES = enumerate.ts(
   Function
 );
 
-const enumerate2 = Object.assign(enumerate, TYPES);
+const enumExp = Object.assign(enumerate, TYPES);
 
 CONVERTERS.set(TYPES.LowerCase, (acc, item) => item.toLowerCase());
 CONVERTERS.set(TYPES.UpperCase, (acc, item) => item.toUpperCase());
@@ -165,4 +177,4 @@ enumerate.isEnum = value => {
 
 // TODO: serialize/deserialize, toJSON, toString
 
-module.exports = enumerate2;
+module.exports = enumExp;
