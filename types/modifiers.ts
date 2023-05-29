@@ -58,7 +58,9 @@ type NumberValue<
     : Type extends Increment
     ? Type['increment']
     : never,
-  Map extends { [key: string]: number } = IndexMap<ToUnion<Index<Keys, Inc>>>
+  // "Type instantiation is excessively deep and possibly infinite" error
+  // Workaround https://www.angularfix.com/2022/01/why-am-i-getting-instantiation-is.html
+  Map extends { [key: string]: number } = Inc extends number ? IndexMap<ToUnion<Index<Keys, Inc>>> : never
 > = Type extends NumberConstructor
   ? Map[Key]
   : Type extends number
