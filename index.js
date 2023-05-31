@@ -154,7 +154,7 @@ const TYPES = enumerate.ts(
   Function
 );
 
-const enumExp = Object.assign(enumerate, TYPES);
+Object.assign(enumerate, TYPES);
 
 CONVERTERS.set(TYPES.LowerCase, (acc, item) => item.toLowerCase());
 CONVERTERS.set(TYPES.UpperCase, (acc, item) => item.toUpperCase());
@@ -174,6 +174,6 @@ enumerate.isEnum = value => {
   }
 };
 
-export default enumExp;
+export default enumerate;
 
 // TODO: serialize/deserialize, toJSON, toString

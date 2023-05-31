@@ -42,4 +42,8 @@ type EnumerateFunction = {
   (list: TemplateStringsArray, ...names: unknown[]): { [key: EnumKeyType]: EnumValueType };
   (type: Modifier, separator?: SeparatorType): (list: TemplateStringsArray) => { [key: EnumKeyType]: EnumValueType };
   (separator?: SeparatorType): (list: TemplateStringsArray) => { [key: EnumKeyType]: EnumValueType };
+  LowerCase: LowerCase;
+  UpperCase: UpperCase;
+  Prefix: Prefix;
+  Increment: Increment;
 };

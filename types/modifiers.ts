@@ -19,8 +19,9 @@ type ModifierType<Key extends string> = {
 type LowerCase = ModifierType<'LowerCase'>;
 type UpperCase = ModifierType<'UpperCase'>;
 type Prefix = ModifierType<'Prefix'>;
+type Increment = ModifierType<'Increment'>;
 
-interface Increment {
+interface IncrementArgs {
   start: number;
   increment: number;
 }
@@ -39,7 +40,7 @@ type Modifier =
   | LowerCase
   | UpperCase
   | Prefix
-  | Increment;
+  | IncrementArgs;
 
 type SymbolValue<Type extends Modifier> = Type extends SymbolConstructor
   ? symbol
@@ -63,7 +64,7 @@ type NumberValue<
     ? 1
     : Type extends number
     ? Type
-    : Type extends Increment
+    : Type extends IncrementArgs
     ? Type['increment']
     : never,
   // "Type instantiation is excessively deep and possibly infinite" error
@@ -73,7 +74,7 @@ type NumberValue<
   ? Map[Key]
   : Type extends number
   ? Add<Type, Map[Key]>
-  : Type extends Increment
+  : Type extends IncrementArgs
   ? Add<Type['start'], Map[Key]>
   : never;
 
