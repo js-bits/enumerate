@@ -111,9 +111,6 @@ class Enum {
 
 const isRegExp = value => value instanceof RegExp;
 
-/**
- * @type { EnumerateFunction }
- */
 // @ts-ignore
 const enumerate = (...args) => {
   if (args.length > 3 || (Array.isArray(args[0]) && (args[0].length > 1 || typeof args[0][0] !== 'string'))) {

@@ -32,18 +32,3 @@ type EnumConstructor = <Options extends string, Type extends Converter = SymbolC
 type EnumKeyType = string | symbol;
 type EnumValueType = string | symbol | number;
 type SeparatorType = RegExp | string;
-
-type EnumerateFunction = {
-  /**
-   * Description
-   */
-  isEnum: (value: unknown) => boolean;
-  ts: EnumConstructor;
-  (list: TemplateStringsArray, ...names: unknown[]): { [key: EnumKeyType]: EnumValueType };
-  (type: Converter, separator?: SeparatorType): (list: TemplateStringsArray) => { [key: EnumKeyType]: EnumValueType };
-  (separator?: SeparatorType): (list: TemplateStringsArray) => { [key: EnumKeyType]: EnumValueType };
-  LowerCase: LowerCase;
-  UpperCase: UpperCase;
-  Prefix: Prefix;
-  Increment: Increment;
-};
