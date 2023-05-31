@@ -1,172 +1,84 @@
 /* eslint-disable import/extensions, no-unused-expressions, camelcase, @typescript-eslint/no-unused-vars */
 import enumerate from '../index';
 
-type xx = EnumKeys<'   a b c   '>;
-type zzz = Index<EnumKeys<' a b b c '>>;
+const test_EnumKeys: EnumKeys<'   a b c   '> = ['a', 'b', 'c'];
+const test_Index: Index<EnumKeys<' a b b c '>> = [
+  ['a', 0],
+  ['b', 1],
+  ['b', 2],
+  ['c', 3],
+];
+const test_IndexMap: IndexMap<['a', 0] | ['b', 1]> = { a: 0, b: 1 };
 
-type zzzz = IndexMap<['a', 0] | ['b', 1]>;
-
-type SingleLineOptions = EnumKeys<'  OPTION1   OPTION2   OPTION3  '>;
-const sl_op: SingleLineOptions = ['OPTION1', 'OPTION2', 'OPTION3'];
-
-type MultiLineOptions = EnumKeys<`
+const test_EnumKeysSingleLineOptions: EnumKeys<'  OPTION1   OPTION2   OPTION3  '> = ['OPTION1', 'OPTION2', 'OPTION3'];
+const test_EnumKeysMultiLineOptions: EnumKeys<`
   Option1
        Option2
             Option3
-`>;
-const ml_op: MultiLineOptions = ['Option1', 'Option2', 'Option3'];
+`> = ['Option1', 'Option2', 'Option3'];
 
-type x = EnumKeys<'   OPTION1  OPTION2  OPTION3   '>;
-// type st = TrimLeft
-type zz = EnumType<
-  `
-a
-b
-b
-c
-c
-d
-d
-d
-d
-d
-d
-d
-d
-d
-d
-d
-d
-d
-b
-c
-c
-d
-d
-d
-d
-d
-d
-d
+const test_EnumKeysMultiLineIndex: EnumType<'a b b b a a a c c c b b b c c c d d d c', NumberConstructor> = {
+  a: 0,
+  b: 1,
+  c: 7, // TODO: fix this known issue with duplicated keys
+  d: 16, // TODO: fix this known issue with duplicated keys
+};
 
-d
-d
-d
-d
-d
-d
-b
-c
-c
-d
-d
-d
-d
-d
-d
-d
-d
-d
-d
-`,
-  NumberConstructor
->;
+const test_DefaultEnum = enumerate.ts('a b c');
 
-let zzz: zz;
-
-zzz.c;
-
-type GetString<Str> = Str extends string ? `${Str}` : never;
-type F<T> = T extends string[] ? T[number] : never;
-type Flatten<Type> = Type extends Array<infer Item> ? Item : Type;
-type Te = Flatten<[' a b c', 'd f sdf']>;
-type YY<T extends string[]> = EnumType<Flatten<T>>;
-
-type ZZ = YY<[' a b c', 'd f sdf']>;
-
-export type Func = <X extends string>(list: readonly X[]) => EnumType<X>;
-type Func1 = <X extends string[]>(list: X) => YY<X>;
-type Func2 = <X extends TemplateStringsArray>(list: X) => EnumType<X[number]>;
-type Func3 = <X extends TemplateStringsArray>(list: X) => GetString<X['raw'][0]>;
-let func: Func;
-let func1: Func1;
-let func2: Func2;
-let func3: Func3;
-
-// let x1 = func([`
-//   a b c
-// `]);
-// x1 = '234';
-// x1.
-// const x2 = func(['a b c', 'x y z']);
-// const z1 = func`1 2 3`;
-// z1.
-// const z2 = func1(['a b c']);
-// z2.
-
-const defaultEnum = enumerate.ts('a b c');
-
-typeof defaultEnum.a.description === 'string';
+typeof test_DefaultEnum.a.description === 'string';
 // @ts-expect-error Property 'replace' does not exist on type 'symbol'
-typeof defaultEnum.a.replace === 'function';
-typeof defaultEnum.b.description === 'string';
+typeof test_DefaultEnum.a.replace === 'function';
+typeof test_DefaultEnum.b.description === 'string';
 
-const symbolEnum = enumerate.ts('a b c', Symbol);
-typeof symbolEnum.a.description === 'string';
+const test_SymbolEnum = enumerate.ts('a b c', Symbol);
+typeof test_SymbolEnum.a.description === 'string';
 // @ts-expect-error Property 'replace' does not exist on type 'symbol'
-typeof symbolEnum.a.replace === 'function';
-typeof symbolEnum.b.description === 'string';
+typeof test_SymbolEnum.a.replace === 'function';
+typeof test_SymbolEnum.b.description === 'string';
 
-const stringEnum = enumerate.ts('a b c', String);
-stringEnum.a === 'a';
-typeof stringEnum.a.charAt === 'function';
+const test_StringEnum = enumerate.ts('a b c', String);
+test_StringEnum.a === 'a';
+typeof test_StringEnum.a.charAt === 'function';
 // @ts-expect-error Property 'description' does not exist on type '"a"'
-typeof stringEnum.a.description === 'string';
-stringEnum.b === 'b';
+typeof test_StringEnum.a.description === 'string';
+test_StringEnum.b === 'b';
 // @ts-expect-error This comparison appears to be unintentional because the types '"c"' and '"x"' have no overlap.
-stringEnum.c === 'x';
+test_StringEnum.c === 'x';
 
-const prefixEnum = enumerate.ts('a b c', 'prefix|');
-prefixEnum.a === 'prefix|a';
-prefixEnum.b === 'prefix|b';
+const test_PrefixEnum = enumerate.ts('a b c', 'prefix|');
+test_PrefixEnum.a === 'prefix|a';
+test_PrefixEnum.b === 'prefix|b';
 // @ts-expect-error This comparison appears to be unintentional because the types '"prefix|c"' and '"prefix|x"' have no overlap.
-prefixEnum.c === 'prefix|x';
+test_PrefixEnum.c === 'prefix|x';
 
-const funcEnumLower = enumerate.ts('A B C', enumerate.LowerCase);
-funcEnumLower.A === 'a';
+const test_FuncEnumLower = enumerate.ts('A B C', enumerate.LowerCase);
+test_FuncEnumLower.A === 'a';
 
-const funcEnumUpper = enumerate.ts('a b c', enumerate.UpperCase);
-funcEnumUpper.a === 'A';
+const test_FuncEnumUpper = enumerate.ts('a b c', enumerate.UpperCase);
+test_FuncEnumUpper.a === 'A';
 
-const funcEnumPrefix = enumerate.ts('a b c', enumerate.Prefix('prefix:'));
-funcEnumPrefix.a === 'prefix:a';
+const test_FuncEnumPrefix = enumerate.ts('a b c', enumerate.Prefix('prefix:'));
+test_FuncEnumPrefix.a === 'prefix:a';
 
-const numberEnum1 = enumerate.ts('a b c', Number);
-numberEnum1.a === 0;
-numberEnum1.b === 1;
-numberEnum1.c === 2;
+const test_NumberEnum1 = enumerate.ts('a b c', Number);
+test_NumberEnum1.a === 0;
+test_NumberEnum1.b === 1;
+test_NumberEnum1.c === 2;
 // @ts-expect-error Cannot assign to 'a' because it is a read-only property.
-numberEnum1.a = 0;
+test_NumberEnum1.a = 0;
 
-const numberEnum2 = enumerate.ts('a b c', 9999);
-numberEnum2.a === 9999;
-numberEnum2.b === 19998;
-numberEnum2.c === 29997;
+const test_NumberEnum2 = enumerate.ts('a b c', 9999);
+test_NumberEnum2.a === 9999;
+test_NumberEnum2.b === 19998;
+test_NumberEnum2.c === 29997;
 
-const numberEnum3 = enumerate.ts('a b c', enumerate.Increment(10));
-numberEnum3.a === 10;
-numberEnum3.b === 20;
-numberEnum3.c === 30;
+const test_NumberEnum3 = enumerate.ts('a b c', enumerate.Increment(10));
+test_NumberEnum3.a === 10;
+test_NumberEnum3.b === 20;
+test_NumberEnum3.c === 30;
 
-const numberEnum4 = enumerate.ts('a b c', enumerate.Increment(10, 50));
-numberEnum4.a === 50;
-numberEnum4.b === 60;
-numberEnum4.c === 70;
-
-type n = ToUnion<[['a', 0], ['b', 1]]>;
-type z = IndexMap<ToUnion<Index<EnumKeys<' a b b c '>>>>;
-
-type rrr = ['a', 'b'];
-type R<N extends number> = rrr[N];
-
-type rr = R<1 | 0>;
+const test_NumberEnum4 = enumerate.ts('a b c', enumerate.Increment(10, 50));
+test_NumberEnum4.a === 50;
+test_NumberEnum4.b === 60;
+test_NumberEnum4.c === 70;
