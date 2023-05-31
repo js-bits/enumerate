@@ -7,7 +7,7 @@ type ToUnion<T extends unknown[]> = T[number];
 type ModifierType<Key extends string> = {
   readonly name: Key;
   <Prefix extends string>(value: Prefix): Key extends 'Prefix' ? Prefix : void;
-  <Inc extends number>(inc: Inc): Key extends 'Increment' ? Inc : void;
+  <Inc extends number = 1>(inc?: Inc): Key extends 'Increment' ? Inc : void;
   <Inc extends number, Start extends number>(inc: Inc, start: Start): Key extends 'Increment'
     ? {
         start: Start;
@@ -25,8 +25,12 @@ interface Increment {
   increment: number;
 }
 
+type CustomConverter = (acc: object, item: string) => object;
+
 type Modifier =
+  | CustomConverter
   | SymbolConstructor
+  | SymbolConstructor['for']
   | StringConstructor
   | NumberConstructor
   | FunctionConstructor
@@ -37,7 +41,11 @@ type Modifier =
   | Prefix
   | Increment;
 
-type SymbolValue<Type extends Modifier> = Type extends SymbolConstructor ? symbol : never;
+type SymbolValue<Type extends Modifier> = Type extends SymbolConstructor
+  ? symbol
+  : Type extends SymbolConstructor['for']
+  ? symbol
+  : never;
 
 type Index<Keys extends string[], Multiplier extends number = 1> = {
   [I in keyof Keys]: [Keys[I], Multiply<I, Multiplier>];

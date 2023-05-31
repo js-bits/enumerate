@@ -117,8 +117,9 @@ const isRegExp = value => value instanceof RegExp;
 /**
  * @type { EnumerateFunction }
  */
+// @ts-ignore
 const enumerate = (...args) => {
-  if (args.length > 3 || (Array.isArray(args[0]) && args[0].length > 1)) {
+  if (args.length > 3 || (Array.isArray(args[0]) && (args[0].length > 1 || typeof args[0][0] !== 'string'))) {
     throw new Error('Invalid arguments');
   }
 
@@ -142,7 +143,8 @@ const enumerate = (...args) => {
   return new Enum(list, type, separator);
 };
 
-enumerate.ts = (...args) => new Enum(...args);
+// @ts-ignore
+enumerate.ts = (list, ...args) => enumerate([list], ...args);
 
 // dynamically created types
 const TYPES = enumerate.ts(

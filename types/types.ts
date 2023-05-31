@@ -5,6 +5,8 @@ import ParseInt = MathUtils.Parse;
 
 type EnumKeys<Str extends string, NoEmpty extends boolean = true> = Str extends `${infer L}\n${infer R}`
   ? Split<Str, '\n', NoEmpty>
+  : Str extends `${infer L},${infer R}`
+  ? Split<Str, ',', NoEmpty>
   : Split<Str, ' ', NoEmpty>;
 
 type EnumValues<Type extends Modifier, Key extends string, Keys extends string[]> =
@@ -33,6 +35,6 @@ type EnumerateFunction = {
    */
   isEnum?: (value: unknown) => boolean;
   ts: EnumConstructor;
-  <X extends string>(list: X[], type: object, separator: RegExp | string): EnumType<X>;
-  (type: object, separator?: RegExp | string): <X extends string>(s: readonly X[]) => EnumType<X>; // EnumerateFunction<list: string, type: object, separator: RegExp | string>;
+  <X extends string>(list: X[], type: Modifier, separator: RegExp | string): EnumType<X>;
+  (type: Modifier, separator?: RegExp | string): <X extends string>(s: readonly X[]) => EnumType<X>; // EnumerateFunction<list: string, type: object, separator: RegExp | string>;
 };

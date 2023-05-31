@@ -2,12 +2,12 @@ import enumerate from './index.js';
 
 const { LowerCase, UpperCase, Prefix, Increment } = enumerate;
 
-describe('enumerate', () => {
-  const Episode = enumerate`
+describe('enumerate type-safe', () => {
+  const Episode = enumerate.ts(`
     NEW_HOPE
     EMPIRE
     JEDI
-    `;
+    `);
   test('should return an object with specified keys', () => {
     expect(Episode).toHaveProperty('NEW_HOPE');
     expect(Episode).toHaveProperty('EMPIRE');
@@ -52,8 +52,8 @@ describe('enumerate', () => {
     });
 
     test('should have values unique globally', () => {
-      const Unit1 = enumerate(Symbol)`FOOT, METER`;
-      const Unit2 = enumerate`FOOT, METER`;
+      const Unit1 = enumerate.ts('FOOT, METER', Symbol);
+      const Unit2 = enumerate.ts('FOOT, METER');
       expect(Unit1.FOOT).not.toBe(Unit2.FOOT);
       expect(Unit1.METER).not.toBe(Unit2.METER);
 
@@ -65,8 +65,7 @@ describe('enumerate', () => {
   });
 
   describe('Symbol converter', () => {
-    const Enum = enumerate(Symbol)`OPTION1 OPTION2 OPTION3`;
-
+    const Enum = enumerate.ts('OPTION1 OPTION2 OPTION3', Symbol);
     describe('return object keys', () => {
       test('should have corresponding symbol values', () => {
         expect(Object.keys(Enum).length).toEqual(3);
@@ -76,7 +75,6 @@ describe('enumerate', () => {
         expect(Enum.OPTION2).not.toBe(Symbol.for('OPTION2'));
         expect(typeof Enum.OPTION3).toEqual('symbol');
         expect(Enum.OPTION3).not.toBe(Symbol.for('OPTION3'));
-
         expect(`${Enum}`).toEqual('[object Enum:OPTION1,OPTION2,OPTION3]');
       });
     });
@@ -87,7 +85,7 @@ describe('enumerate', () => {
   });
 
   describe('Symbol.for converter', () => {
-    const Enum = enumerate(Symbol.for)`OPTION1 OPTION2 OPTION3`;
+    const Enum = enumerate.ts('OPTION1 OPTION2 OPTION3', Symbol.for);
 
     describe('return object keys', () => {
       test('should have corresponding symbol values', () => {
@@ -109,7 +107,7 @@ describe('enumerate', () => {
   });
 
   describe('Number converter', () => {
-    const Enum = enumerate(Number)`ZERO ONE TWO THREE`;
+    const Enum = enumerate.ts('ZERO ONE TWO THREE', Number);
 
     describe('return object keys', () => {
       test('should have incrementing number values', () => {
@@ -129,7 +127,7 @@ describe('enumerate', () => {
   });
 
   describe('String converter', () => {
-    const Enum = enumerate(String)`A B C D`;
+    const Enum = enumerate.ts('A B C D', String);
 
     describe('return object keys', () => {
       test('should have corresponding string values', () => {
@@ -151,7 +149,7 @@ describe('enumerate', () => {
   describe('LowerCase converter', () => {
     describe('return object keys', () => {
       test('should have lower-cased string values', () => {
-        const Enum = enumerate(LowerCase)`CODE_A CODE_B CODE_C CODE_D`;
+        const Enum = enumerate.ts('CODE_A CODE_B CODE_C CODE_D', LowerCase);
         expect({ ...Enum }).toEqual({
           CODE_A: 'code_a',
           CODE_B: 'code_b',
@@ -166,7 +164,7 @@ describe('enumerate', () => {
   describe('UpperCase converter', () => {
     describe('return object keys', () => {
       test('should have upper-cased string values', () => {
-        const Enum = enumerate(UpperCase)`code_a code_b code_c code_d`;
+        const Enum = enumerate.ts('code_a code_b code_c code_d', UpperCase);
         expect({ ...Enum }).toEqual({
           code_a: 'CODE_A',
           code_b: 'CODE_B',
@@ -182,7 +180,7 @@ describe('enumerate', () => {
     describe('return object keys', () => {
       describe('when no arguments passed', () => {
         test('should have corresponding string values', () => {
-          const Enum = enumerate(Prefix)`A B C D`;
+          const Enum = enumerate.ts('A B C D', Prefix);
           expect({ ...Enum }).toEqual({
             A: 'A',
             B: 'B',
@@ -195,7 +193,7 @@ describe('enumerate', () => {
 
       describe('when arguments passed', () => {
         test('should have prefixed string values', () => {
-          const Enum = enumerate(Prefix('value|'))`a b c d`;
+          const Enum = enumerate.ts('a b c d', Prefix('value|'));
           expect({ ...Enum }).toEqual({
             a: 'value|a',
             b: 'value|b',
@@ -208,7 +206,7 @@ describe('enumerate', () => {
 
       describe('when shortcut used', () => {
         test('should have prefixed string values', () => {
-          const Enum = enumerate('value|')`a b c d`;
+          const Enum = enumerate.ts('a b c d', 'value|');
           expect({ ...Enum }).toEqual({
             a: 'value|a',
             b: 'value|b',
@@ -225,7 +223,7 @@ describe('enumerate', () => {
     describe('return object keys', () => {
       describe('when no arguments passed', () => {
         test('should have incremented by 1 values', () => {
-          const Enum = enumerate(Increment())`A B C D`;
+          const Enum = enumerate.ts('A B C D', Increment());
           expect({ ...Enum }).toEqual({
             A: 1,
             B: 2,
@@ -238,7 +236,7 @@ describe('enumerate', () => {
 
       describe('when one argument is passed', () => {
         test('should have incremented by specified number values', () => {
-          const Enum = enumerate(Increment(10))`A B C D`;
+          const Enum = enumerate.ts('A B C D', Increment(10));
           expect({ ...Enum }).toEqual({
             A: 10,
             B: 20,
@@ -251,7 +249,7 @@ describe('enumerate', () => {
 
       describe('when shortcut is used', () => {
         test('should have incremented by specified number values', () => {
-          const Enum = enumerate(10)`A B C D`;
+          const Enum = enumerate.ts('A B C D', 10);
           expect({ ...Enum }).toEqual({
             A: 10,
             B: 20,
@@ -264,7 +262,7 @@ describe('enumerate', () => {
 
       describe('when two argument is passed', () => {
         test('should have incremented by a specified number values, starting from a specified number', () => {
-          const Enum = enumerate(Increment(100, 199))`A B C D`;
+          const Enum = enumerate.ts('A B C D', Increment(100, 199));
           expect({ ...Enum }).toEqual({
             A: 199,
             B: 299,
@@ -280,11 +278,10 @@ describe('enumerate', () => {
   describe('custom converter', () => {
     describe('return object keys', () => {
       test('should have generated values', () => {
-        const enumerateTens = enumerate((acc, item) => {
+        const Enum = enumerate.ts('CODE1 CODE2 CODE3', (/** @type {object} */ acc, /** @type {string} */ item) => {
           acc[item] = Object.keys(acc).length * 10;
           return acc;
         });
-        const Enum = enumerateTens`CODE1 CODE2 CODE3`;
         expect({ ...Enum }).toEqual({
           CODE1: 0,
           CODE2: 10,
@@ -309,31 +306,29 @@ describe('enumerate', () => {
     });
   });
 
-  describe('when template string contains placeholders', () => {
-    test('should throw an error', () => {
-      expect(() => enumerate`XXX ${'YYY'} ZZZ`).toThrow('Invalid');
-      expect(() => enumerate`1 ${'2'} 3 ${'4'}`).toThrow('Invalid');
-    });
-  });
-
   describe('when invalid type or converter passed', () => {
     test('should throw an error', () => {
-      expect(() => enumerate(Date)`A B C`).toThrow('Invalid');
-      expect(() => enumerate(Boolean)`A B C`).toThrow('Invalid');
-      expect(() => enumerate({})`a b c`).toThrow('Invalid');
+      // @ts-expect-error Argument of type 'DateConstructor' is not assignable to parameter of type 'Modifier'.
+      expect(() => enumerate.ts('A B C', Date)).toThrow('Invalid');
+      // @ts-expect-error Argument of type 'BooleanConstructor' is not assignable to parameter of type 'Modifier'.
+      expect(() => enumerate.ts('A B C', Boolean)).toThrow('Invalid');
+      // @ts-expect-error Argument of type '{}' is not assignable to parameter of type 'Modifier'.
+      expect(() => enumerate.ts('a b c', {})).toThrow('Invalid');
     });
   });
 
   describe('when invalid arguments passed', () => {
     test('should throw an error', () => {
-      expect(() => enumerate(String, Number)).toThrow('Invalid');
+      // @ts-expect-error Argument of type 'StringConstructor' is not assignable to parameter of type 'string'.
+      expect(() => enumerate.ts(String, Number)).toThrow('Invalid');
     });
   });
 
   describe('when a new key is assigned to the return object', () => {
     test('should throw an error', () => {
-      const result = enumerate`A B C`;
+      const result = enumerate.ts('A B C');
       expect(() => {
+        // @ts-ignore
         result.D = 'D';
       }).toThrow('Cannot assign a value to enum key: D');
     });
@@ -341,8 +336,9 @@ describe('enumerate', () => {
 
   describe('when an unknown key is accessed from the return object', () => {
     test('should throw an error', () => {
-      const result = enumerate`A B C`;
+      const result = enumerate.ts('A B C');
       expect(() => {
+        // @ts-ignore
         // eslint-disable-next-line no-unused-vars
         const { D } = result;
       }).toThrow('Invalid enum key: D');
@@ -358,9 +354,9 @@ describe('enumerate', () => {
     });
 
     test('should return true for an enum object', () => {
-      expect(enumerate.isEnum(enumerate`A B C`)).toBe(true);
-      expect(enumerate.isEnum(enumerate(String)`A B C`)).toBe(true);
-      expect(enumerate.isEnum(enumerate(Number)`A B C`)).toBe(true);
+      expect(enumerate.isEnum(enumerate.ts('A B C'))).toBe(true);
+      expect(enumerate.isEnum(enumerate.ts('A B C', String))).toBe(true);
+      expect(enumerate.isEnum(enumerate.ts('A B C', Number))).toBe(true);
     });
 
     test('should return false otherwise', () => {
@@ -387,11 +383,15 @@ describe('enumerate', () => {
 
   describe('Custom separator', () => {
     describe('Symbol converter', () => {
-      const Enum = enumerate(/\s*\n\s*/)`
+      const Enum = enumerate.ts(
+        `
         value one
         value two
         value three
-      `;
+      `,
+        Symbol,
+        /\s*\n\s*/
+      );
 
       describe('return object keys', () => {
         test('should have corresponding symbol values', () => {
@@ -413,11 +413,15 @@ describe('enumerate', () => {
     });
 
     describe('String converter', () => {
-      const Enum = enumerate(String, /\s*\n\s*/)`
-      value one
-      value two
-      value three
-    `;
+      const Enum = enumerate.ts(
+        `
+        value one
+        value two
+        value three
+      `,
+        String,
+        /\s*\n\s*/
+      );
 
       describe('return object keys', () => {
         test('should have corresponding string values', () => {
