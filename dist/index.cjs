@@ -68,11 +68,11 @@ class Enum {
     } else {
       converter = enumType;
     }
-    const values = list.trim().split(separator);
+    const values = new Set(list.trim().split(separator));
 
     /** @type {object} */
     // @ts-ignore
-    const result = values.reduce(converter, this);
+    const result = Array.from(values).reduce(converter, this);
 
     if (result !== this) {
       throw new Error('Invalid converter');
@@ -178,56 +178,5 @@ enumerate.isEnum = value => {
 };
 
 // TODO: serialize/deserialize, toJSON, toString
-
-console.log(enumerate(Number)`
-a
-b
-b
-c
-c
-d
-d
-d
-d
-d
-d
-d
-d
-d
-d
-d
-d
-d
-b
-c
-c
-d
-d
-d
-d
-d
-d
-d
-
-d
-d
-d
-d
-d
-d
-b
-c
-c
-d
-d
-d
-d
-d
-d
-d
-d
-d
-d
-`);
 
 module.exports = enumExp;

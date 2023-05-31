@@ -121,6 +121,18 @@ describe('enumerate', () => {
         });
         expect(`${Enum}`).toEqual('[object Enum:ZERO,ONE,TWO,THREE]');
       });
+
+      describe('when keys are duplicated', () => {
+        test('should have incrementing number values', () => {
+          expect({ ...enumerate(Number)`a b b b a a a c c c b b b c c c d d d c` }).toEqual({
+            a: 0,
+            b: 1,
+            c: 2,
+            d: 3,
+          });
+          expect(`${Enum}`).toEqual('[object Enum:ZERO,ONE,TWO,THREE]');
+        });
+      });
     });
 
     test('toJSON', () => {
