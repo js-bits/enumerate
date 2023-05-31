@@ -40,8 +40,7 @@ class Enum {
   /**
    * @type {EnumConstructor}
    */
-  // @ts-ignore
-  constructor(list, type = Symbol, separator = DEFAULT_SEPARATOR) {
+  constructor(list, /** @type {Modifier} */ type = Symbol, separator = DEFAULT_SEPARATOR) {
     let inputType = type;
     let enumType = type;
     let enumArgs = [];

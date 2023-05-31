@@ -37,9 +37,9 @@ type EnumerateFunction = {
   /**
    * Description
    */
-  isEnum?: (value: unknown) => boolean;
+  isEnum: (value: unknown) => boolean;
   ts: EnumConstructor;
-  (list: TemplateStringsArray, type?: Modifier, separator?: SeparatorType): { [key: EnumKeyType]: EnumValueType };
+  (list: TemplateStringsArray, ...names: unknown[]): { [key: EnumKeyType]: EnumValueType };
   (type: Modifier, separator?: SeparatorType): (list: TemplateStringsArray) => { [key: EnumKeyType]: EnumValueType };
   (separator?: SeparatorType): (list: TemplateStringsArray) => { [key: EnumKeyType]: EnumValueType };
 };
