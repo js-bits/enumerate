@@ -318,14 +318,18 @@ describe('enumerate', () => {
 
   describe('when invalid type or converter passed', () => {
     test('should throw an error', () => {
+      // @ts-expect-error Argument of type 'DateConstructor' is not assignable to parameter of type 'Modifier'.
       expect(() => enumerate(Date)`A B C`).toThrow('Invalid');
+      // @ts-expect-error Argument of type 'BooleanConstructor' is not assignable to parameter of type 'Modifier'.
       expect(() => enumerate(Boolean)`A B C`).toThrow('Invalid');
+      // @ts-expect-error Argument of type '{}' is not assignable to parameter of type 'Modifier'.
       expect(() => enumerate({})`a b c`).toThrow('Invalid');
     });
   });
 
   describe('when invalid arguments passed', () => {
     test('should throw an error', () => {
+      // @ts-expect-error Argument of type 'StringConstructor' is not assignable to parameter of type 'TemplateStringsArray'.
       expect(() => enumerate(String, Number)).toThrow('Invalid');
     });
   });

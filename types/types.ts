@@ -29,12 +29,17 @@ type EnumConstructor = <Options extends string, Type extends Modifier = SymbolCo
   separator?: RegExp | string
 ) => EnumType<Options, Type>;
 
+type EnumKeyType = string | symbol;
+type EnumValueType = string | symbol | number;
+type SeparatorType = RegExp | string;
+
 type EnumerateFunction = {
   /**
    * Description
    */
   isEnum?: (value: unknown) => boolean;
   ts: EnumConstructor;
-  <X extends string>(list: X[], type: Modifier, separator: RegExp | string): EnumType<X>;
-  (type: Modifier, separator?: RegExp | string): <X extends string>(s: readonly X[]) => EnumType<X>; // EnumerateFunction<list: string, type: object, separator: RegExp | string>;
+  (list: TemplateStringsArray, type?: Modifier, separator?: SeparatorType): { [key: EnumKeyType]: EnumValueType };
+  (type: Modifier, separator?: SeparatorType): (list: TemplateStringsArray) => { [key: EnumKeyType]: EnumValueType };
+  (separator?: SeparatorType): (list: TemplateStringsArray) => { [key: EnumKeyType]: EnumValueType };
 };
