@@ -308,11 +308,11 @@ describe('enumerate type-safe', () => {
 
   describe('when invalid type or converter passed', () => {
     test('should throw an error', () => {
-      // @ts-expect-error Argument of type 'DateConstructor' is not assignable to parameter of type 'Modifier'.
+      // @ts-expect-error Argument of type 'DateConstructor' is not assignable to parameter of type 'Converter'.
       expect(() => enumerate.ts('A B C', Date)).toThrow('Invalid');
-      // @ts-expect-error Argument of type 'BooleanConstructor' is not assignable to parameter of type 'Modifier'.
+      // @ts-expect-error Argument of type 'BooleanConstructor' is not assignable to parameter of type 'Converter'.
       expect(() => enumerate.ts('A B C', Boolean)).toThrow('Invalid');
-      // @ts-expect-error Argument of type '{}' is not assignable to parameter of type 'Modifier'.
+      // @ts-expect-error Argument of type '{}' is not assignable to parameter of type 'Converter'.
       expect(() => enumerate.ts('a b c', {})).toThrow('Invalid');
     });
   });

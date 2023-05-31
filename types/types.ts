@@ -9,7 +9,7 @@ type EnumKeys<Str extends string, NoEmpty extends boolean = true> = Str extends 
   ? Split<Str, ',', NoEmpty>
   : Split<Str, ' ', NoEmpty>;
 
-type EnumValues<Type extends Modifier, Key extends string, Keys extends string[]> =
+type EnumValues<Type extends Converter, Key extends string, Keys extends string[]> =
   | SymbolValue<Type>
   | StringValue<Type, Key>
   | NumberValue<Type, Key, Keys>
@@ -17,13 +17,13 @@ type EnumValues<Type extends Modifier, Key extends string, Keys extends string[]
 
 type EnumType<
   Options extends string,
-  Type extends Modifier = SymbolConstructor,
+  Type extends Converter = SymbolConstructor,
   Keys extends string[] = EnumKeys<Options>
 > = {
   readonly [Key in Unique<Keys>]: EnumValues<Type, Key, Keys>;
 };
 
-type EnumConstructor = <Options extends string, Type extends Modifier = SymbolConstructor>(
+type EnumConstructor = <Options extends string, Type extends Converter = SymbolConstructor>(
   list: Options,
   type?: Type,
   separator?: RegExp | string
@@ -40,7 +40,7 @@ type EnumerateFunction = {
   isEnum: (value: unknown) => boolean;
   ts: EnumConstructor;
   (list: TemplateStringsArray, ...names: unknown[]): { [key: EnumKeyType]: EnumValueType };
-  (type: Modifier, separator?: SeparatorType): (list: TemplateStringsArray) => { [key: EnumKeyType]: EnumValueType };
+  (type: Converter, separator?: SeparatorType): (list: TemplateStringsArray) => { [key: EnumKeyType]: EnumValueType };
   (separator?: SeparatorType): (list: TemplateStringsArray) => { [key: EnumKeyType]: EnumValueType };
   LowerCase: LowerCase;
   UpperCase: UpperCase;

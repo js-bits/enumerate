@@ -4,7 +4,7 @@ import Multiply = MathUtils.Multiply;
 
 type ToUnion<T extends unknown[]> = T[number];
 
-type ModifierType<Key extends string> = {
+type ConverterType<Key extends string> = {
   readonly name: Key;
   <Prefix extends string>(value: Prefix): Key extends 'Prefix' ? Prefix : void;
   <Inc extends number = 1>(inc?: Inc): Key extends 'Increment' ? Inc : void;
@@ -16,10 +16,10 @@ type ModifierType<Key extends string> = {
     : void;
 };
 
-type LowerCase = ModifierType<'LowerCase'>;
-type UpperCase = ModifierType<'UpperCase'>;
-type Prefix = ModifierType<'Prefix'>;
-type Increment = ModifierType<'Increment'>;
+type LowerCase = ConverterType<'LowerCase'>;
+type UpperCase = ConverterType<'UpperCase'>;
+type Prefix = ConverterType<'Prefix'>;
+type Increment = ConverterType<'Increment'>;
 
 interface IncrementArgs {
   start: number;
@@ -28,7 +28,7 @@ interface IncrementArgs {
 
 type CustomConverter = (acc: object, item: string) => object;
 
-type Modifier =
+type Converter =
   | CustomConverter
   | SymbolConstructor
   | SymbolConstructor['for']
@@ -42,7 +42,7 @@ type Modifier =
   | Prefix
   | IncrementArgs;
 
-type SymbolValue<Type extends Modifier> = Type extends SymbolConstructor
+type SymbolValue<Type extends Converter> = Type extends SymbolConstructor
   ? symbol
   : Type extends SymbolConstructor['for']
   ? symbol
@@ -57,7 +57,7 @@ type IndexMap<Entries extends [string, number]> = {
 };
 
 type NumberValue<
-  Type extends Modifier,
+  Type extends Converter,
   Key extends string,
   Keys extends string[],
   Inc extends number = Type extends NumberConstructor
@@ -78,14 +78,14 @@ type NumberValue<
   ? Add<Type['start'], Map[Key]>
   : never;
 
-type StringValue<Type extends Modifier, Key extends string> = Type extends StringConstructor
+type StringValue<Type extends Converter, Key extends string> = Type extends StringConstructor
   ? Key
   : Type extends string
   ? `${Type}${Key}`
   : never;
 
-type FunctionValue<Type extends Modifier, Key extends string> = Type extends FunctionConstructor
-  ? ModifierType<Key>
+type FunctionValue<Type extends Converter, Key extends string> = Type extends FunctionConstructor
+  ? ConverterType<Key>
   : Type extends LowerCase
   ? Lowercase<Key>
   : Type extends UpperCase

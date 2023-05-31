@@ -42,7 +42,7 @@ class Enum {
   /**
    * @type {EnumConstructor}
    */
-  constructor(list, /** @type {Modifier} */ type = Symbol, separator = DEFAULT_SEPARATOR) {
+  constructor(list, /** @type {Converter} */ type = Symbol, separator = DEFAULT_SEPARATOR) {
     let inputType = type;
     let enumType = type;
     let enumArgs = [];
