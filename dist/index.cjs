@@ -179,4 +179,55 @@ enumerate.isEnum = value => {
 
 // TODO: serialize/deserialize, toJSON, toString
 
+console.log(enumerate(Number)`
+a
+b
+b
+c
+c
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+b
+c
+c
+d
+d
+d
+d
+d
+d
+d
+
+d
+d
+d
+d
+d
+d
+b
+c
+c
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+`);
+
 module.exports = enumExp;

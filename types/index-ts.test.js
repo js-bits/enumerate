@@ -1,4 +1,4 @@
-import enumerate from './index.js';
+import enumerate from '../index.js';
 
 const { LowerCase, UpperCase, Prefix, Increment } = enumerate;
 
