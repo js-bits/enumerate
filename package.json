@@ -40,7 +40,7 @@
   "author": "https://github.com/apolo-gh",
   "license": "ISC",
   "dependencies": {
-    "@js-bits/typedef-utils": "^0.0.10"
+    "@js-bits/typedef-utils": "^1.0.0"
   },
   "devDependencies": {
     "@js-bits/formalinter": "^1.0.3",

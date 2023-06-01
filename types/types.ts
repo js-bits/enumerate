@@ -1,9 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/// <reference types="typedef-utils" />
+import type { Split, Unique } from '@js-bits/typedef-utils/string';
 import type { Converter, FunctionValue, NumberValue, StringValue, SymbolValue } from './converters';
-
-import Split = StringUtils.Split;
-import Unique = StringUtils.Unique;
 
 export type SeparatorType = RegExp | string;
 

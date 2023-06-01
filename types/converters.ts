@@ -1,8 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/// <reference types="typedef-utils" />
-
-import Add = MathUtils.Add;
-import Multiply = MathUtils.Multiply;
+import type { Add, Multiply } from '@js-bits/typedef-utils/math';
 
 type ToUnion<T extends unknown[]> = T[number];
 

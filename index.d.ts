@@ -1,5 +1,4 @@
 /* eslint-disable import/no-duplicates */
-/// <reference types="typedef-utils" />
 import type { Converter } from './types/converters';
 import type * as Converters from './types/converters';
 import type { EnumConstructor, SeparatorType } from './types/types';
