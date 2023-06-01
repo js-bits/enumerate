@@ -1,4 +1,11 @@
+/* eslint-disable import/no-duplicates */
 /// <reference types="typedef-utils" />
+import type { Converter } from './types/converters';
+import type * as Converters from './types/converters';
+import type { EnumConstructor, SeparatorType } from './types/types';
+
+type EnumKeyType = string | symbol;
+type EnumValueType = string | symbol | number;
 
 declare function Enumerate(list: TemplateStringsArray, ...names: unknown[]): { [key: EnumKeyType]: EnumValueType };
 declare function Enumerate(
@@ -12,10 +19,10 @@ declare function Enumerate(
 declare namespace Enumerate {
   export const ts: EnumConstructor;
   export const isEnum: (value: unknown) => boolean;
-  export const LowerCase: LowerCase;
-  export const UpperCase: UpperCase;
-  export const Prefix: Prefix;
-  export const Increment: Increment;
+  export const LowerCase: Converters.LowerCase;
+  export const UpperCase: Converters.UpperCase;
+  export const Prefix: Converters.Prefix;
+  export const Increment: Converters.Increment;
 }
 
 export = Enumerate;

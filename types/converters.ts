@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+/// <reference types="typedef-utils" />
+
 import Add = MathUtils.Add;
 import Multiply = MathUtils.Multiply;
 
@@ -16,10 +18,10 @@ type ConverterType<Key extends string> = {
     : void;
 };
 
-type LowerCase = ConverterType<'LowerCase'>;
-type UpperCase = ConverterType<'UpperCase'>;
-type Prefix = ConverterType<'Prefix'>;
-type Increment = ConverterType<'Increment'>;
+export type LowerCase = ConverterType<'LowerCase'>;
+export type UpperCase = ConverterType<'UpperCase'>;
+export type Prefix = ConverterType<'Prefix'>;
+export type Increment = ConverterType<'Increment'>;
 
 interface IncrementArgs {
   start: number;
@@ -28,7 +30,7 @@ interface IncrementArgs {
 
 type CustomConverter = (acc: object, item: string) => object;
 
-type Converter =
+export type Converter =
   | CustomConverter
   | SymbolConstructor
   | SymbolConstructor['for']
@@ -42,21 +44,21 @@ type Converter =
   | Prefix
   | IncrementArgs;
 
-type SymbolValue<Type extends Converter> = Type extends SymbolConstructor
+export type SymbolValue<Type extends Converter> = Type extends SymbolConstructor
   ? symbol
   : Type extends SymbolConstructor['for']
   ? symbol
   : never;
 
-type Index<Keys extends string[], Multiplier extends number = 1> = {
+export type Index<Keys extends string[], Multiplier extends number = 1> = {
   [I in keyof Keys]: [Keys[I], Multiply<I, Multiplier>];
 };
 
-type IndexMap<Entries extends [string, number]> = {
+export type IndexMap<Entries extends [string, number]> = {
   [Entry in Entries as Entry[0]]: Entry[1];
 };
 
-type NumberValue<
+export type NumberValue<
   Type extends Converter,
   Key extends string,
   Keys extends string[],
@@ -78,13 +80,13 @@ type NumberValue<
   ? Add<Type['start'], Map[Key]>
   : never;
 
-type StringValue<Type extends Converter, Key extends string> = Type extends StringConstructor
+export type StringValue<Type extends Converter, Key extends string> = Type extends StringConstructor
   ? Key
   : Type extends string
   ? `${Type}${Key}`
   : never;
 
-type FunctionValue<Type extends Converter, Key extends string> = Type extends FunctionConstructor
+export type FunctionValue<Type extends Converter, Key extends string> = Type extends FunctionConstructor
   ? ConverterType<Key>
   : Type extends LowerCase
   ? Lowercase<Key>

@@ -1,5 +1,7 @@
 /* eslint-disable import/extensions, no-unused-expressions, camelcase, @typescript-eslint/no-unused-vars */
+import type { EnumKeys, EnumType } from './types';
 import enumerate from '../index';
+import { Index, IndexMap } from './converters';
 
 const test_EnumKeys: EnumKeys<'   a b c   '> = ['a', 'b', 'c'];
 const test_Index: Index<EnumKeys<' a b b c '>> = [

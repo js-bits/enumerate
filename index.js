@@ -38,9 +38,13 @@ const DEFAULT_SEPARATOR = /[\s\n,]+/;
 
 class Enum {
   /**
-   * @type {EnumConstructor}
+   * @type {import('./types/types').EnumConstructor}
    */
-  constructor(list, /** @type {Converter} */ type = Symbol, separator = DEFAULT_SEPARATOR) {
+  constructor(
+    list,
+    /** @type {import('./types/converters').Converter} */ type = Symbol,
+    separator = DEFAULT_SEPARATOR
+  ) {
     let inputType = type;
     let enumType = type;
     let enumArgs = [];
