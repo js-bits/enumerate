@@ -170,7 +170,6 @@ The package includes a TypeScript Declaration File and supports VS Code IntelliS
 <img src="./images/intellisense1.png" width="500">
 
 But there is one caveat. In order to achieve full type safety you have to use a bit different syntax. Unfortunately.
-
 So, instead of using `enumerate()` directly as a [tag function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates) you can use `enumerate.ts()` function.
 
 Compare
