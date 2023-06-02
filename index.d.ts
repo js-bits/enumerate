@@ -3,17 +3,11 @@ import type { Converter } from './types/converters';
 import type * as Converters from './types/converters';
 import type { EnumConstructor, SeparatorType } from './types/types';
 
-type EnumKeyType = string | symbol;
-type EnumValueType = string | symbol | number;
+type EnumType = { [key: string]: string | symbol | number } & { [key: symbol]: boolean };
 
-declare function Enumerate(list: TemplateStringsArray, ...names: unknown[]): { [key: EnumKeyType]: EnumValueType };
-declare function Enumerate(
-  type: Converter,
-  separator?: SeparatorType
-): (list: TemplateStringsArray) => { [key: EnumKeyType]: EnumValueType };
-declare function Enumerate(
-  separator?: SeparatorType
-): (list: TemplateStringsArray) => { [key: EnumKeyType]: EnumValueType };
+declare function Enumerate(list: TemplateStringsArray, ...names: unknown[]): EnumType;
+declare function Enumerate(type: Converter, separator?: SeparatorType): (list: TemplateStringsArray) => EnumType;
+declare function Enumerate(separator?: SeparatorType): (list: TemplateStringsArray) => EnumType;
 
 declare namespace Enumerate {
   export const ts: EnumConstructor;

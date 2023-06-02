@@ -278,7 +278,8 @@ describe('enumerate type-safe', () => {
   describe('custom converter', () => {
     describe('return object keys', () => {
       test('should have generated values', () => {
-        const Enum = enumerate.ts('CODE1 CODE2 CODE3', (/** @type {object} */ acc, /** @type {string} */ item) => {
+        // @ts-ignore
+        const Enum = enumerate.ts('CODE1 CODE2 CODE3', (acc, item) => {
           acc[item] = Object.keys(acc).length * 10;
           return acc;
         });
@@ -292,6 +293,7 @@ describe('enumerate type-safe', () => {
     });
 
     test('should have generated values', () => {
+      // @ts-ignore
       const enumerateUpperCase = enumerate((acc, item) => {
         acc[item.toUpperCase()] = item;
         return acc;

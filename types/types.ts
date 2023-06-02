@@ -28,4 +28,4 @@ export type EnumConstructor = <Options extends string, Type extends Converter = 
   list: Options,
   type?: Type,
   separator?: RegExp | string
-) => EnumType<Options, Type>;
+) => EnumType<Options, Type> & { [key: symbol]: boolean };

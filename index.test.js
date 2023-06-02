@@ -292,6 +292,7 @@ describe('enumerate', () => {
   describe('custom converter', () => {
     describe('return object keys', () => {
       test('should have generated values', () => {
+        // @ts-ignore
         const enumerateTens = enumerate((acc, item) => {
           acc[item] = Object.keys(acc).length * 10;
           return acc;
@@ -307,6 +308,7 @@ describe('enumerate', () => {
     });
 
     test('should have generated values', () => {
+      // @ts-ignore
       const enumerateUpperCase = enumerate((acc, item) => {
         acc[item.toUpperCase()] = item;
         return acc;

@@ -1,4 +1,5 @@
 /* eslint-disable max-classes-per-file */
+// @ts-nocheck
 /**
  * @type {Map<Function, Function>}
  */
@@ -59,7 +60,6 @@ class Enum {
     }
 
     let converter;
-    // @ts-ignore
     const valueConverter = CONVERTERS.get(enumType);
     if (valueConverter) {
       converter = (acc, item) => {
@@ -72,7 +72,6 @@ class Enum {
     const values = new Set(list.trim().split(separator));
 
     /** @type {object} */
-    // @ts-ignore
     const result = Array.from(values).reduce(converter, this);
 
     if (result !== this) {
@@ -115,7 +114,6 @@ class Enum {
 
 const isRegExp = value => value instanceof RegExp;
 
-// @ts-ignore
 const enumerate = (...args) => {
   if (args.length > 3 || (Array.isArray(args[0]) && (args[0].length > 1 || typeof args[0][0] !== 'string'))) {
     throw new Error('Invalid arguments');
@@ -132,7 +130,6 @@ const enumerate = (...args) => {
       type = undefined;
     }
 
-    // @ts-ignore
     return (...rest) => enumerate(...rest, type, separator);
   }
 
@@ -141,17 +138,21 @@ const enumerate = (...args) => {
   return new Enum(list, type, separator);
 };
 
-// @ts-ignore
+/**
+ * @type {import('./types/types').EnumConstructor}
+ */
 enumerate.ts = (list, ...args) => enumerate([list], ...args);
 
 // dynamically created types
-// @ts-ignore
-const TYPES = enumerate(Function)`
+const TYPES = enumerate.ts(
+  `
   LowerCase
   UpperCase
   Prefix
   Increment
-`;
+`,
+  Function
+);
 
 Object.assign(enumerate, TYPES);
 
