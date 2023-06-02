@@ -1,6 +1,6 @@
 # Easy to use, Symbol-based enum implementation
 
-Just list values you need and `enumerate` tag function will create an object with corresponding keys and unique values for your convenience.
+Just list keys you need and `enumerate` tag function will create an object with corresponding properties and unique values for your convenience.
 
 ## Installation
 
@@ -156,7 +156,7 @@ But remember that only default behavior guarantees global uniqueness of enumerat
 
 ## enumerate.isEnum()
 
-You can also check if a certain object is a enum or not.
+You can also check if the given object is a enum or not.
 
 ```javascript
 console.log(enumerate.isEnum({ a: 1, b: 2, c: 3 })); // false
@@ -171,7 +171,7 @@ The package includes a TypeScript Declaration File and supports VS Code IntelliS
 
 But there is one caveat. In order to achieve full type safety you have to use a bit different syntax. Unfortunately.
 
-So, instead of using `enumerate` directly as a [tag function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates) you can use `enumerate.ts` function.
+So, instead of using `enumerate()` directly as a [tag function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates) you can use `enumerate.ts()` function.
 
 Compare
 
