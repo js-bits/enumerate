@@ -167,37 +167,39 @@ console.log(enumerate.isEnum(enumerate`a b c`)); // true
 
 The package includes a TypeScript Declaration File and supports VS Code IntelliSense features.
 
-<img src="./images/intellisense1.png" _width="450">
+<img src="./images/intellisense1.png" width="500">
 
 But there is one caveat. In order to achieve full type safety you have to use a bit different syntax. Unfortunately.
 
-The reason is that there is a long-standing TypeScript [issue](https://github.com/microsoft/TypeScript/issues/33304) with [TemplateStringArray](https://microsoft.github.io/PowerBI-JavaScript/interfaces/_node_modules_typedoc_node_modules_typescript_lib_lib_es5_d_.templatestringsarray.html) being incorrectly typed and, as result, not being able to be parameterized.
+So, instead of using `enumerate` directly as a [tag function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates) you can use `enumerate.ts` function.
 
 Compare
 
-<img src="./images/intellisense2.png" _width="350">
+<img src="./images/intellisense2.png" width="350">
 
 versus
 
 <img src="./images/intellisense3.png" _width="750">
 
-So, instead of using `enumerate` directly as a [tag function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates) you can use `enumerate.ts` function.
+For example
 
 ```javascript
-console.log(enumerate.ts('ZERO ONE TWO', Number)); // Enum { ZERO: 0, ONE: 1, TWO: 2 }
+enumerate.ts('ZERO ONE TWO', Number); // Enum { ZERO: 0, ONE: 1, TWO: 2 }
 ```
 
-is the same as
+does exactly the same as
 
 ```javascript
-console.log(enumerate(Number)`ZERO ONE TWO`); // Enum { ZERO: 0, ONE: 1, TWO: 2 }
+enumerate(Number)`ZERO ONE TWO`; // Enum { ZERO: 0, ONE: 1, TWO: 2 }
 ```
 
-but allows TypeScript to recognize the result type.
+but it allows TypeScript to recognize the result type.
 
-<img src="./images/intellisense4.png" _width="750">
+<img src="./images/intellisense4.png" width="750">
+
+The reason of why we cannot use `enumerate` directly is that there is a long-standing TypeScript [issue](https://github.com/microsoft/TypeScript/issues/33304) with [TemplateStringArray](https://microsoft.github.io/PowerBI-JavaScript/interfaces/_node_modules_typedoc_node_modules_typescript_lib_lib_es5_d_.templatestringsarray.html) being incorrectly typed and, as result, not being able to be parameterized.
 
 ## Notes
 
 - Be careful adding new items to an existing numeric enum. Always append them to the end of the list to avoid changing previous item values.
-- Requires TypeScript 4.8+ for most type safety features support.
+- Requires TypeScript 4.8+ for best type safety features support.
