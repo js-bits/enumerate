@@ -147,15 +147,13 @@ const enumerate = (...args) => {
 enumerate.ts = (list, ...args) => enumerate([list], ...args);
 
 // dynamically created types
-const TYPES = enumerate.ts(
-  `
+// @ts-ignore
+const TYPES = enumerate(Function)`
   LowerCase
   UpperCase
   Prefix
   Increment
-`,
-  Function
-);
+`;
 
 Object.assign(enumerate, TYPES);
 
