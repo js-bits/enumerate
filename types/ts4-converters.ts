@@ -30,6 +30,7 @@ export type Converter =
   | LowerCase
   | UpperCase
   | Prefix
+  | Increment
   | IncrementArgs;
 
 export type SymbolValue<Type extends Converter> = Type extends SymbolConstructor
@@ -59,4 +60,6 @@ export type FunctionValue<Type extends Converter> = Type extends FunctionConstru
   ? string
   : Type extends UpperCase
   ? string
+  : Type extends Increment
+  ? number
   : never;

@@ -235,6 +235,19 @@ describe('enumerate', () => {
 
   describe('Increment converter', () => {
     describe('return object keys', () => {
+      describe('when passed directly', () => {
+        test('should have incremented by 1 values', () => {
+          const Enum = enumerate(Increment)`A B C D`;
+          expect(Enum.A === 1).toBe(true);
+          expect({ ...Enum }).toEqual({
+            A: 1,
+            B: 2,
+            C: 3,
+            D: 4,
+          });
+          expect(`${Enum}`).toEqual('[object Enum:A,B,C,D]');
+        });
+      });
       describe('when no arguments passed', () => {
         test('should have incremented by 1 values', () => {
           const Enum = enumerate(Increment())`A B C D`;

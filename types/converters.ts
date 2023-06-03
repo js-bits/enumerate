@@ -39,6 +39,7 @@ export type Converter =
   | LowerCase
   | UpperCase
   | Prefix
+  | Increment
   | IncrementArgs;
 
 export type SymbolValue<Type extends Converter> = Type extends SymbolConstructor
@@ -61,6 +62,8 @@ export type NumberValue<
   Keys extends string[],
   Inc extends number = Type extends NumberConstructor
     ? 1
+    : Type extends Increment
+    ? 1
     : Type extends number
     ? Type
     : Type extends IncrementArgs
@@ -71,6 +74,8 @@ export type NumberValue<
   Map extends { [key: string]: number } = Inc extends number ? IndexMap<ToUnion<Index<Keys, Inc>>> : never
 > = Type extends NumberConstructor
   ? Map[Key]
+  : Type extends Increment
+  ? Add<1, Map[Key]>
   : Type extends number
   ? Add<Type, Map[Key]>
   : Type extends IncrementArgs
