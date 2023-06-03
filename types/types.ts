@@ -22,10 +22,10 @@ export type EnumType<
   Keys extends string[] = EnumKeys<Options>
 > = {
   readonly [Key in Unique<Keys>]: EnumValues<Type, Key, Keys>;
-};
+} & { readonly [key: symbol]: boolean };
 
 export type EnumConstructor = <Options extends string, Type extends Converter = SymbolConstructor>(
   list: Options,
   type?: Type,
   separator?: RegExp | string
-) => EnumType<Options, Type> & { [key: symbol]: boolean };
+) => EnumType<Options, Type>;

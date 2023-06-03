@@ -19,6 +19,13 @@
   "main": "./dist/index.cjs",
   "module": "./index.js",
   "types": "./index.d.ts",
+  "typesVersions": {
+    "<4.8": {
+      "index.d.ts": [
+        "./types/ts4-index.d.ts"
+      ]
+    }
+  },
   "exports": {
     ".": {
       "require": "./dist/index.cjs",

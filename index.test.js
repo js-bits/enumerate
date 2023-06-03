@@ -352,6 +352,7 @@ describe('enumerate', () => {
     test('should throw an error', () => {
       const result = enumerate`A B C`;
       expect(() => {
+        // @ts-expect-error Index signature in type 'EnumType' only permits reading.
         result.D = 'D';
       }).toThrow('Cannot assign a value to enum key: D');
     });

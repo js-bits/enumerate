@@ -1,8 +1,7 @@
 /* eslint-disable import/no-duplicates */
-import type * as Converters from './types/converters';
-import type { EnumConstructor, SeparatorType } from './types/types';
-import type { Converter } from './types/ts4-converters'; // TODO: replace with normal converters when #33304 issue is fixed
-import type { EnumType } from './types/ts4-types'; // TODO: replace with normal types when #33304 issue is fixed
+import type { Converter } from './ts4-converters';
+import type * as Converters from './ts4-converters';
+import type { EnumConstructor, SeparatorType, EnumType } from './ts4-types';
 
 /**
  * Accepts a string containing a list of keys and returns an object with corresponding enumerated properties
