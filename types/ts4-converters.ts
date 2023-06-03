@@ -33,13 +33,10 @@ export type Converter =
   | Increment
   | IncrementArgs;
 
-// workaround for https://github.com/microsoft/TypeScript/issues/37469
-const UniqueSymbol: unique symbol = Symbol('UniqueSymbol');
-
 export type SymbolValue<Type extends Converter> = Type extends SymbolConstructor
-  ? typeof UniqueSymbol
+  ? symbol
   : Type extends SymbolConstructor['for']
-  ? typeof UniqueSymbol
+  ? symbol
   : never;
 
 export type NumberValue<Type extends Converter> = Type extends NumberConstructor

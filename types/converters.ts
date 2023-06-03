@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { Add, Multiply } from '@js-bits/typedef-utils/math';
+import type { UniqueSymbols } from './unique-symbols';
 
 type ToUnion<T extends unknown[]> = T[number];
 
@@ -42,15 +43,6 @@ export type Converter =
   | Increment
   | IncrementArgs;
 
-// workaround for https://github.com/microsoft/TypeScript/issues/37469
-const UniqueSymbol: unique symbol = Symbol('UniqueSymbol');
-
-export type SymbolValue<Type extends Converter> = Type extends SymbolConstructor
-  ? typeof UniqueSymbol
-  : Type extends SymbolConstructor['for']
-  ? typeof UniqueSymbol
-  : never;
-
 export type Index<Keys extends string[], Multiplier extends number = 1> = {
   [I in keyof Keys]: [Keys[I], Multiply<I, Multiplier>];
 };
@@ -58,6 +50,19 @@ export type Index<Keys extends string[], Multiplier extends number = 1> = {
 export type IndexMap<Entries extends [string, number]> = {
   [Entry in Entries as Entry[0]]: Entry[1];
 };
+
+export type SymbolValue<
+  Type extends Converter,
+  Key extends string,
+  Keys extends string[],
+  // "Type instantiation is excessively deep and possibly infinite" error
+  // Workaround https://www.angularfix.com/2022/01/why-am-i-getting-instantiation-is.html
+  Map extends { [key: string]: keyof UniqueSymbols } = Key extends string ? IndexMap<ToUnion<Index<Keys>>> : never
+> = Type extends SymbolConstructor
+  ? UniqueSymbols[Map[Key]]
+  : Type extends SymbolConstructor['for']
+  ? UniqueSymbols[Map[Key]]
+  : never;
 
 export type NumberValue<
   Type extends Converter,

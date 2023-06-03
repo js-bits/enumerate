@@ -11,7 +11,7 @@ export type EnumKeys<Str extends string, NoEmpty extends boolean = true> = Str e
   : Split<Str, ' ', NoEmpty>;
 
 type EnumValues<Type extends Converter, Key extends string, Keys extends string[]> =
-  | SymbolValue<Type>
+  | SymbolValue<Type, Key, Keys>
   | StringValue<Type, Key>
   | NumberValue<Type, Key, Keys>
   | FunctionValue<Type, Key>;
