@@ -2,6 +2,7 @@
 import type { EnumKeys, EnumType } from './types';
 import enumerate from '../index';
 import { Index, IndexMap } from './converters';
+import UniqueSymbols from './unique-symbols';
 
 const test_EnumKeys: EnumKeys<'   a b c   '> = ['a', 'b', 'c'];
 const test_Index: Index<EnumKeys<' a b b c '>> = [
@@ -34,6 +35,16 @@ typeof test_DefaultEnum.a.replace === 'function';
 typeof test_DefaultEnum.b.description === 'string';
 
 const test_SymbolEnum = enumerate.ts('a b c', Symbol);
+test_SymbolEnum.a === UniqueSymbols[0];
+// @ts-expect-error This comparison appears to be unintentional because the types 'UniqueSymbols.0' and 'UniqueSymbols.1' have no overlap.
+test_SymbolEnum.a === UniqueSymbols[1];
+const test_ObjectProps = {
+  [test_SymbolEnum.a]: 'it works',
+  [test_SymbolEnum.b]: 123,
+};
+// @ts-expect-error Type 'string' is not assignable to type 'number'.
+test_ObjectProps[test_SymbolEnum.b] = '';
+typeof test_SymbolEnum.a === 'string';
 typeof test_SymbolEnum.a.description === 'string';
 // @ts-expect-error Property 'replace' does not exist on type 'symbol'
 typeof test_SymbolEnum.a.replace === 'function';

@@ -3,6 +3,7 @@ import type * as Converters from './types/converters';
 import type { EnumConstructor, SeparatorType } from './types/types';
 import type { Converter } from './types/ts4-converters'; // TODO: replace with normal converters when #33304 issue is fixed
 import type { EnumType } from './types/ts4-types'; // TODO: replace with normal types when #33304 issue is fixed
+import type UniqueSymbolsClass from './types/unique-symbols';
 
 /**
  * Accepts a string containing a list of keys and returns an object with corresponding enumerated properties
@@ -44,6 +45,8 @@ declare namespace Enumerate {
    * Incremental number converter
    */
   export const Increment: Converters.Increment;
+
+  export type UniqueSymbols = typeof UniqueSymbolsClass;
 }
 
 export default Enumerate;
