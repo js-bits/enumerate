@@ -24,12 +24,21 @@
       "index.d.ts": [
         "./types/ts4-index.d.ts"
       ]
+    },
+    "*": {
+      "./types/unique-symbols.d.ts": [
+        "./dist/unique-symbols.d.ts"
+      ]
     }
   },
   "exports": {
     ".": {
       "require": "./dist/index.cjs",
       "default": "./index.js"
+    },
+    "./ts": {
+      "require": "./dist/unique-symbols.cjs",
+      "default": "./types/unique-symbols.js"
     }
   },
   "scripts": {
@@ -37,7 +46,9 @@
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose",
     "test-watch": "yarn test --watch",
     "lint": "tsc --noEmit && eslint '**/*.{js,jsx,ts,tsx}'",
-    "build": "rimraf ./dist && rollup ./index.js --format cjs --file dist/index.cjs --exports default",
+    "build": "rimraf ./dist && yarn build:symbols && yarn build:symbols-dts && rollup ./index.js --format cjs --file dist/index.cjs --exports default",
+    "build:symbols": "rollup ./types/unique-symbols.js --format cjs --file dist/unique-symbols.cjs",
+    "build:symbols-dts": "tsc ./types/unique-symbols.js --allowJs --emitDeclarationOnly --declaration --outDir dist",
     "prepare": "husky install"
   },
   "repository": {

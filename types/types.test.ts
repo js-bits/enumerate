@@ -2,7 +2,7 @@
 import type { EnumKeys, EnumType } from './types';
 import enumerate from '../index';
 import { Index, IndexMap } from './converters';
-import UniqueSymbols from './unique-symbols';
+import { UNIQUE_SYMBOL0, UNIQUE_SYMBOL1 } from './unique-symbols';
 
 const test_EnumKeys: EnumKeys<'   a b c   '> = ['a', 'b', 'c'];
 const test_Index: Index<EnumKeys<' a b b c '>> = [
@@ -35,9 +35,9 @@ typeof test_DefaultEnum.a.replace === 'function';
 typeof test_DefaultEnum.b.description === 'string';
 
 const test_SymbolEnum = enumerate.ts('a b c', Symbol);
-test_SymbolEnum.a === UniqueSymbols[0];
+test_SymbolEnum.a === UNIQUE_SYMBOL0;
 // @ts-expect-error This comparison appears to be unintentional because the types 'UniqueSymbols.0' and 'UniqueSymbols.1' have no overlap.
-test_SymbolEnum.a === UniqueSymbols[1];
+test_SymbolEnum.a === UNIQUE_SYMBOL1;
 const test_ObjectProps = {
   [test_SymbolEnum.a]: 'it works',
   [test_SymbolEnum.b]: 123,
