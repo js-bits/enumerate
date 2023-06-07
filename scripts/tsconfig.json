@@ -1,0 +1,6 @@
+{
+  "compilerOptions": {
+    "types": ["node"]
+  },
+  "exclude": ["node_modules", "dist", "coverage"]
+}
