@@ -10,8 +10,8 @@ export type EnumKeys<Str extends string, NoEmpty extends boolean = true> = Str e
   ? Split<Str, ',', NoEmpty>
   : Split<Str, ' ', NoEmpty>;
 
-type EnumValues<Type extends Converter, Key extends string, I extends number> =
-  | SymbolValue<Type, Key, I>
+type EnumValues<Type extends Converter, Key extends string, I extends number, Keys extends string[]> =
+  | SymbolValue<Type, Key, I, Keys>
   | StringValue<Type, Key>
   | NumberValue<Type, I>
   | FunctionValue<Type, Key>;
@@ -23,7 +23,7 @@ export type EnumType<
 > = {
   readonly [Key in keyof Keys as Key extends `${infer I extends number}`
     ? Keys[I]
-    : never]: Key extends `${infer I extends number}` ? EnumValues<Type, Keys[Key], I> : never;
+    : never]: Key extends `${infer I extends number}` ? EnumValues<Type, Keys[Key], I, Keys> : never;
 } & { readonly [key: symbol]: boolean };
 
 export type EnumConstructor = <Options extends string, Type extends Converter = SymbolConstructor>(

@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable import/extensions, @typescript-eslint/no-unused-vars */
 import type { Add, Multiply } from '@js-bits/typedef-utils/math';
-// eslint-disable-next-line import/extensions
+import { Randomizer } from './disctionary';
 import * as UniqueSymbols from './unique-symbols';
 
 type ToUnion<T extends unknown[]> = T[number];
@@ -52,15 +52,27 @@ export type IndexMap<Entries extends [string, number]> = {
   [Entry in Entries as Entry[0]]: Entry[1];
 };
 
+type GetSymbol<
+  I extends number,
+  Keys extends string[],
+  RandomValue extends number = Randomizer<Keys>,
+  Idx extends number = Add<I, RandomValue>,
+  SymbolName extends string = `UNIQUE_SYMBOL${Idx}` extends keyof typeof UniqueSymbols
+    ? `UNIQUE_SYMBOL${Idx}`
+    : `UNIQUE_SYMBOL${I}`
+> = (typeof UniqueSymbols)[SymbolName extends keyof typeof UniqueSymbols ? SymbolName : never];
+
 export type SymbolValue<
   Type extends Converter,
   Key extends string,
   I extends number,
-  SymbolName extends string = `UNIQUE_SYMBOL${I}`
+  Keys extends string[],
+  RandomValue extends number = Randomizer<Keys>,
+  SymbolName extends string = `UNIQUE_SYMBOL${Add<I, RandomValue>}`
 > = Type extends SymbolConstructor
-  ? (typeof UniqueSymbols)[SymbolName extends keyof typeof UniqueSymbols ? SymbolName : never]
+  ? GetSymbol<I, Keys>
   : Type extends SymbolConstructor['for']
-  ? (typeof UniqueSymbols)[SymbolName extends keyof typeof UniqueSymbols ? SymbolName : never]
+  ? GetSymbol<I, Keys>
   : never;
 
 export type NumberValue<
