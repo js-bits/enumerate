@@ -55,22 +55,17 @@ export type IndexMap<Entries extends [string, number]> = {
 export type SymbolValue<
   Type extends Converter,
   Key extends string,
-  Keys extends string[],
-  // "Type instantiation is excessively deep and possibly infinite" error
-  // Workaround https://www.angularfix.com/2022/01/why-am-i-getting-instantiation-is.html
-  Map extends {
-    [key: string]: keyof typeof UniqueSymbols extends `UNIQUE_SYMBOL${infer I extends number}` ? I : never;
-  } = Key extends string ? IndexMap<ToUnion<Index<Keys>>> : never
+  I extends number,
+  SymbolName extends string = `UNIQUE_SYMBOL${I}`
 > = Type extends SymbolConstructor
-  ? (typeof UniqueSymbols)[`UNIQUE_SYMBOL${Map[Key]}`]
+  ? (typeof UniqueSymbols)[SymbolName extends keyof typeof UniqueSymbols ? SymbolName : never]
   : Type extends SymbolConstructor['for']
-  ? (typeof UniqueSymbols)[`UNIQUE_SYMBOL${Map[Key]}`]
+  ? (typeof UniqueSymbols)[SymbolName extends keyof typeof UniqueSymbols ? SymbolName : never]
   : never;
 
 export type NumberValue<
   Type extends Converter,
-  Key extends string,
-  Keys extends string[],
+  I extends number,
   Inc extends number = Type extends NumberConstructor
     ? 1
     : Type extends Increment
@@ -82,15 +77,15 @@ export type NumberValue<
     : never,
   // "Type instantiation is excessively deep and possibly infinite" error
   // Workaround https://www.angularfix.com/2022/01/why-am-i-getting-instantiation-is.html
-  Map extends { [key: string]: number } = Inc extends number ? IndexMap<ToUnion<Index<Keys, Inc>>> : never
+  Value extends number = I extends number ? (Inc extends 1 ? I : Inc extends number ? Multiply<I, Inc> : never) : never //
 > = Type extends NumberConstructor
-  ? Map[Key]
+  ? Value
   : Type extends Increment
-  ? Add<1, Map[Key]>
+  ? Add<1, Value>
   : Type extends number
-  ? Add<Type, Map[Key]>
+  ? Add<Type, Value>
   : Type extends IncrementArgs
-  ? Add<Type['start'], Map[Key]>
+  ? Add<Type['start'], Value>
   : never;
 
 export type StringValue<Type extends Converter, Key extends string> = Type extends StringConstructor
