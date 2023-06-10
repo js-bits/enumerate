@@ -237,7 +237,7 @@ describe('enumerate type-safe', () => {
       describe('when no arguments passed', () => {
         test('should have incremented by 1 values', () => {
           const Enum = enumerate.ts('A B C D', Increment());
-          expect({ ...Enum }).toEqual({
+          expect(JSON.parse(JSON.stringify(Enum))).toEqual({
             A: 1,
             B: 2,
             C: 3,

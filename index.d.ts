@@ -23,7 +23,7 @@ declare namespace Enumerate {
   /**
    * Check if the given object is a enum or not
    */
-  export const isEnum: (value: unknown) => boolean;
+  export const isEnum: (value?: unknown) => boolean;
 
   /**
    * Lower casing string converter

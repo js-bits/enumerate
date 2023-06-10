@@ -7,6 +7,7 @@
     "esModuleInterop": true,
     "isolatedModules": true,
     "noImplicitAny": true,
+    "strictNullChecks": true,
     "types": ["jest"],
     "typeRoots": ["./node_modules/@types"],
     "target": "es2022",
