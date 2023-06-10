@@ -2,7 +2,6 @@
 
 /* eslint-disable no-console */
 import fs from 'fs';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { green, cyan } from '@js-bits/log-in-color';
 
 // Workaround for multiple issue related to unique symbols when @js-bits/enumerate is defined as a dependency.
