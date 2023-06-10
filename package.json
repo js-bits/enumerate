@@ -1,6 +1,6 @@
 {
   "name": "@js-bits/enumerate",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "Easy to use, Symbol-based enum implementation",
   "keywords": [
     "javascript",
@@ -47,8 +47,8 @@
   "author": "https://github.com/apolo-gh",
   "license": "ISC",
   "dependencies": {
-    "@js-bits/typedef-utils": "^1.0.6",
-    "@js-bits/log-in-color": "^1.0.2"
+    "@js-bits/log-in-color": "^1.0.2",
+    "@js-bits/typedef-utils": "^1.0.6"
   },
   "devDependencies": {
     "@js-bits/formalinter": "^1.0.3",
