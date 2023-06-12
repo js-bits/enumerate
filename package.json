@@ -37,7 +37,7 @@
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose",
     "test-watch": "yarn test --watch",
     "lint": "tsc --noEmit && eslint '**/*.{js,jsx,ts,tsx}'",
-    "build": "rimraf ./dist && rollup ./index.js --format cjs --file dist/index.cjs --exports default",
+    "build": "rimraf ./dist && rollup ./index.js --format cjs --file dist/index.cjs --exports default --no-strict --generatedCode.constBindings",
     "prepare": "husky install"
   },
   "repository": {
@@ -48,7 +48,7 @@
   "license": "ISC",
   "dependencies": {
     "@js-bits/log-in-color": "^1.0.2",
-    "@js-bits/typedef-utils": "^1.0.6"
+    "@js-bits/typedef-utils": "^1.0.7"
   },
   "devDependencies": {
     "@js-bits/formalinter": "^1.0.3",

@@ -45,4 +45,4 @@ declare namespace Enumerate {
   export const Increment: Converters.Increment;
 }
 
-export default Enumerate;
+export = Enumerate;
